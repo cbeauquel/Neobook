@@ -59,11 +59,32 @@ class Book
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'books')]
     private Collection $categories;
 
+    /**
+     * @var Collection<int, Format>
+     */
+    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books')]
+    private Collection $formats;
+
+    /**
+     * @var Collection<int, Basket>
+     */
+    #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'books')]
+    private Collection $baskets;
+
+    /**
+     * @var Collection<int, Order>
+     */
+    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'books')]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
         $this->keyWords = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->formats = new ArrayCollection();
+        $this->baskets = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -243,6 +264,84 @@ class Book
     {
         if ($this->categories->removeElement($category)) {
             $category->removeBook($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Format>
+     */
+    public function getFormats(): Collection
+    {
+        return $this->formats;
+    }
+
+    public function addFormat(Format $format): static
+    {
+        if (!$this->formats->contains($format)) {
+            $this->formats->add($format);
+        }
+
+        return $this;
+    }
+
+    public function removeFormat(Format $format): static
+    {
+        $this->formats->removeElement($format);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Basket>
+     */
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
+    }
+
+    public function addBasket(Basket $basket): static
+    {
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets->add($basket);
+            $basket->addBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasket(Basket $basket): static
+    {
+        if ($this->baskets->removeElement($basket)) {
+            $basket->removeBook($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->addBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            $order->removeBook($this);
         }
 
         return $this;
