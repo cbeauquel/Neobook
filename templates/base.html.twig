@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1" >
         {% block stylesheets %}
         {% endblock %}
 
@@ -12,6 +13,62 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            <a href="index.php" class="logo" aria-label="Retour à l'accueil" title="retour à l'accueil">
+                <img src="{{asset('img/interface/logo.png')}}" alt="logo neobook" /> 
+                <p>NeoBook</p>
+            </a>
+            <div class="search">
+                <form method="post" action="index.php?action=search">
+                    <label class="material-symbols-outlined" for="keyword">search</label>
+                    <input aria-label="Find a Book" type="text" name="keyword" id="keyword" placeholder="Recherchez un livre, un auteur ou un genre">
+                    <input type="submit" value="Rechercher" id="submit">
+                    <button class="material-symbols-outlined" type="submit">search</button>
+                </form>
+            </div>
+            <nav class="nav" aria-label="Navigation, connexion au compte utilisateur">
+                    <a>
+                        <p>Connexion <span class="material-symbols-outlined">person</span></p>
+                    </a>
+                    <a>
+                        <p>Panier <span class="material-symbols-outlined">shopping_basket</span></p>
+                    </a>
+            </nav>
+        </header>
+        <div class="breadcrumb">
+            <p class="signature">Librairie inclusive de livres numériques à lire et à écouter !</p>
+        </div>
         {% block body %}{% endblock %}
+        <div class="reassurance">
+            <p><span class="material-symbols-outlined">live_help</span>Accompagnement</p>
+            <p><span class="material-symbols-outlined">credit_card</span>Paiement CB sécurisé</p>
+            <p><span class="material-symbols-outlined">lock_open_right</span>Pas de verrou électronique (DRM*)</p>
+        </div>
+        <footer>
+            <div class="footer-column">
+                <h3>Informations</h3>
+                <ul>
+                    <li><a href="" title="">Accueil</a></li>
+                    <li><a href="" title="">Mentions légales</a></li>
+                    <li><a href="" title="">Conditions d'utilisation</a></li>
+                    <li><a href="" title="">Qui sommes-nous ?</a></li>
+                    <li><a href="" title="">Comment faire ?</a></li>
+                    <li><a href="" title="">Plan du site</a></li>
+                 </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Mon compte</h3>
+                <ul>
+                    <li><a href="" title="">Mes commandes</a></li>
+                    <li><a href="" title="">Mes informations</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Catégories</h3>
+                <ul>
+                    <li><a href="" title="">catégories</a></li>
+                </ul>
+            </div>
+        </footer>
     </body>
 </html>

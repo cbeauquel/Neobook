@@ -1,3 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Oxygen:wght@300;400;700&display=swap');
+
+
+/**
+ * Reset css.
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/**
+ * Déclaration des couleurs.
+ */
+:root {
+    --background : #ffffff;
+    --backgroundItem: #EEEEEE;
+    --fontLight:#000000;
+    --fontDark:#ffffff;
+    --backgroundDark: #000000;
+    --linkColor: #F35500;
+}
+
+/**
+ * Valeur par défaut pour les balises.
+ */
+
+
 body {
-    background-color: skyblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Oxygen", sans-serif;
+    background-color: var(--backgroundColor);
+    max-width: 1900px;
+    width:100%;
+    margin:auto;
+    font-size:1.1em;
+}
+
+header {
+    display: flex;
+    height:80px;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    width: 100%;
+    background-color: var(--backgroundDark); 
+    padding:10px;
+}
+
+.logo {
+    display:flex;
+    flex-direction:row;
+    text-decoration:none;
+    font-family: "Gentium Book Plus", sans-serif;
+    color:var(--fontDark);
+}
+
+.logo p{
+    font-size:3em;
+    padding:0px 20px;
+}
+
+.logo img {
+    height:68px;
+}
+
+/*Barre recherche*/
+.search{
+    margin:40px 0;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    width:50%;
+    padding:0;
+    font-size:1.3em;
+}
+
+.search form{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding:0;
+}
+
+.search label{
+    border-radius:10px 0px 0px 10px;
+    background-color: var(--background);
+    width:50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding:0px 15px;
+    height:50px;
+    font-size:1.4em;
+}
+
+.search form:hover{
+    font-size:1.05em;
+}
+
+.search input{
+    font-size:1em;
+    font-weight:bold;
+    width:60%;
+    height:50px;
+    border:none;
+}
+
+.search #submit{
+    background-color:var(--backgroundItem);    
+    border:solid 1px var(--backgroundItem);
+    padding:7px 0px;
+    color:var(--fontLight);
+    cursor: pointer;
+    border-radius:0 10px 10px 0;
+    width:15%;
+}
+
+.search button{
+    display:none;
+}
+
+header > .nav {
+    display: flex;
+    justify-content: flex-end;
+    width:15%;
+    padding:6px 30px 6px 30px;
+    color:var(--fontLight);
+    font-size: 1em;
+    color:var(--fontDark);
+}
+
+.nav a {
+    font-weight: bold;
+}
+
+.nav p {
+    font-weight: bold;
+    display : flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.nav p span {
+    font-size: 3em;
+    text-decoration: none;
+    font-weight: normal;
+    padding:0 10px;
+}
+
+.breadcrumb {
+    padding:10px;
+    background-color: #EEEEEE;
+    width:100%;
+
+}
+
+p.signature {
+    font-family: "Gentium Book Plus", sans-serif;
+    color:var(--fontLight);
+    font-size: 2em;
+    text-align:center;
+}
+
+.reassurance{
+    width:100%;
+    height:100px;
+    background-color: var(--backgroundDark);
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color:var(--fontDark);
+    font-size: 1.2em;
+}
+
+.reassurance p {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.reassurance p span {
+    font-size: 3em;
+    padding:0px 10px;
+}
+
+footer {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    background: var(--backgroundItem);
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding:10px;
+}
+
+.footer-column li {
+    padding-bottom:6px;
+}
+
+.footer-column a {
+    color:var(--fontLight);
+}
+
+.footer-column h3{
+    border-bottom: solid 3px var(--fontLight);
+    font-family: "Alexandria", "sans-serif";
+    font-size: 2em;
+    color:var(--fontLight);
+    font-weight: normal;
+    padding-bottom:3px;
+    margin-bottom:10px;
 }
