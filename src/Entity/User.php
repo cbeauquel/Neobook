@@ -64,10 +64,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
     private Collection $orders;
 
+    #[ORM\Column(length: 255)]
+    private ?string $nickName = null;
+
+    /**
+     * @var Collection<int, Feedback>
+     */
+    #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'nickName', orphanRemoval: true)]
+    private Collection $feedbacks;
+
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->feedbacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +281,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($order->getCustomer() === $this) {
                 $order->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNickName(): ?string
+    {
+        return $this->nickName;
+    }
+
+    public function setNickName(string $nickName): static
+    {
+        $this->nickName = $nickName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Feedback>
+     */
+    public function getFeedbacks(): Collection
+    {
+        return $this->feedbacks;
+    }
+
+    public function addFeedback(Feedback $feedback): static
+    {
+        if (!$this->feedbacks->contains($feedback)) {
+            $this->feedbacks->add($feedback);
+            $feedback->setNickName($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Feedback $feedback): static
+    {
+        if ($this->feedbacks->removeElement($feedback)) {
+            // set the owning side to null (unless already changed)
+            if ($feedback->getNickName() === $this) {
+                $feedback->setNickName(null);
             }
         }
 

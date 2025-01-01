@@ -35,9 +35,24 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $orderDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?OrderStatus $status = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Payment $paymentMode = null;
+
+    /**
+     * @var Collection<int, Download>
+     */
+    #[ORM\OneToMany(targetEntity: Download::class, mappedBy: 'oderDownload', orphanRemoval: true)]
+    private Collection $downloads;
+
     public function __construct()
     {
         $this->books = new ArrayCollection();
+        $this->downloads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,6 +128,60 @@ class Order
     public function setOrderDate(\DateTimeInterface $orderDate): static
     {
         $this->orderDate = $orderDate;
+
+        return $this;
+    }
+
+    public function getStatus(): ?OrderStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?OrderStatus $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPaymentMode(): ?Payment
+    {
+        return $this->paymentMode;
+    }
+
+    public function setPaymentMode(?Payment $paymentMode): static
+    {
+        $this->paymentMode = $paymentMode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Download>
+     */
+    public function getDownloads(): Collection
+    {
+        return $this->downloads;
+    }
+
+    public function addDownload(Download $download): static
+    {
+        if (!$this->downloads->contains($download)) {
+            $this->downloads->add($download);
+            $download->setOderDownload($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDownload(Download $download): static
+    {
+        if ($this->downloads->removeElement($download)) {
+            // set the owning side to null (unless already changed)
+            if ($download->getOderDownload() === $this) {
+                $download->setOderDownload(null);
+            }
+        }
 
         return $this;
     }
