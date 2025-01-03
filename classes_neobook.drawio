@@ -58,7 +58,7 @@
         <mxCell id="KuQCFoT9xeXWZH-1og_O-35" value="Type : String (mp3, epub)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="KuQCFoT9xeXWZH-1og_O-33" vertex="1">
           <mxGeometry y="60" width="150" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="w-a0zA70Pm6w9sQvabB9-1" value="Type_img: String (filepath)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontColor=#EA6B66;" vertex="1" parent="KuQCFoT9xeXWZH-1og_O-33">
+        <mxCell id="w-a0zA70Pm6w9sQvabB9-1" value="Type_img: String (filepath)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontColor=#000000;" vertex="1" parent="KuQCFoT9xeXWZH-1og_O-33">
           <mxGeometry y="90" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="KuQCFoT9xeXWZH-1og_O-257" value="Price_HT : Float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="KuQCFoT9xeXWZH-1og_O-33" vertex="1">
@@ -79,7 +79,7 @@
         <mxCell id="KuQCFoT9xeXWZH-1og_O-267" value="file_path : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="KuQCFoT9xeXWZH-1og_O-33" vertex="1">
           <mxGeometry y="270" width="150" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="vL0ABhEf1pnRs0sT115Y-1" value="book_extract : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontColor=#EA6B66;" vertex="1" parent="KuQCFoT9xeXWZH-1og_O-33">
+        <mxCell id="vL0ABhEf1pnRs0sT115Y-1" value="book_extract : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontColor=#000000;" vertex="1" parent="KuQCFoT9xeXWZH-1og_O-33">
           <mxGeometry y="300" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="KuQCFoT9xeXWZH-1og_O-39" value="&lt;b&gt;Category&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -438,7 +438,7 @@
         <mxCell id="KuQCFoT9xeXWZH-1og_O-221" value="Role : Array Roles" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="KuQCFoT9xeXWZH-1og_O-208" vertex="1">
           <mxGeometry y="160" width="170" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="myp3CqGRhR7MyaD4qXWd-1" value="Status : Boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontColor=#EA6B66;" vertex="1" parent="KuQCFoT9xeXWZH-1og_O-208">
+        <mxCell id="myp3CqGRhR7MyaD4qXWd-1" value="Status : Boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontColor=#000000;" vertex="1" parent="KuQCFoT9xeXWZH-1og_O-208">
           <mxGeometry y="190" width="170" height="30" as="geometry" />
         </mxCell>
         <mxCell id="KuQCFoT9xeXWZH-1og_O-222" value="&lt;b&gt;Admin&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
