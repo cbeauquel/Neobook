@@ -45,6 +45,12 @@ class Format
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'formats')]
     private Collection $books;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bookExtract = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $typeImg = null;
+
     public function __construct()
     {
         $this->books = new ArrayCollection();
@@ -174,6 +180,30 @@ class Format
         if ($this->books->removeElement($book)) {
             $book->removeFormat($this);
         }
+
+        return $this;
+    }
+
+    public function getBookExtract(): ?string
+    {
+        return $this->bookExtract;
+    }
+
+    public function setBookExtract(?string $bookExtract): static
+    {
+        $this->bookExtract = $bookExtract;
+
+        return $this;
+    }
+
+    public function getTypeImg(): ?string
+    {
+        return $this->typeImg;
+    }
+
+    public function setTypeImg(?string $typeImg): static
+    {
+        $this->typeImg = $typeImg;
 
         return $this;
     }

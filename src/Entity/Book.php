@@ -43,10 +43,6 @@ class Book
     #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'books')]
     private Collection $authors;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Editor $editor = null;
-
     /**
      * @var Collection<int, KeyWords>
      */
@@ -85,6 +81,10 @@ class Book
      */
     #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'book')]
     private Collection $feedbacks;
+
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Editor $editor = null;
 
     public function __construct()
     {
@@ -209,18 +209,6 @@ class Book
         if ($this->authors->removeElement($author)) {
             $author->removeBook($this);
         }
-
-        return $this;
-    }
-
-    public function getEditor(): ?Editor
-    {
-        return $this->editor;
-    }
-
-    public function setEditor(?Editor $editor): static
-    {
-        $this->editor = $editor;
 
         return $this;
     }
@@ -395,6 +383,18 @@ class Book
                 $feedback->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEditor(): ?Editor
+    {
+        return $this->editor;
+    }
+
+    public function setEditor(?Editor $editor): static
+    {
+        $this->editor = $editor;
 
         return $this;
     }

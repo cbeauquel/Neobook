@@ -33,8 +33,7 @@ body {
     align-items: center;
     font-family: "Oxygen", sans-serif;
     background-color: var(--backgroundColor);
-    max-width: 1900px;
-    width:100%;
+    width: 1900px;
     margin:auto;
     font-size:1.1em;
 }
@@ -50,6 +49,39 @@ header {
     padding:10px;
 }
 
+h1 {
+    font-family: "Gentium Book Plus", "Alexandria", sans-serif ;
+    font-size:2em;
+    text-align: center;
+}
+
+h2 {
+    font-family: "Alexandria", "Oxygen", sans-serif ;
+    font-size:1.5em;
+    text-align: center;
+}
+
+h3 {
+    font-family: "Alexandria", "Oxygen", sans-serif ;
+    font-size:1.1em;
+    font-weight:600;
+    text-align: center;
+}
+
+/**
+affichage en liste horizontale (flex row)
+*/
+.list{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width:100%;
+    flex-wrap: wrap;
+}
+
+/**
+HEADER
+*/
 .logo {
     display:flex;
     flex-direction:row;
@@ -124,6 +156,8 @@ header {
     display:none;
 }
 
+/*Navigation user et panier*/
+
 header > .nav {
     display: flex;
     justify-content: flex-end;
@@ -152,11 +186,12 @@ header > .nav {
     padding:0 10px;
 }
 
+/*Signature et fil d'ariane*/
 .breadcrumb {
     padding:10px;
     background-color: #EEEEEE;
     width:100%;
-
+    margin-bottom:10px;
 }
 
 p.signature {
@@ -165,6 +200,10 @@ p.signature {
     font-size: 2em;
     text-align:center;
 }
+
+/**
+Barre de réassurance
+*/
 
 .reassurance{
     width:100%;
@@ -188,6 +227,8 @@ p.signature {
     font-size: 3em;
     padding:0px 10px;
 }
+
+/**Footer*/
 
 footer {
     display:flex;
@@ -221,4 +262,227 @@ footer {
     font-weight: normal;
     padding-bottom:3px;
     margin-bottom:10px;
+}
+
+/**
+affichage des catégories en home
+*/
+.categories {
+    padding:5px 10px 15px 10px;
+    margin:10px;
+    width:15.6%;
+    background: var(--backgroundDark);
+    border-radius:10px;
+    height:30px;
+    color:var(--fontDark);
+    text-align:center;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
+/**
+affichage des listes de livre
+*/
+section{
+    width:100%;
+    margin:10px 0px;
+}
+section > h2 {
+    padding-bottom:20px;
+    width:100%;
+    border-bottom:solid 3px var(--fontLight)
+}
+
+.book-card {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin:0px 10px;
+    width:15%;
+    height:550px;
+    background: var(--backgroundItem);
+    border-radius:0px 0px 15px 15px;
+    padding:6px;
+    text-decoration:none;
+    color:var(--fontLight);
+}
+.book-card article{
+    width:100%;
+}
+
+.book-content {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap:10px;
+    height:380px;
+}
+
+.author-name {
+    height:2.5em;
+    text-align:center;
+    font-weight:600;
+    font-size:1.1em;
+}
+
+.book-title {
+    text-align:center;
+    font-size:1.1em;
+}
+
+.stars {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+ul.book-prices{
+    display:flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items: center;
+    padding:0px;
+    margin-top:20px;
+    width:100%
+}
+
+ul.book-prices li{
+    list-style-type:none;
+    width:25%;
+    font-weight: 600;
+    text-align:center;
+}
+
+ul.book-prices li.book-price{
+    font-size:1.2em;
+    padding:0px;
+}
+
+ul.book-prices li.book-type{
+    font-weight:normal;
+    padding-right: 10px;
+}
+
+ul.book-prices li.book-type span{
+    font-size:2.75em;
+}
+
+
+/**
+affichage d'une fiche livre
+*/
+.book-detail {
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    background: var(--backgroundItem);
+}
+
+.book-datas {
+    display:flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.book-datas h1 {
+    text-align:left;
+    padding-left:20px;
+}
+
+.cover-big {
+    width:30%;
+    height:770px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: var(--background);
+    height:600px;
+    margin:10px;
+}
+
+.card h2 {
+    width:100%;
+}
+
+.summary {
+    width:50%;
+}
+
+.informations {
+    width:20%;
+    text-align:center;
+}
+
+.informations h3 {
+    padding:10px 0px 4px 0px;
+    width: 90%;
+    border-bottom:solid 3px var(--fontLight);
+    margin-bottom:6px;
+}
+
+.extracts span {
+    font-size:3em;
+    color:var(--fontLight);
+}
+
+.prices {
+    width:25%;
+}
+
+.prices button {
+    width:40%;
+    height:30px;
+    border:none;
+    background: var(--linkColor);
+    color:var(--fontDark);
+    padding:5px 0px 10px 0px;
+    border-radius:10px;
+    font-weight: 600;
+    font-size:1.1em;
+    cursor: pointer;
+}
+
+.price-format {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;    
+    padding:10px;
+    width:100%;
+}
+
+.price-format span{
+    font-size:3em;
+    color:var(--fontLight);
+}
+
+.card h2 {
+    background: var(--backgroundDark);
+    text-align:center;
+    color:var(--fontDark);
+    font-weight: normal;
+}
+
+.card p {
+    padding:10px;
+}
+
+.brick-img {
+    height:64px;
+}
+
+.brick {
+    width:95%;
+    background: var(--backgroundItem);
+    color:var(--fontLight);
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin:5px 0px;
+    height:64px;
 }

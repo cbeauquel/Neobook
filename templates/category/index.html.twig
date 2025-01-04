@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livres dans la catégorie{{category.name}}{% endblock %}
+
+{% block body %}
+<div class="breadcrumb">
+    <p>Fil d'ariane</p>
+</div>
+<section>        
+    <h2>{{category.name}}</h2>
+    <div class="list">
+        {% for book in category.books %}
+        <article class="book-card">
+            <div class="book-content">
+                <p class="author-name">{% for author in book.authors %}{{author.surname}} {{author.name}}<br />{% endfor %}</p>
+                <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+                <p class="book-title">{{book.title}}</p>
+            </div>
+            <div class="stars">
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+            </div>
+            <ul class="book-prices">
+            {% for format in book.formats %}
+                <li class="book-price">{{format.priceHT}}€</li>
+                <li class="book-type"><span class="material-symbols-outlined">{{format.typeImg}}</span> {{format.type}}</li>
+            {% endfor %}
+            </ul>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

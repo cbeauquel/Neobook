@@ -35,9 +35,6 @@
                     </a>
             </nav>
         </header>
-        <div class="breadcrumb">
-            <p class="signature">Librairie inclusive de livres numériques à lire et à écouter !</p>
-        </div>
         {% block body %}{% endblock %}
         <div class="reassurance">
             <p><span class="material-symbols-outlined">live_help</span>Accompagnement</p>
@@ -48,7 +45,7 @@
             <div class="footer-column">
                 <h3>Informations</h3>
                 <ul>
-                    <li><a href="" title="">Accueil</a></li>
+                    <li><a href="{{path('home')}}" title="">Accueil</a></li>
                     <li><a href="" title="">Mentions légales</a></li>
                     <li><a href="" title="">Conditions d'utilisation</a></li>
                     <li><a href="" title="">Qui sommes-nous ?</a></li>

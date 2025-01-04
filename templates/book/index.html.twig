@@ -1,20 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block title %}{{book.title}}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/user/OneDrive/Documents/Openclassrooms/Projet_13/Neobook/src/Controller/BookController.php</code></li>
-        <li>Your template at <code>C:/Users/user/OneDrive/Documents/Openclassrooms/Projet_13/Neobook/templates/book/index.html.twig</code></li>
-    </ul>
+<div class="breadcrumb">
+    <p>Fil d'ariane</p>
 </div>
+<section class="book-detail">        
+    <img class="cover-big" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+    <div class="book-datas">
+        <h1>{{book.title}}</h1>
+        <div class="list">
+            <div class="card informations">
+                <h2>Informations</h2>
+                <h3>Écrit par </h3>
+                {% for author in book.authors %}
+                <div class="brick">
+                    <img class="brick-img" src="{{author.photo}}">
+                    <p>{{author.surname}} {{author.name}}</p>
+                </div>
+                {% endfor %}
+                <h3>Édité par </h3>
+                <div class="brick">
+                    <img class="brick-img" src="{{book.editor.logo}}">
+                    <p>{{book.editor.name}}</p>
+                </div>
+                <h3>Taille du fichier</h3>
+                {% for format in book.formats %}
+                {% if format.type == 'eBook' %}
+                <div class="brick">
+                    <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                    <p>{{format.wordsCount}} mots</p>
+                </div>
+                {% endif %}
+                {% if format.type == 'Audio' %}
+                <div class="brick">
+                    <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                    <p>{{format.duration}} heures</p>
+                </div>     
+                {% endif %}
+                <div class="brick">
+                    <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                    <p>{{format.fileSize}} Mo</p>
+                </div>
+                {% endfor %}  
+               </div>
+            <div class="card summary">
+                <h2>Résumé</h2>
+                <p>{{book.summary}}</p>
+            </div>
+            <div class="card prices">
+                <h2>Prix et formats</h2>
+                {% for format in book.formats %}
+                    <div class="price-format">
+                        <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                        <p>{{format.priceHT}}€</p>
+
+                    </div>
+                {% endfor %}
+                <button>J'achète</button>
+            </div>
+        </div>
+        <div class="list">
+                    <p>Lire un extrait:</p>
+                {% for format in book.formats %}
+                    <a href="" title="">
+                        <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                    </a>
+                {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

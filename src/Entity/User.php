@@ -317,7 +317,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeBook(Feedback $feedback): static
+    public function removeFeedback(Feedback $feedback): static
     {
         if ($this->feedbacks->removeElement($feedback)) {
             // set the owning side to null (unless already changed)
