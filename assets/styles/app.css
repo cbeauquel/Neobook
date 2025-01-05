@@ -75,8 +75,11 @@ affichage en liste horizontale (flex row)
     display:flex;
     flex-direction: row;
     justify-content: space-around;
-    width:100%;
     flex-wrap: wrap;
+}
+
+.full-width {
+    width:100%;
 }
 
 /**
@@ -136,7 +139,7 @@ HEADER
 
 .search input{
     font-size:1em;
-    font-weight:bold;
+    font-weight:400;
     width:60%;
     height:50px;
     border:none;
@@ -401,7 +404,7 @@ affichage d'une fiche livre
     justify-content: flex-start;
     align-items: center;
     background: var(--background);
-    height:600px;
+    height:700px;
     margin:10px;
 }
 
@@ -410,11 +413,15 @@ affichage d'une fiche livre
 }
 
 .summary {
-    width:50%;
+    width:45%;
+}
+
+.summary-text {
+    height:590px;
 }
 
 .informations {
-    width:20%;
+    width:25%;
     text-align:center;
 }
 
@@ -425,9 +432,21 @@ affichage d'une fiche livre
     margin-bottom:6px;
 }
 
-.extracts span {
-    font-size:3em;
-    color:var(--fontLight);
+.extract {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color:var(--fontDark);
+    text-decoration: none;
+    width:47%;
+    align-items: center;
+    background-color: var(--backgroundDark);
+    padding:10px;
+    border-radius:10px;
+}
+
+.extract:hover {
+    background-color: var(--linkColor);
 }
 
 .prices {

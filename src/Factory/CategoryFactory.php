@@ -33,7 +33,7 @@ final class CategoryFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'name' => self::faker()->randomElement(self::CATEGORY),
+            'name' => self::faker()->randomElement(self::CATEGORY, $allowDuplicates = false),
         ];
     }
 

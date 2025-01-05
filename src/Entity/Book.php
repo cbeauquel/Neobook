@@ -38,10 +38,10 @@ class Book
     private ?bool $status = null;
 
     /**
-     * @var Collection<int, Author>
+     * @var Collection<int, Contributor>
      */
-    #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'books')]
-    private Collection $authors;
+    #[ORM\ManyToMany(targetEntity: Contributor::class, mappedBy: 'books')]
+    private Collection $contributors;
 
     /**
      * @var Collection<int, KeyWords>
@@ -86,9 +86,10 @@ class Book
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
+
     public function __construct()
     {
-        $this->authors = new ArrayCollection();
+        $this->contributors = new ArrayCollection();
         $this->keyWords = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->formats = new ArrayCollection();
@@ -187,27 +188,27 @@ class Book
     }
 
     /**
-     * @return Collection<int, Author>
+     * @return Collection<int, Contributor>
      */
-    public function getAuthors(): Collection
+    public function getContributors(): Collection
     {
-        return $this->authors;
+        return $this->contributors;
     }
 
-    public function addAuthor(Author $author): static
+    public function addContributor(Contributor $contributor): static
     {
-        if (!$this->authors->contains($author)) {
-            $this->authors->add($author);
-            $author->addBook($this);
+        if (!$this->contributors->contains($contributor)) {
+            $this->contributors->add($contributor);
+            $contributor->addBook($this);
         }
 
         return $this;
     }
 
-    public function removeAuthor(Author $author): static
+    public function removeContributor(Contributor $contributor): static
     {
-        if ($this->authors->removeElement($author)) {
-            $author->removeBook($this);
+        if ($this->contributors->removeElement($contributor)) {
+            $contributor->removeBook($this);
         }
 
         return $this;
@@ -398,4 +399,5 @@ class Book
 
         return $this;
     }
+
 }

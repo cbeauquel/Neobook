@@ -3,21 +3,26 @@
 {% block title %}{{book.title}}{% endblock %}
 
 {% block body %}
+{#Fil d'ariane#}
 <div class="breadcrumb">
     <p>Fil d'ariane</p>
 </div>
-<section class="book-detail">        
+<section class="book-detail">
+    {#Couverture du livre#}
     <img class="cover-big" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+    {#Bloc titre + infos + résumés et extraits + prix et formats#}
     <div class="book-datas">
         <h1>{{book.title}}</h1>
+        {#Bloc 3 colonnes#}
         <div class="list">
             <div class="card informations">
                 <h2>Informations</h2>
-                <h3>Écrit par </h3>
-                {% for author in book.authors %}
+                <h3>Auteurs et narrateurs </h3>
+                {% for contributor in book.contributors %}
                 <div class="brick">
-                    <img class="brick-img" src="{{author.photo}}">
-                    <p>{{author.surname}} {{author.name}}</p>
+                    <img class="brick-img" src="{{contributor.photo}}">
+                    <p>{{contributor.skill.name}} :</p>
+                    <p>{{contributor.firstname}} {{contributor.lastname}}</p>
                 </div>
                 {% endfor %}
                 <h3>Édité par </h3>
@@ -27,47 +32,57 @@
                 </div>
                 <h3>Taille du fichier</h3>
                 {% for format in book.formats %}
-                {% if format.type == 'eBook' %}
+                {#Si le format est ebook, on affiche le nombre de mots#}
+                {% if format.type.name == 'eBook' %}
                 <div class="brick">
-                    <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                    <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
                     <p>{{format.wordsCount}} mots</p>
                 </div>
                 {% endif %}
-                {% if format.type == 'Audio' %}
+                {#Si le format est audio, on affiche la durée#}
+                {% if format.type.name == 'Audio' %}
                 <div class="brick">
-                    <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                    <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
                     <p>{{format.duration}} heures</p>
                 </div>     
                 {% endif %}
                 <div class="brick">
-                    <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                    <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
                     <p>{{format.fileSize}} Mo</p>
                 </div>
                 {% endfor %}  
-               </div>
+            </div>
             <div class="card summary">
                 <h2>Résumé</h2>
-                <p>{{book.summary}}</p>
+                <p class="summary-text">{{book.summary}}</p>
+                <div class="list full-width">
+                    {% for format in book.formats %}
+                    {% if format.type.name == 'eBook' %}
+                    <a class="extract" href="" title="">
+                        <p>Lire un extrait:</p>
+                        <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
+                    </a>
+                    {% endif %}
+                    {% if format.type.name == 'Audio' %}
+                    <a class="extract" href="" title="">
+                        <p>Écouter un extrait:</p>
+                        <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>            
             </div>
             <div class="card prices">
                 <h2>Prix et formats</h2>
                 {% for format in book.formats %}
                     <div class="price-format">
-                        <span class="material-symbols-outlined">{{format.typeImg}}</span>
+                        <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
                         <p>{{format.priceHT}}€</p>
 
                     </div>
                 {% endfor %}
                 <button>J'achète</button>
             </div>
-        </div>
-        <div class="list">
-                    <p>Lire un extrait:</p>
-                {% for format in book.formats %}
-                    <a href="" title="">
-                        <span class="material-symbols-outlined">{{format.typeImg}}</span>
-                    </a>
-                {% endfor %}
         </div>
     </div>
 </section>

@@ -22,7 +22,13 @@
         <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
         <article>
             <div class="book-content">
-                <p class="author-name">{% for author in book.authors %}{{author.surname}} {{author.name}}<br />{% endfor %}</p>
+                <p class="contributor-name">
+                    {% for contributor in book.contributors %}
+                    {% if contributor.skill.name == 'Auteur'%}
+                        {{contributor.firstname}} 
+                        {{contributor.lastname}}<br />
+                    {% endif %}
+                    {% endfor %}</p>
                 <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>
@@ -36,7 +42,7 @@
             <ul class="book-prices">
             {% for format in book.formats %}
                 <li class="book-price">{{format.priceHT}}€</li>
-                <li class="book-type"><span class="material-symbols-outlined">{{format.typeImg}}</span> {{format.type}}</li>
+                <li class="book-type"><span class="material-symbols-outlined">{{format.type.typeImg}}</span> {{format.type.name}}</li>
             {% endfor %}
             </ul>
         </article>

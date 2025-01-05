@@ -2,16 +2,16 @@
 
 namespace App\Factory;
 
-use App\Entity\Author;
+use App\Entity\Contributor;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Author>
+ * @extends PersistentProxyObjectFactory<Contributor>
  */
-final class AuthorFactory extends PersistentProxyObjectFactory
+final class ContributorFactory extends PersistentProxyObjectFactory
 {
-    private CONST AUTHOR_NAMES = ['Jovnovic', 'Grelet', 'Vaissière', 'Shearer', 'Le Gloahec'];
-    private CONST AUTHOR_FIRSTNAMES = ['Anne', 'Marcel', 'Jean-François', 'Lyonel', 'Françoise'];
+    private CONST CONTRIBUTOR_LASTNAMES = ['Jovnovic', 'Grelet', 'Vaissière', 'Shearer', 'Le Gloahec'];
+    private CONST CONTRIBUTOR_FIRSTNAMES = ['Anne', 'Marcel', 'Jean-François', 'Lyonel', 'Françoise'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -23,7 +23,7 @@ final class AuthorFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Author::class;
+        return Contributor::class;
     }
 
     /**
@@ -36,10 +36,11 @@ final class AuthorFactory extends PersistentProxyObjectFactory
         return [
             'bio' => self::faker()->text(),
             'dateAdd' => self::faker()->dateTime(),
-            'name' => self::faker()->randomElement(self::AUTHOR_NAMES),
+            'lastname' => self::faker()->randomElement(self::CONTRIBUTOR_LASTNAMES),
             'photo' => self::faker()->text(255),
             'status' => 1,
-            'surname' => self::faker()->randomElement(self::AUTHOR_FIRSTNAMES),
+            'firstname' => self::faker()->randomElement(self::CONTRIBUTOR_FIRSTNAMES),
+            'skill' => SkillFactory::random(),
         ];
     }
 
@@ -49,7 +50,7 @@ final class AuthorFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Author $author): void {})
+            // ->afterInstantiate(function(Contributor $contributor): void {})
         ;
     }
 }

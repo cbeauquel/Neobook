@@ -2,15 +2,15 @@
 
 namespace App\Factory;
 
-use App\Entity\Editor;
+use App\Entity\Skill;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Editor>
+ * @extends PersistentProxyObjectFactory<Skill>
  */
-final class EditorFactory extends PersistentProxyObjectFactory
+final class SkillFactory extends PersistentProxyObjectFactory
 {
-    private CONST EDITOR_NAME = ['Ella Editions', 'CAIRN', 'Amphora', 'De Borée'];
+    private CONST SKILL_NAMES = ['Auteur', 'Lecteur', 'Préfacier'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -22,7 +22,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Editor::class;
+        return Skill::class;
     }
 
     /**
@@ -33,11 +33,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'dateAdd' => self::faker()->dateTime(),
-            'description' => self::faker()->text(),
-            'logo' => self::faker()->imageUrl(),
-            'name' => self::faker()->randomElement(self::EDITOR_NAME, $allowDuplicates = false),
-            'status' => 1,
+            'name' => self::faker()->RandomElement(self::SKILL_NAMES),
         ];
     }
 
@@ -47,7 +43,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Editor $editor): void {})
+            // ->afterInstantiate(function(Skill $skill): void {})
         ;
     }
 }

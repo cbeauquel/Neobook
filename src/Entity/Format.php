@@ -18,9 +18,6 @@ class Format
     #[ORM\Column(length: 13)]
     private ?string $ISBN = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
     #[ORM\Column]
     private ?float $priceHT = null;
 
@@ -48,8 +45,9 @@ class Format
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bookExtract = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $typeImg = null;
+    #[ORM\ManyToOne(inversedBy: 'formatType')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Type $type = null;
 
     public function __construct()
     {
@@ -69,18 +67,6 @@ class Format
     public function setISBN(string $ISBN): static
     {
         $this->ISBN = $ISBN;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -196,15 +182,16 @@ class Format
         return $this;
     }
 
-    public function getTypeImg(): ?string
+    public function getType(): ?Type
     {
-        return $this->typeImg;
+        return $this->type;
     }
 
-    public function setTypeImg(?string $typeImg): static
+    public function setType(?Type $type): static
     {
-        $this->typeImg = $typeImg;
+        $this->type = $type;
 
         return $this;
     }
+
 }

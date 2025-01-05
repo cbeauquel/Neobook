@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\AuthorRepository;
+use App\Repository\ContributorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AuthorRepository::class)]
-class Author
+#[ORM\Entity(repositoryClass: ContributorRepository::class)]
+class Contributor
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,10 +17,10 @@ class Author
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $surname = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $bio = null;
@@ -37,8 +37,12 @@ class Author
     /**
      * @var Collection<int, Book>
      */
-    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'authors')]
+    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'contributors')]
     private Collection $books;
+
+    #[ORM\ManyToOne(inversedBy: 'contributors')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Skill $skill = null;
 
     public function __construct()
     {
@@ -50,26 +54,26 @@ class Author
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getLastname(): ?string
     {
-        return $this->name;
+        return $this->lastname;
     }
 
-    public function setName(string $name): static
+    public function setLastname(string $lastname): static
     {
-        $this->name = $name;
+        $this->lastname = $lastname;
 
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->surname;
+        return $this->firstname;
     }
 
-    public function setSurname(string $surname): static
+    public function setFirstname(string $firstname): static
     {
-        $this->surname = $surname;
+        $this->firstname = $firstname;
 
         return $this;
     }
@@ -145,4 +149,17 @@ class Author
 
         return $this;
     }
+
+    public function getSkill(): ?Skill
+    {
+        return $this->skill;
+    }
+
+    public function setSkill(?Skill $skill): static
+    {
+        $this->skill = $skill;
+
+        return $this;
+    }
+
 }
