@@ -10,7 +10,8 @@
     <h2>{{category.name}}</h2>
     <div class="list">
         {% for book in category.books %}
-        <article class="book-card">
+        <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
+        <article>
             <div class="book-content">
                 <p class="contributor-name">{% for contributor in book.contributors %}{{contributor.firstname}} {{contributor.lastname}}<br />{% endfor %}</p>
                 <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
@@ -30,6 +31,7 @@
             {% endfor %}
             </ul>
         </article>
+        </a>
         {% endfor %}
     </div>
 </section>
