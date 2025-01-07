@@ -6,6 +6,8 @@ use App\Repository\FormatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+
 
 #[ORM\Entity(repositoryClass: FormatRepository::class)]
 class Format
@@ -18,6 +20,7 @@ class Format
     #[ORM\Column(length: 13)]
     private ?string $ISBN = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column]
     private ?float $priceHT = null;
 
@@ -45,6 +48,7 @@ class Format
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bookExtract = null;
 
+    #[Groups(['searchable'])]
     #[ORM\ManyToOne(inversedBy: 'formatType')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;

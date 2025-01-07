@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -14,17 +15,22 @@ class Book
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['searchable'])]
     private ?int $id = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $summary = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?string $genre = null;
 
@@ -40,24 +46,28 @@ class Book
     /**
      * @var Collection<int, Contributor>
      */
+    #[Groups(['searchable'])]
     #[ORM\ManyToMany(targetEntity: Contributor::class, mappedBy: 'books')]
     private Collection $contributors;
 
     /**
      * @var Collection<int, KeyWords>
      */
+    #[Groups(['searchable'])]
     #[ORM\ManyToMany(targetEntity: KeyWords::class, mappedBy: 'books')]
     private Collection $keyWords;
 
     /**
      * @var Collection<int, Category>
      */
+    #[Groups(['searchable'])]
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'books')]
     private Collection $categories;
 
     /**
      * @var Collection<int, Format>
      */
+    #[Groups(['searchable'])]
     #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books')]
     private Collection $formats;
 
@@ -82,6 +92,7 @@ class Book
     #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'book')]
     private Collection $feedbacks;
 
+    #[Groups(['searchable'])]
     #[ORM\ManyToOne(inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;

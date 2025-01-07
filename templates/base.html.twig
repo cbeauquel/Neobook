@@ -18,8 +18,8 @@
                 <img src="{{asset('img/interface/logo.png')}}" alt="logo neobook" /> 
                 <p>NeoBook</p>
             </a>
-            <div class="search">
-                <form method="post" action="index.php?action=search">
+            <div class="search-bar">
+                <form method="GET" action="/search" class="search-form">
                     <label class="material-symbols-outlined" for="keyword">search</label>
                     <input aria-label="Find a Book" type="text" name="keyword" id="keyword" placeholder="Recherchez un livre, un auteur ou un genre">
                     <input type="submit" value="Rechercher" id="submit">

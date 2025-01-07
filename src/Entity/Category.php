@@ -6,15 +6,19 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
+    #[Groups(['searchable'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

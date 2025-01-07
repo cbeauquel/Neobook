@@ -103,7 +103,7 @@ HEADER
 }
 
 /*Barre recherche*/
-.search{
+.search-bar{
     margin:40px 0;
     display:flex;
     flex-direction: column;
@@ -113,7 +113,7 @@ HEADER
     font-size:1.3em;
 }
 
-.search form{
+.search-bar form{
     display:flex;
     flex-direction: row;
     align-items: center;
@@ -121,7 +121,7 @@ HEADER
     padding:0;
 }
 
-.search label{
+.search-bar label{
     border-radius:10px 0px 0px 10px;
     background-color: var(--background);
     width:50px;
@@ -133,11 +133,11 @@ HEADER
     font-size:1.4em;
 }
 
-.search form:hover{
+.search-bar form:hover{
     font-size:1.05em;
 }
 
-.search input{
+.search-bar input{
     font-size:1em;
     font-weight:400;
     width:60%;
@@ -145,7 +145,7 @@ HEADER
     border:none;
 }
 
-.search #submit{
+.search-bar #submit{
     background-color:var(--backgroundItem);    
     border:solid 1px var(--backgroundItem);
     padding:7px 0px;
@@ -155,7 +155,7 @@ HEADER
     width:15%;
 }
 
-.search button{
+.search-bar button{
     display:none;
 }
 
@@ -369,6 +369,17 @@ ul.book-prices li.book-type{
 
 ul.book-prices li.book-type span{
     font-size:2.75em;
+}
+
+/**
+affichage d'un résultat de recherche
+*/
+H1.search-results{
+    border-bottom: 3px solid var(--fontLight);
+}
+
+.book-card-search{
+    margin-bottom:15px;
 }
 
 

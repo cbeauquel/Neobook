@@ -17,7 +17,7 @@ class Basket
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'baskets')]
-    private ?user $customer = null;
+    private ?User $customer = null;
 
     #[ORM\Column]
     private ?float $amount = null;
@@ -41,12 +41,12 @@ class Basket
         return $this->id;
     }
 
-    public function getCustomer(): ?user
+    public function getCustomer(): ?User
     {
         return $this->customer;
     }
 
-    public function setCustomer(?user $customer): static
+    public function setCustomer(?User $customer): static
     {
         $this->customer = $customer;
 

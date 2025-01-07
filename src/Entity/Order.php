@@ -24,7 +24,7 @@ class Order
     private ?float $amount = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?user $customer = null;
+    private ?User $customer = null;
 
     /**
      * @var Collection<int, book>
@@ -84,12 +84,12 @@ class Order
         return $this;
     }
 
-    public function getCustomer(): ?user
+    public function getCustomer(): ?User
     {
         return $this->customer;
     }
 
-    public function setCustomer(?user $customer): static
+    public function setCustomer(?User $customer): static
     {
         $this->customer = $customer;
 
