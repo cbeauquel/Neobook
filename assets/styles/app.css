@@ -78,6 +78,11 @@ affichage en liste horizontale (flex row)
     flex-wrap: wrap;
 }
 
+.white{
+    background: var(--background);
+    justify-content: flex-start;
+}
+
 .full-width {
     width:100%;
 }
@@ -294,14 +299,15 @@ section{
 section > h2 {
     padding-bottom:20px;
     width:100%;
-    border-bottom:solid 3px var(--fontLight)
+    border-bottom:solid 3px var(--fontLight);
+    margin-bottom:-3px;
 }
 
 .book-card {
     display:flex;
     flex-direction: column;
     align-items: center;
-    margin:0px 10px;
+    margin:0px 10px 15px 10px;
     width:15%;
     height:550px;
     background: var(--backgroundItem);
@@ -309,6 +315,7 @@ section > h2 {
     padding:6px;
     text-decoration:none;
     color:var(--fontLight);
+    border-top:solid 3px var(--fontLight);
 }
 .book-card article{
     width:100%;
@@ -322,10 +329,10 @@ section > h2 {
     height:380px;
 }
 
-.author-name {
+.contributor-name {
     height:2.5em;
     text-align:center;
-    font-weight:600;
+    font-weight:500;
     font-size:1.1em;
 }
 
@@ -378,19 +385,16 @@ H1.search-results{
     border-bottom: 3px solid var(--fontLight);
 }
 
-.book-card-search{
-    margin-bottom:15px;
-}
-
-
 /**
 affichage d'une fiche livre
 */
 .book-detail {
     display:flex;
     flex-direction: row;
+    justify-content: center;
     width:100%;
     background: var(--backgroundItem);
+    padding-bottom:10px;
 }
 
 .book-datas {
@@ -405,7 +409,6 @@ affichage d'une fiche livre
 }
 
 .cover-big {
-    width:30%;
     height:770px;
 }
 
@@ -415,8 +418,6 @@ affichage d'une fiche livre
     justify-content: flex-start;
     align-items: center;
     background: var(--background);
-    height:700px;
-    margin:10px;
 }
 
 .card h2 {
@@ -447,9 +448,9 @@ affichage d'une fiche livre
     display:flex;
     flex-direction: row;
     justify-content: space-between;
+    margin:0px 20px;
     color:var(--fontDark);
     text-decoration: none;
-    width:47%;
     align-items: center;
     background-color: var(--backgroundDark);
     padding:10px;
@@ -513,6 +514,38 @@ affichage d'une fiche livre
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    margin:2px 0px;
+    height:60px;
+}
+
+.brick-h {
+    background: var(--backgroundItem);
+    color:var(--fontLight);
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
     margin:5px 0px;
+    padding:15px 10px;
     height:64px;
+}
+
+.banner{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    gap:30px;
+    justify-content: flex-start;
+    width:100%;
+    background: var(--background);
+    padding:0px 0px 0px 20px;
+    margin:10px 0px 0px 10px;
+    width:98.4%;
+}
+
+/**
+affichage d'une fiche Contributeur
+*/
+.contributor-detail{
+    background: var(--backgroundItem);
 }

@@ -10,7 +10,13 @@
         <a class="book-card book-card-search" href="{{path('book', {id: book.objectID})}}" title="">
         <article>
             <div class="book-content">
-                <p class="contributor-name">{% for contributor in book.contributors %}{{contributor.firstname}} {{contributor.lastname}}<br />{% endfor %}</p>
+                <p class="contributor-name">
+                    {% for boSkCo in book.boSkCos %}
+                        {% if boSkCo.skill.name == 'Auteur' %}
+                            {{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}}<br>
+                        {% endif %}
+                    {% endfor %}
+                </p>
                 <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>

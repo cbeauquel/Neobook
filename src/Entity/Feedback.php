@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\FeedbackRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+
 
 #[ORM\Entity(repositoryClass: FeedbackRepository::class)]
 class Feedback
@@ -18,6 +20,7 @@ class Feedback
     #[ORM\JoinColumn(nullable: false)]
     private ?User $nickName = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column]
     private ?int $stars = null;
 

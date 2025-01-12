@@ -12,10 +12,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
+    #[Groups(['searchable'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['searchable'])]
     private ?int $id = null;
 
     #[Groups(['searchable'])]
@@ -34,6 +34,7 @@ class Book
     #[ORM\Column(length: 255)]
     private ?string $genre = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $parutionDate = null;
 
@@ -43,12 +44,6 @@ class Book
     #[ORM\Column]
     private ?bool $status = null;
 
-    /**
-     * @var Collection<int, Contributor>
-     */
-    #[Groups(['searchable'])]
-    #[ORM\ManyToMany(targetEntity: Contributor::class, mappedBy: 'books')]
-    private Collection $contributors;
 
     /**
      * @var Collection<int, KeyWords>
@@ -97,16 +92,22 @@ class Book
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
+    /**
+     * @var Collection<int, BoSkCo>
+     */
+    #[Groups(['searchable'])]
+    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'book', orphanRemoval: true)]
+    private Collection $boSkCos;
 
     public function __construct()
     {
-        $this->contributors = new ArrayCollection();
         $this->keyWords = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->formats = new ArrayCollection();
         $this->baskets = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
+        $this->boSkCos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,33 +195,6 @@ class Book
     public function setStatus(bool $status): static
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Contributor>
-     */
-    public function getContributors(): Collection
-    {
-        return $this->contributors;
-    }
-
-    public function addContributor(Contributor $contributor): static
-    {
-        if (!$this->contributors->contains($contributor)) {
-            $this->contributors->add($contributor);
-            $contributor->addBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContributor(Contributor $contributor): static
-    {
-        if ($this->contributors->removeElement($contributor)) {
-            $contributor->removeBook($this);
-        }
 
         return $this;
     }
@@ -411,4 +385,33 @@ class Book
         return $this;
     }
 
+    /**
+     * @return Collection<int, BoSkCo>
+     */
+    public function getBoSkCos(): Collection
+    {
+        return $this->boSkCos;
+    }
+
+    public function addBoSkCo(BoSkCo $boSkCo): static
+    {
+        if (!$this->boSkCos->contains($boSkCo)) {
+            $this->boSkCos->add($boSkCo);
+            $boSkCo->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoSkCo(BoSkCo $boSkCo): static
+    {
+        if ($this->boSkCos->removeElement($boSkCo)) {
+            // set the owning side to null (unless already changed)
+            if ($boSkCo->getBook() === $this) {
+                $boSkCo->setBook(null);
+            }
+        }
+
+        return $this;
+    }
 }

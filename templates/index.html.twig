@@ -6,7 +6,7 @@
 <div class="breadcrumb">
     <p class="signature"><h1>Librairie inclusive de livres numériques à lire et à écouter !</h1></p>
 </div>
-<section> 
+<section>
         <div class="list">
             {% for category in categories %}
                 <a class="categories" href="{{path('category', {id:category.id})}}" target="parent" title="">
@@ -15,7 +15,7 @@
             {% endfor %}
         </div>
 </section>
-<section>        
+<section>
     <h2>À paraître</h2>
     <div class="list">
         {% for book in upcoming_books %}
@@ -23,12 +23,12 @@
         <article>
             <div class="book-content">
                 <p class="contributor-name">
-                    {% for contributor in book.contributors %}
-                    {% if contributor.skill.name == 'Auteur'%}
-                        {{contributor.firstname}} 
-                        {{contributor.lastname}}<br />
-                    {% endif %}
-                    {% endfor %}</p>
+                    {% for boSkCo in book.boSkCos %}
+                        {% if boSkCo.skill.name == 'Auteur' %}
+                            {{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}}<br>
+                        {% endif %}
+                    {% endfor %}
+                </p>
                 <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>

@@ -15,7 +15,6 @@ class Skill
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['searchable'])]
     private ?int $id = null;
 
     #[Groups(['searchable'])]
@@ -23,14 +22,14 @@ class Skill
     private ?string $name = null;
 
     /**
-     * @var Collection<int, Contributor>
+     * @var Collection<int, BoSkCo>
      */
-    #[ORM\OneToMany(targetEntity: Contributor::class, mappedBy: 'skill')]
-    private Collection $contributors;
+    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'skill')]
+    private Collection $boSkCos;
 
     public function __construct()
     {
-        $this->contributors = new ArrayCollection();
+        $this->boSkCos = new ArrayCollection();
     }
 
 
@@ -52,29 +51,29 @@ class Skill
     }
 
     /**
-     * @return Collection<int, Contributor>
+     * @return Collection<int, BoSkCo>
      */
-    public function getContributors(): Collection
+    public function getBoSkCos(): Collection
     {
-        return $this->contributors;
+        return $this->boSkCos;
     }
 
-    public function addContributor(Contributor $contributor): static
+    public function addBoSkCo(BoSkCo $boSkCo): static
     {
-        if (!$this->contributors->contains($contributor)) {
-            $this->contributors->add($contributor);
-            $contributor->setSkill($this);
+        if (!$this->boSkCos->contains($boSkCo)) {
+            $this->boSkCos->add($boSkCo);
+            $boSkCo->setSkill($this);
         }
 
         return $this;
     }
 
-    public function removeContributor(Contributor $contributor): static
+    public function removeBoSkCo(BoSkCo $boSkCo): static
     {
-        if ($this->contributors->removeElement($contributor)) {
+        if ($this->boSkCos->removeElement($boSkCo)) {
             // set the owning side to null (unless already changed)
-            if ($contributor->getSkill() === $this) {
-                $contributor->setSkill(null);
+            if ($boSkCo->getSkill() === $this) {
+                $boSkCo->setSkill(null);
             }
         }
 

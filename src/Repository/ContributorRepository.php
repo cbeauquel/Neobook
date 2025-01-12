@@ -17,7 +17,26 @@ class ContributorRepository extends ServiceEntityRepository
     }
 
 
+       /**
+        * @return array[] Returns an array of skills by authorId
+        */
+       public function findSkillsByAuthorId($value): array
+       {
+           return $this->createQueryBuilder('c')
+               ->select('DISTINCT s.name')
+               ->join('c.boSkCos', 'bsc')
+               ->join('bsc.skill', 's')
+               ->andWhere('c.id = :val')
+               ->setParameter('val', $value)
+               ->orderBy('s.name', 'ASC')
+               ->setMaxResults(5)
+               ->getQuery()
+               ->getResult()
+           ;
+       }
 
+
+    
     //    /**
     //     * @return Contributor[] Returns an array of Contributor objects
     //     */

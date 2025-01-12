@@ -3,14 +3,16 @@
 namespace App\Controller;
 
 use Meilisearch\Client;
+use App\Entity\Book;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
 class SearchController extends AbstractController
 {
-    #[Route('/search', name: 'app_search', methods:['GET'])]
+    #[Route('/search', name: 'search', methods:['GET'])]
     public function search(Client $meilisearchClient, Request $request): Response
     {
         // Récupérer la recherche

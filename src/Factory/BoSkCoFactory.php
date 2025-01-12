@@ -2,15 +2,14 @@
 
 namespace App\Factory;
 
-use App\Entity\Editor;
+use App\Entity\BoSkCo;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Editor>
+ * @extends PersistentProxyObjectFactory<BoSkCo>
  */
-final class EditorFactory extends PersistentProxyObjectFactory
+final class BoSkCoFactory extends PersistentProxyObjectFactory
 {
-    private CONST EDITOR_NAME = ['Ella Editions', 'CAIRN', 'Amphora', 'De Borée'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -22,7 +21,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Editor::class;
+        return BoSkCo::class;
     }
 
     /**
@@ -33,11 +32,9 @@ final class EditorFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'dateAdd' => self::faker()->dateTime(),
-            'description' => self::faker()->text(),
-            'logo' => self::faker()->imageUrl(),
-            'name' => self::faker()->randomElement(self::EDITOR_NAME),
-            'status' => 1,
+            'book' => BookFactory::new(),
+            'contributor' => ContributorFactory::new(),
+            'skill' => SkillFactory::new(),
         ];
     }
 
@@ -47,7 +44,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Editor $editor): void {})
+            // ->afterInstantiate(function(BoSkCo $boSkCo): void {})
         ;
     }
 }

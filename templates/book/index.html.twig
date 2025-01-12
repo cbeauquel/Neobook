@@ -10,7 +10,9 @@
 {#Fiche livre#}
 <section class="book-detail">
     {#Couverture du livre#}
-    <img class="cover-big" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+    <div class="card">
+        <img class="cover-big" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+    </div>
     {#Bloc titre + infos + résumés et extraits + prix et formats#}
     <div class="book-datas">
         <h1>{{book.title}}</h1>
@@ -18,60 +20,35 @@
         <div class="list">
             <div class="card informations">
                 <h2>Informations</h2>
+                <h3>ISBN :</h3> 
+                    {% for format in book.formats %}
+                    <div class="brick">
+                        <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
+                        <p>{{format.isbn}}</p>
+                    </div>                   
+                    {% endfor %}
                 <h3>Auteurs et narrateurs </h3>
-                {% for contributor in book.contributors %}
-                <div class="brick">
-                    <img class="brick-img" src="{{contributor.photo}}">
-                    <p>{{contributor.skill.name}} :</p>
-                    <p>{{contributor.firstname}} {{contributor.lastname}}</p>
-                </div>
+                {% for boSkCo in book.boSkCos %}
+                        <a href="{{path('contributor', {id: boSkCo.contributor.id})}}" class="brick">
+                            <img class="brick-img" src="{{asset(boSkCo.contributor.photo)}}">
+                            <p>{{boSkCo.skill.name}} :</p>
+                            <p>{{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}} </p>
+                        </a>          
                 {% endfor %}
                 <h3>Édité par </h3>
-                <div class="brick">
-                    <img class="brick-img" src="{{book.editor.logo}}">
+                <a class="brick" href=" {{path('editor', {id: book.editor.id})}}">
+                    <img class="brick-img" src="{{asset(book.editor.logo)}}">
                     <p>{{book.editor.name}}</p>
-                </div>
-                <h3>Taille du fichier</h3>
-                {% for format in book.formats %}
-                {#Si le format est ebook, on affiche le nombre de mots#}
-                {% if format.type.name == 'eBook' %}
-                <div class="brick">
-                    <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
-                    <p>{{format.wordsCount}} mots</p>
-                </div>
-                {% endif %}
-                {#Si le format est audio, on affiche la durée#}
-                {% if format.type.name == 'Audio' %}
-                <div class="brick">
-                    <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
-                    <p>{{format.duration}} heures</p>
-                </div>     
-                {% endif %}
-                <div class="brick">
-                    <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
-                    <p>{{format.fileSize}} Mo</p>
-                </div>
-                {% endfor %}  
+                </a>
+                <h3>Genre</h3>
+                <a class="brick" href=" {# {{path('genre', {id: book.genre})}} #}">
+                    <p>{{book.genre}}</p>
+                </a>
+
             </div>
             <div class="card summary">
                 <h2>Résumé</h2>
-                <p class="summary-text">{{book.summary}}</p>
-                <div class="list full-width">
-                    {% for format in book.formats %}
-                    {% if format.type.name == 'eBook' %}
-                    <a class="extract" href="" title="">
-                        <p>Lire un extrait:</p>
-                        <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
-                    </a>
-                    {% endif %}
-                    {% if format.type.name == 'Audio' %}
-                    <a class="extract" href="" title="">
-                        <p>Écouter un extrait:</p>
-                        <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
-                    </a>
-                    {% endif %}
-                    {% endfor %}
-                </div>            
+                <p class="summary-text">{{book.summary}}</p>        
             </div>
             <div class="card prices">
                 <h2>Prix et formats</h2>
@@ -85,8 +62,48 @@
                 <button>J'achète</button>
             </div>
         </div>
+        <div class="banner">
+            <h3>Taille du fichier</h3>
+            {% for format in book.formats %}
+                {#Si le format est ebook, on affiche le nombre de mots#}
+                {% if format.type.name == 'eBook' %}
+                <div class="brick-h">
+                    <span class="material-symbols-outlined">{{format.type.typeImg}}&nbsp;</span>
+                        <div class="brick">
+                            <p>{{format.wordsCount}} mots | {{format.fileSize}} Mo</p>
+                        </div>
+                </div>
+                {% endif %}
+                {#Si le format est audio, on affiche la durée#}
+                {% if format.type.name == 'Audio' %}
+                <div class="brick-h">
+                    <span class="material-symbols-outlined">{{format.type.typeImg}}&nbsp;</span>
+                    <div class="brick">
+                        <p>{{format.duration}} heures | {{format.fileSize}} Mo</p>
+                    </div>
+                </div>     
+                {% endif %}
+            {% endfor %}  
+            <div class="list">
+            {% for format in book.formats %}
+                {% if format.type.name == 'eBook' %}
+                <a class="extract" href="" title="">
+                    <p>Lire un extrait:&nbsp;</p>
+                    <span class="material-symbols-outlined"> {{format.type.typeImg}}</span>
+                </a>
+                {% endif %}
+                {% if format.type.name == 'Audio' %}
+                <a class="extract" href="" title="">
+                    <p>Écouter un extrait:&nbsp;</p>
+                    <span class="material-symbols-outlined"> {{format.type.typeImg}}</span>
+                </a>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
     </div>
 </section>
+
 {#du même auteur#}
 <section>
     <h2>Des mêmes auteurs :</h2>
@@ -95,7 +112,13 @@
         <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
         <article>
             <div class="book-content">
-                <p class="contributor-name">{% for contributor in book.contributors %}{{contributor.firstname}} {{contributor.lastname}}<br />{% endfor %}</p>
+                <p class="contributor-name">
+                    {% for boSkCo in book.boSkCos %}
+                        {% if boSkCo.skill.name == 'Auteur' %}
+                            {{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}}<br>
+                        {% endif %}
+                    {% endfor %}
+                </p>
                 <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>

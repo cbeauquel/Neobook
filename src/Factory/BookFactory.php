@@ -35,9 +35,8 @@ final class BookFactory extends PersistentProxyObjectFactory
     {
         return [
             'bookUpdate' => self::faker()->dateTime(),
-            'cover' => self::faker()->randomElement(self::BOOK_COVER, $allowDuplicates = false),
+            'cover' => self::faker()->randomElement(self::BOOK_COVER),
             'creationDate' => self::faker()->dateTime(),
-            'contributors' => ContributorFactory::randomRange(1, 2),
             'categories' => CategoryFactory::randomRange(1,3),
             'formats' => FormatFactory::randomRange(1, 2),
             'editor' => EditorFactory::random(),
@@ -45,7 +44,7 @@ final class BookFactory extends PersistentProxyObjectFactory
             'parutionDate' => self::faker()->dateTime(),
             'status' => 1,
             'summary' => self::faker()->text(),
-            'title' => self::faker()->randomElement(self::BOOK_TITLE, $allowDuplicates = false),
+            'title' => self::faker()->randomElement(self::BOOK_TITLE),
         ];
     }
 

@@ -21,8 +21,15 @@ class BookRepository extends ServiceEntityRepository
     */
    public function findByDate(): array
    {
+    $today = new \DateTime(); // Obtenir la date du jour (sans heure si nécessaire)
        return $this->createQueryBuilder('b')
-           ->andWhere('b.parutionDate > b.creationDate')
+           ->innerJoin('b.boSkCos', 'bsc')
+           ->innerJoin('bsc.skill', 's')
+           ->innerJoin('bsc.contributor', 'c')
+           ->andWhere('b.parutionDate > :today')
+           ->andWhere('s.name = :skillName')
+           ->setParameter('skillName', 'Auteur')
+           ->setParameter('today', $today)
            ->orderBy('b.id', 'ASC')
            ->setMaxResults(10)
            ->getQuery()
@@ -33,11 +40,12 @@ class BookRepository extends ServiceEntityRepository
     /**
     * @return Book[] Returns an array of Book objects
     */
-    public function findByAuthors(array $value): array
+    public function findByAuthorId(array $value): array
     {
         return $this->createQueryBuilder('b')
-            ->innerJoin('b.contributors', 'c')
-            ->innerJoin('c.skill', 's')
+            ->innerJoin('b.boSkCos', 'bsc')
+            ->innerJoin('bsc.contributor', 'c')
+            ->innerJoin('bsc.skill', 's')
             ->andWhere('c.id IN (:val)')
             ->andWhere('s.name = :skillName')
             ->setParameter('val', $value)
@@ -49,20 +57,25 @@ class BookRepository extends ServiceEntityRepository
         ;
     }
 
-   /**
-    * @return array Returns an array of Contributors id
+    /**
+    * @return Book[] Returns an array of Book objects
     */
-   public function FindByBookId($value): array
-   {
-       return $this->createQueryBuilder('a')
-           ->select('c.id AS contributorsId')
-           ->join('a.contributors', 'c')
-           ->andWhere('a.id = :val')
-           ->setParameter('val', $value)
-           ->getQuery()
-           ->getResult()
-       ;
-   }
+    public function findByEditorId($value): array
+    {
+        return $this->createQueryBuilder('b')
+            ->innerJoin('b.boSkCos', 'bsc')
+            ->innerJoin('bsc.contributor', 'c')
+            ->innerJoin('bsc.skill', 's')
+            ->innerJoin('b.editor', 'e')
+            ->andWhere('e.id IN (:val)')
+            ->setParameter('val', $value)
+            ->orderBy('b.id', 'ASC')
+            ->setMaxResults(12)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 
 //    /**
 //     * @return Book[] Returns an array of Book objects

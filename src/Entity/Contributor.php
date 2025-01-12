@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: ContributorRepository::class)]
 class Contributor
 {
-    #[Groups(['searchable'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -40,19 +39,14 @@ class Contributor
     private ?\DateTimeInterface $dateAdd = null;
 
     /**
-     * @var Collection<int, Book>
+     * @var Collection<int, BoSkCo>
      */
-    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'contributors')]
-    private Collection $books;
-
-    #[Groups(['searchable'])]
-    #[ORM\ManyToOne(inversedBy: 'contributors')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Skill $skill = null;
+    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'contributor', orphanRemoval: true)]
+    private Collection $boSkCos;
 
     public function __construct()
     {
-        $this->books = new ArrayCollection();
+        $this->boSkCos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,39 +127,32 @@ class Contributor
     }
 
     /**
-     * @return Collection<int, Book>
+     * @return Collection<int, BoSkCo>
      */
-    public function getBooks(): Collection
+    public function getBoSkCos(): Collection
     {
-        return $this->books;
+        return $this->boSkCos;
     }
 
-    public function addBook(Book $book): static
+    public function addBoSkCo(BoSkCo $boSkCo): static
     {
-        if (!$this->books->contains($book)) {
-            $this->books->add($book);
+        if (!$this->boSkCos->contains($boSkCo)) {
+            $this->boSkCos->add($boSkCo);
+            $boSkCo->setContributor($this);
         }
 
         return $this;
     }
 
-    public function removeBook(Book $book): static
+    public function removeBoSkCo(BoSkCo $boSkCo): static
     {
-        $this->books->removeElement($book);
+        if ($this->boSkCos->removeElement($boSkCo)) {
+            // set the owning side to null (unless already changed)
+            if ($boSkCo->getContributor() === $this) {
+                $boSkCo->setContributor(null);
+            }
+        }
 
         return $this;
     }
-
-    public function getSkill(): ?Skill
-    {
-        return $this->skill;
-    }
-
-    public function setSkill(?Skill $skill): static
-    {
-        $this->skill = $skill;
-
-        return $this;
-    }
-
 }

@@ -10,13 +10,3 @@ meilisearch:
           class: App\Entity\Book
           enable_serializer_groups: true
           serializer_groups: ['searchable']
-
-        - name: contributors
-          class: App\Entity\Contributor
-          enable_serializer_groups: true
-          serializer_groups: ['searchable']
-         
-        - name: editors
-          class: App\Entity\Editor
-          enable_serializer_groups: true
-          serializer_groups: ['searchable']

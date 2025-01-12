@@ -16,7 +16,8 @@ class Format
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
+    #[Groups(['searchable'])]
     #[ORM\Column(length: 13)]
     private ?string $ISBN = null;
 
@@ -24,12 +25,15 @@ class Format
     #[ORM\Column]
     private ?float $priceHT = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column]
     private ?int $duration = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column]
     private ?int $wordsCount = null;
 
+    #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?int $pagesCount = null;
 

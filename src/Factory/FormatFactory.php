@@ -10,9 +10,6 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class FormatFactory extends PersistentProxyObjectFactory
 {
-    private CONST FORMAT_TYPE = ['eBook', 'Audio'];
-    private CONST TYPE_IMG = ['book', 'headphones'];
-
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -41,9 +38,8 @@ final class FormatFactory extends PersistentProxyObjectFactory
             'fileSize' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 30),
             'pagesCount' => self::faker()->randomNumber($nbDigits = 3, $strict = true),
             'priceHT' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 3, $max = 30),
-            'type' => self::faker()->randomElement(self::FORMAT_TYPE),
             'wordsCount' => self::faker()->randomNumber($nbDigits = 4),
-            'typeImg' => self::faker()->randomElement(self::TYPE_IMG),
+            'type' => TypeFactory::new(),
         ];
     }
 

@@ -1,16 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Livres dans la catégorie{{category.name}}{% endblock %}
+{% block title %}{{contributor.firstname}} {{contributor.lastname}}{% endblock %}
 
 {% block body %}
+{#Fil d'ariane#}
 <div class="breadcrumb">
     <p>Fil d'ariane</p>
 </div>
+{#Fiche contributeur#}
+<section>
+    {#Bloc titre + infos + résumés et extraits + prix et formats#}
+    <div class="contributor-detail">
+        <h1>{{contributor.firstname}} {{contributor.lastname}}</h1>
+        {#Bloc 3 colonnes#}
+        <div class="list">
+            <div class="card informations">
+                <h2>Informations</h2>
+                <img class="brick-img" src="{{asset(contributor.photo)}}">
+                <h3>Compétences</h3>
+                {% for skill in skills %}
+                    <div class="brick">
+                        <p>{{skill.name}}</p>
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class="card summary">
+                <h2>à propos</h2>
+                <p class="">{{contributor.bio}}</p>
+            </div>
+        </div>
+    </div>
+</section>
 <section>        
-    <h2>{{category.name}}</h2>
+    <h2 class="search-results">Réalisations</h1>
     <div class="list">
-        {% for book in category.books %}
-        <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
+        {% for book in books_by_author %}
+        <a class="book-card book-card-search" href="{{path('book', {id: book.id})}}" title="">
         <article>
             <div class="book-content">
                 <p class="contributor-name">

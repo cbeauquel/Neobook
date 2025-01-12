@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
-    #[Groups(['searchable'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

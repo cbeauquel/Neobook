@@ -2,15 +2,16 @@
 
 namespace App\Factory;
 
-use App\Entity\Editor;
+use App\Entity\Type;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Editor>
+ * @extends PersistentProxyObjectFactory<Type>
  */
-final class EditorFactory extends PersistentProxyObjectFactory
+final class TypeFactory extends PersistentProxyObjectFactory
 {
-    private CONST EDITOR_NAME = ['Ella Editions', 'CAIRN', 'Amphora', 'De Borée'];
+    private CONST FORMAT_TYPE = ['eBook', 'Audio'];
+    private CONST TYPE_IMG = ['book', 'headphones'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -22,7 +23,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Editor::class;
+        return Type::class;
     }
 
     /**
@@ -33,11 +34,8 @@ final class EditorFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'dateAdd' => self::faker()->dateTime(),
-            'description' => self::faker()->text(),
-            'logo' => self::faker()->imageUrl(),
-            'name' => self::faker()->randomElement(self::EDITOR_NAME),
-            'status' => 1,
+            'name' => self::faker()->randomElement(self::FORMAT_TYPE),
+            'typeImg' => self::faker()->randomElement(self::TYPE_IMG),
         ];
     }
 
@@ -47,7 +45,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Editor $editor): void {})
+            // ->afterInstantiate(function(Type $type): void {})
         ;
     }
 }
