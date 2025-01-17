@@ -44,6 +44,9 @@ class Contributor
     #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'contributor', orphanRemoval: true)]
     private Collection $boSkCos;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->boSkCos = new ArrayCollection();
@@ -152,6 +155,18 @@ class Contributor
                 $boSkCo->setContributor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

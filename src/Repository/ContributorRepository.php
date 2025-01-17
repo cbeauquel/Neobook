@@ -34,8 +34,6 @@ class ContributorRepository extends ServiceEntityRepository
                ->getResult()
            ;
        }
-
-
     
     //    /**
     //     * @return Contributor[] Returns an array of Contributor objects

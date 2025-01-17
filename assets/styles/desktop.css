@@ -9,7 +9,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+/**************************GENERAL***********************************/
 /**
  * Déclaration des couleurs.
  */
@@ -38,6 +38,10 @@ body {
     font-size:1.1em;
 }
 
+p{
+    margin:0px;
+}
+
 header {
     display: flex;
     height:80px;
@@ -55,10 +59,19 @@ h1 {
     text-align: center;
 }
 
+section > h1 {
+    font-family: "Gentium Book Plus", "Alexandria", sans-serif ;
+    font-size:2em;
+    text-align: center;
+    border-bottom:solid 3px var(--fontLight);
+    margin-bottom:-3px;
+}
+
 h2 {
     font-family: "Alexandria", "Oxygen", sans-serif ;
     font-size:1.5em;
     text-align: center;
+    font-weight: 400;
 }
 
 h3 {
@@ -69,6 +82,15 @@ h3 {
 }
 
 /**
+Messages
+*/
+.alert-danger{
+    color: var(--linkColor);
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/**
 affichage en liste horizontale (flex row)
 */
 .list{
@@ -76,11 +98,6 @@ affichage en liste horizontale (flex row)
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
-}
-
-.white{
-    background: var(--background);
-    justify-content: flex-start;
 }
 
 .full-width {
@@ -138,9 +155,6 @@ HEADER
     font-size:1.4em;
 }
 
-.search-bar form:hover{
-    font-size:1.05em;
-}
 
 .search-bar input{
     font-size:1em;
@@ -169,7 +183,6 @@ HEADER
 header > .nav {
     display: flex;
     justify-content: flex-end;
-    width:15%;
     padding:6px 30px 6px 30px;
     color:var(--fontLight);
     font-size: 1em;
@@ -178,6 +191,12 @@ header > .nav {
 
 .nav a {
     font-weight: bold;
+    color:var(--fontDark);
+    text-decoration: none;
+}
+
+.nav a:hover {
+    color:var(--linkColor);
 }
 
 .nav p {
@@ -200,6 +219,7 @@ header > .nav {
     background-color: #EEEEEE;
     width:100%;
     margin-bottom:10px;
+    display: inline-block;
 }
 
 p.signature {
@@ -272,6 +292,111 @@ footer {
     margin-bottom:10px;
 }
 
+/***********************FORMULAIRE DE CONNEXION********************/
+.login{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width:60%;
+    background-color: var(--backgroundItem);
+    border-radius:20px;
+    margin:40px auto;
+    padding:40px;
+}
+
+.form-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    width:60%;
+    margin:30px auto;
+}
+
+.form-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.form-row label{
+    width: 25%;
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.form-row input{
+    width: 60%;
+    font-size: 1.2em;
+    height:50px;
+    border-radius:15px;
+    border:2px solid var(--fontDark);
+    background-color: var(--background);
+    padding:15px 20px;
+}
+
+.login button{
+    margin: 0px 20px;
+    color: var(--fontDark);
+    text-decoration: none;
+    align-items: center;
+    background-color: var(--backgroundDark);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+/****************************CUSTOMER ACCOUNT*********************************/
+.book-card h2{
+    height:80px;
+}
+
+.account{
+    justify-content:center;
+}
+
+.customer-account{
+    font-size:5em;
+    width:75%;
+    border-bottom:solid 3px var(--fontLight);
+    text-align:center;
+}
+
+.account-content{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: solid 1px var(--fontLight);
+    width: 60%;
+}
+
+a.account-content{
+    color:var(--fontLight);
+    text-decoration:none;
+    padding-bottom:7px;
+}
+
+a.account-content:hover{
+    color:var(--linkColor);
+}
+
+.account-content span{
+    font-size:3em;
+    margin:20px 0px 5px 0px;
+}
+
+.end{
+    border:none;
+}
+
+/****************************CUSTOMER ACCOUNT*********************************/
+
+/****************************HOME PAGE****************************************/
 /**
 affichage des catégories en home
 */
@@ -287,7 +412,6 @@ affichage des catégories en home
     font-weight: 600;
     text-decoration: none;
 }
-
 
 /**
 affichage des listes de livre
@@ -309,10 +433,9 @@ section > h2 {
     align-items: center;
     margin:0px 10px 15px 10px;
     width:15%;
-    height:550px;
     background: var(--backgroundItem);
     border-radius:0px 0px 15px 15px;
-    padding:6px;
+    padding:6px 6px 20px 6px;
     text-decoration:none;
     color:var(--fontLight);
     border-top:solid 3px var(--fontLight);
@@ -385,9 +508,9 @@ H1.search-results{
     border-bottom: 3px solid var(--fontLight);
 }
 
-/**
-affichage d'une fiche livre
-*/
+/****************************FICHE LIVRE*********************************/
+
+/*container principal*/
 .book-detail {
     display:flex;
     flex-direction: row;
@@ -397,6 +520,7 @@ affichage d'une fiche livre
     padding-bottom:10px;
 }
 
+/*colonnes*/
 .book-datas {
     display:flex;
     flex-direction: column;
@@ -412,6 +536,7 @@ affichage d'une fiche livre
     height:770px;
 }
 
+/*colonne*/
 .card {
     display: flex;
     flex-direction: column;
@@ -421,7 +546,15 @@ affichage d'une fiche livre
 }
 
 .card h2 {
+    background: var(--backgroundDark);
+    text-align:center;
+    color:var(--fontDark);
+    font-weight: normal;
     width:100%;
+}
+
+.card p {
+    padding:10px;
 }
 
 .summary {
@@ -491,17 +624,6 @@ affichage d'une fiche livre
     color:var(--fontLight);
 }
 
-.card h2 {
-    background: var(--backgroundDark);
-    text-align:center;
-    color:var(--fontDark);
-    font-weight: normal;
-}
-
-.card p {
-    padding:10px;
-}
-
 .brick-img {
     height:64px;
 }
@@ -518,18 +640,9 @@ affichage d'une fiche livre
     height:60px;
 }
 
-.brick-h {
-    background: var(--backgroundItem);
-    color:var(--fontLight);
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    margin:5px 0px;
-    padding:15px 10px;
-    height:64px;
-}
 
+
+/*Bannière taille du fichier et boutons extraits*/
 .banner{
     display:flex;
     flex-direction: row;
@@ -543,9 +656,19 @@ affichage d'une fiche livre
     width:98.4%;
 }
 
-/**
-affichage d'une fiche Contributeur
-*/
+.brick-h {
+    background: var(--backgroundItem);
+    color:var(--fontLight);
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin:5px 0px;
+    padding:15px 10px;
+    height:64px;
+}
+
+/*************affichage d'une fiche Contributeur********************/
 .contributor-detail{
     background: var(--backgroundItem);
 }

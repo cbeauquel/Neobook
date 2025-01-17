@@ -1,0 +1,124 @@
+.admin{
+    display:flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: flex-start;
+}
+
+.table{
+    width:95%;
+}
+
+/**********Barre de menu latérale*******************/
+nav.admin-nav{
+    width:100%;
+}
+
+.side-bar{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position:fixed;
+    width:15%;
+    background-color: var(--backgroundDark);
+    height:1000px;
+    padding:10px 10px 20px 20px;
+}
+
+.side-bar ul{
+    padding:30px 5px 20px 20px;
+    width:100%;
+}
+
+.side-bar li{
+    color:var(--fontDark);
+    list-style-type:none;
+    width:90%;
+    padding:15px 0px;
+    font-size:1.5em;
+    border-bottom:1px solid var(--fontDark);
+}
+
+.side-bar li a{
+    color:var(--fontDark);
+    text-decoration:none;
+}
+
+.side-bar li a:hover{
+    color:var(--linkColor);
+    text-decoration:none;
+}
+
+/**
+HEADER
+*/
+.admin-logo {
+    display:flex;
+    flex-direction:row;
+    text-decoration:none;
+    font-family: "Gentium Book Plus", sans-serif;
+    color:var(--fontDark);
+}
+
+.admin-logo p{
+    font-size:2em;
+    padding:0px 20px;
+}
+
+.admin-logo img {
+    height:60px;
+}
+
+/*********************CONTENU************************/
+.admin-container{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    width:85%;
+    margin-left:15%;
+}
+
+.admin-container h1{
+    width:70%;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.add{
+    padding:6px 15px 6px 15px;
+    color:var(--fontDark);
+    background-color: var(--backgroundDark);
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    text-decoration:none;
+}
+
+.add span{
+    padding:0px 10px;
+}
+
+/*********************************FORMULAIRES************************************************/
+.form-container{
+    width:100%;
+}
+
+.form-row label{
+    margin:5px;
+}
+
+.form-row input{
+    margin:5px;
+}
+
+.form-row div{
+    width:100%;
+}
+
+
+#book_status{
+    width:3%;
+}

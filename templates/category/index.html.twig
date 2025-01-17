@@ -7,7 +7,7 @@
     <p>Fil d'ariane</p>
 </div>
 <section>        
-    <h2>{{category.name}}</h2>
+    <h1>{{category.name}}</h1>
     <div class="list">
         {% for book in category.books %}
         <a class="book-card" href="{{path('book', {id: book.id})}}" title="">

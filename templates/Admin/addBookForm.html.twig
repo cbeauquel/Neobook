@@ -1,0 +1,19 @@
+{% extends 'Admin/adminBase.html.twig' %}
+
+{% block title %}Ajouter un livre{% endblock %}
+
+{% block body %}
+
+<section class="list">
+    <form class="login" method="post">
+    <div class="form-container">
+    <h1>Ajouter un livre</h1>
+       {{ form_start(form) }}
+        <div class="form-row">
+        {{ form_widget(form) }}
+        </div>
+        <button type="submit" class="button button-submit">Envoyer</button>
+        {{ form_end(form) }}
+    </div>
+    </form>
+{% endblock %}

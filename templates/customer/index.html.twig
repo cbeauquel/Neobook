@@ -1,20 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CustomerController!{% endblock %}
+{% block title %}Hello CustomerAccountController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/user/OneDrive/Documents/Openclassrooms/Projet_13/Neobook/src/Controller/CustomerController.php</code></li>
-        <li>Your template at <code>C:/Users/user/OneDrive/Documents/Openclassrooms/Projet_13/Neobook/templates/customer/index.html.twig</code></li>
-    </ul>
+<div class="breadcrumb">
+    <p>Fil d'ariane</p>
 </div>
+<section>        
+    <h1>Compte de {{app.user.firstname}}</h1>
+    <div class="list account">
+        <article class="book-card" >
+            <h2>Mes commandes</h2>
+            <span class="material-symbols-outlined customer-account">receipt_long</span>
+            <a href="" class="account-content end">
+                <span class="material-symbols-outlined">preview</span>
+                <p>Consulter</p>
+            </a>
+        </article>
+        <article class="book-card" >
+            <h2>Bibliothèque</h2>
+            <span class="material-symbols-outlined customer-account">collections_bookmark</span>
+            <a href="" class="account-content">
+                <span class="material-symbols-outlined">book_4_spark</span>
+                <p>Gérer</p>
+            </a>
+            <a href="{{ path('logout') }}" class="account-content end">
+                <span class="material-symbols-outlined">bookmark_heart</span>
+                <p>Ma PAL</p>
+            </a>
+        </article>
+        <article class="book-card" >
+            <h2>Commentaires et évaluations</h2>
+            <span class="material-symbols-outlined customer-account">reviews</span>
+            <a href="" class="account-content">
+                <span class="material-symbols-outlined">visibility</span>
+                <p>Vos commentaires</p>
+            </a>
+            <a href="{{ path('logout') }}" class="account-content end">
+                <span class="material-symbols-outlined">star_rate</span>
+                <p>nb de stars</p>
+            </a>
+        </article>
+        <article class="book-card" >
+            <h2>Informations personnelles</h2>
+            <span class="material-symbols-outlined customer-account">person</span>
+            <a href="{{ path('customer_edit', {id: app.user.id}) }}" class="account-content">
+                <span class="material-symbols-outlined">person_edit</span>
+                <p>Compléter</p>
+            </a>
+            <a href="{{ path('logout') }}" class="account-content end">
+                <span class="material-symbols-outlined">logout</span>
+                <p>Se déconnecter</p>
+            </a>
+        </article>
+       
+    </div>
+</section>
+
 {% endblock %}

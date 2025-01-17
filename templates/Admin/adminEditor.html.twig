@@ -1,0 +1,51 @@
+{% extends 'Admin/adminBase.html.twig' %}
+
+{% block title %}Gestion des Éditeurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des Éditeurs</h1>
+    <div>
+        <a class="add" href={{path('admin_editor_add')}} title="ajouter un livre">
+            <p>Ajouter un éditeur</p> <span class="material-symbols-outlined">add_box</span>
+        </a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Logo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for editor in all_editors %}
+                <tr>
+                    <td>{{ editor.id }}</td>
+                    <td>{{ editor.name }}</td>
+                    <td>{{ editor.description|length > 50 ? editor.description[:50] ~ '...' : editor.description }}</td>
+                    <td>
+                        {% if editor.logo %}
+                            <img src="{{ asset(editor.logo) }}" alt="{{ editor.name }}" style="max-width: 40px;">
+                        {% else %}
+                            Pas de logo
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('editor', { id: editor.id }) }}" class="btn btn-info btn-sm">Voir</a>
+                        <a href="{#{{ path('editor_edit', { id: editor.id }) }}#}" class="btn btn-warning btn-sm">Modifier</a>
+                        <form method="post" action="{#{{ path('editor_delete', { id: editor.id }) }}#}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ editor.id) }}">
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucun éditeur trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

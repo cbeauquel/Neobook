@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{app.user.firstname}}{% endblock %}
+
+{% block body %}
+<div class="breadcrumb">
+    <p>Fil d'ariane</p>
+</div>
+<section class="list">
+    <form class="login" method="post">
+    <div class="form-container">
+       <h1>Compte de {{app.user.firstname}}</h1>
+       {{ form_start(form) }}
+        <div class="form-row">
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.lastname) }}
+        </div>
+        <div class="form-row">
+            {{ form_row(form.email) }}
+            {{ form_row(form.nickname) }}
+        </div>
+        <div class="form-row">
+            {{ form_row(form.optIn) }}
+            {{ form_row(form.preference) }}
+        </div>
+        <button type="submit" class="button button-submit">Envoyer</button>
+        {{ form_end(form) }}
+    </div>
+    </form>
+</section>
+
+{% endblock %}

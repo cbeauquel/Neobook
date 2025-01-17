@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1" >
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body class="admin">
+        <header class="side-bar">
+            <a href="{{path('home')}}" class="admin-logo" aria-label="Retour à l'accueil" title="retour à l'accueil">
+                <img src="{{asset('img/interface/logo.png')}}" alt="logo neobook" /> 
+                <p>NeoBook</p>
+            </a>
+            <nav class="admin-nav" aria-label="Navigation, connexion au compte utilisateur">
+                <ul>
+                    <li><a href="{{path('admin_book')}}" title="gestion des livres">Livres</a></li>
+                    <li><a href="{{path('admin_contributor')}}" title="gestion des contributeurs">Contributeurs</a></li>
+                    <li><a href="{{path('admin_editor')}}" title="gestion des éditeurs">Éditeurs</a></li>
+                    <li>Clients</li>
+                    <li>Commandes</li>
+                    <li>Commentaires</li>
+                    <li>Statistiques</li>
+                </ul>
+            </nav>
+        </header>
+        <section class="admin-container">
+        {% block body %}{% endblock %}
+        </section>
+    </body>
+</html>

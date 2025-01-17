@@ -44,7 +44,6 @@ class Book
     #[ORM\Column]
     private ?bool $status = null;
 
-
     /**
      * @var Collection<int, KeyWords>
      */

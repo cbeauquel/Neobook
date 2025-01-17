@@ -27,9 +27,15 @@
                 </form>
             </div>
             <nav class="nav" aria-label="Navigation, connexion au compte utilisateur">
-                    <a>
+                {% if app.user %}
+                    <a href="{{path('customer_account')}}" title="Mon compte">
+                        <p>{{ app.user.firstname }} <span class="material-symbols-outlined">person</span></p>
+                    </a>
+                {% else %}
+                    <a href="{{path('login')}}" title="lien de connexion">
                         <p>Connexion <span class="material-symbols-outlined">person</span></p>
                     </a>
+                {% endif %}
                     <a>
                         <p>Panier <span class="material-symbols-outlined">shopping_basket</span></p>
                     </a>
