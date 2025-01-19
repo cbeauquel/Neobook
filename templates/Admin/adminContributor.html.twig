@@ -17,7 +17,7 @@
                 <th>Firstname</th>
                 <th>Photo</th>
                 <th>Bio</th>
-                {# <th>Compétences</th> #}
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -29,21 +29,17 @@
                     <td>{{ contributor.lastname }}</td>
                     <td>
                         {% if contributor.photo %}
-                            <img src="{{ asset(contributor.photo) }}" alt="{{ contributor.firstname }} {{ contributor.lastname }}" style="max-width: 40px;">
+                            <img src="{{ asset('img/contributeurs/' ~ contributor.photo) }}" alt="{{ contributor.firstname }} {{ contributor.lastname }}" style="max-width: 40px;">
                         {% else %}
                             Pas de photo
                         {% endif %}
                     </td>
                     <td>{{ contributor.bio|length > 50 ? contributor.bio[:50] ~ '...' : contributor.bio }}</td>
-                     {# <td>
-                        {% for boSkCo in contributor.boSkCos %}
-                                {{boSkCo.skill.name}}<br>
-                        {% endfor %}
-                    </td> #}
+                    <td>{{ contributor.status }}</td>
                     <td>
                         <a href="{{ path('contributor', { id: contributor.id }) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{#{{ path('contributor_edit', { id: contributor.id }) }}#}" class="btn btn-warning btn-sm">Modifier</a>
-                        <form method="post" action="{#{{ path('contributor_delete', { id: contributor.id }) }}#}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
+                        <a href="{{ path('admin_contributor_edit', { id: contributor.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <form method="post" action="{{ path('admin_contributor_remove', { id: contributor.id }) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contributor.id) }}">
                             <button class="btn btn-danger btn-sm">Supprimer</button>
                         </form>

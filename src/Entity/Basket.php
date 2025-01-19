@@ -7,10 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\TimestampableTrait;
 
+
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BasketRepository::class)]
 class Basket
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,7 +28,7 @@ class Basket
     private ?float $amount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @var Collection<int, Book>
@@ -65,14 +70,14 @@ class Basket
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->createdAt;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
-        $this->date = $date;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

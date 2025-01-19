@@ -1,0 +1,17 @@
+{% extends 'Admin/adminBase.html.twig' %}
+
+{% block title %}Ajouter un Contributeur{% endblock %}
+
+{% block body %}
+
+<section class="list">
+    <div class="form-container">
+    <h1>Ajouter un contributeur</h1>
+       {{ form_start(form) }}
+        <div class="form-row">
+        {{ form_widget(form) }}
+        </div>
+        <button type="submit" class="button button-submit">Envoyer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

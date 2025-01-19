@@ -16,7 +16,7 @@
         <div class="list">
             <div class="card informations">
                 <h2>Informations</h2>
-                <img class="brick-img" src="{{asset(contributor.photo)}}">
+                <img class="brick-img" src="{{asset('img/contributeurs/' ~ contributor.photo)}}">
                 <h3>Compétences</h3>
                 {% for skill in skills %}
                     <div class="brick">
@@ -27,7 +27,7 @@
             </div>
             <div class="card summary">
                 <h2>à propos</h2>
-                <p class="">{{contributor.bio}}</p>
+                <p class="">{{contributor.bio | raw }}</p>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
                         {% endif %}
                     {% endfor %}
                 </p>
-                <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+                <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>
             <div class="stars">

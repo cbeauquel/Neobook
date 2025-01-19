@@ -15,11 +15,11 @@
         {#Bloc 2 colonnes#}
         <div class="list">
             <div class="card informations">
-                <img class="brick-img" src="{{asset(editor.logo)}}">
+                <img class="brick-img" src="{{asset('img/editeurs/' ~ editor.logo)}}">
             </div>
             <div class="card summary">
                 <h2>à propos</h2>
-                <p class="">{{editor.description}}</p>
+                <p class="">{{editor.description | raw }}</p>
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
                         {% endif %}
                     {% endfor %}
                 </p>
-                <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+                <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>
             <div class="stars">

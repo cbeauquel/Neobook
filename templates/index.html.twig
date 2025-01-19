@@ -29,7 +29,7 @@
                         {% endif %}
                     {% endfor %}
                 </p>
-                <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+                <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>
             <div class="stars">

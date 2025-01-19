@@ -11,7 +11,7 @@
 <section class="book-detail">
     {#Couverture du livre#}
     <div class="card">
-        <img class="cover-big" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+        <img class="cover-big" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
     </div>
     {#Bloc titre + infos + résumés et extraits + prix et formats#}
     <div class="book-datas">
@@ -30,14 +30,14 @@
                 <h3>Auteurs et narrateurs </h3>
                 {% for boSkCo in book.boSkCos %}
                         <a href="{{path('contributor', {id: boSkCo.contributor.id})}}" class="brick">
-                            <img class="brick-img" src="{{asset(boSkCo.contributor.photo)}}">
-                            <p>{{boSkCo.skill.name}} :</p>
+                            <img class="brick-img" src="{{asset('img/contributeurs/' ~ boSkCo.contributor.photo)}}">
+                            <p class='book-skill'>{{boSkCo.skill.name}} :</p>
                             <p>{{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}} </p>
                         </a>          
                 {% endfor %}
                 <h3>Édité par </h3>
                 <a class="brick" href=" {{path('editor', {id: book.editor.id})}}">
-                    <img class="brick-img" src="{{asset(book.editor.logo)}}">
+                    <img class="brick-img" src="{{asset('img/editeurs/' ~ book.editor.logo)}}">
                     <p>{{book.editor.name}}</p>
                 </a>
                 <h3>Genre</h3>
@@ -48,7 +48,7 @@
             </div>
             <div class="card summary">
                 <h2>Résumé</h2>
-                <p class="summary-text">{{book.summary}}</p>        
+                {{book.summary | raw }}
             </div>
             <div class="card prices">
                 <h2>Prix et formats</h2>
@@ -119,7 +119,7 @@
                         {% endif %}
                     {% endfor %}
                 </p>
-                <img class="cover" src="{{asset(book.cover)}}" alt="{{book.title}}" >
+                <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>
             <div class="stars">

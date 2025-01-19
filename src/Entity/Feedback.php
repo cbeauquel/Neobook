@@ -6,11 +6,14 @@ use App\Repository\FeedbackRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Entity\Traits\TimestampableTrait;
 
-
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: FeedbackRepository::class)]
 class Feedback
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -28,7 +31,7 @@ class Feedback
     private ?string $comment = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $feedbackDate = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'feedbacks')]
     private ?Book $book = null;
@@ -74,14 +77,14 @@ class Feedback
         return $this;
     }
 
-    public function getFeedbackDate(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->feedbackDate;
+        return $this->createdAt;
     }
 
-    public function setFeedbackDate(\DateTimeInterface $feedbackDate): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
-        $this->feedbackDate = $feedbackDate;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -12,8 +12,8 @@ export default class extends Controller {
     connect() {
         this.index = this.element.childElementCount
         const btn = document.createElement('button')
-        btn.setAttribute('class', 'button button-submit')
-        btn.innerText = this.addLabelValue || 'Ajouter un élément'
+        btn.setAttribute('class', 'add material-symbols-outlined')
+        btn.innerText = this.addLabelValue || 'add_box'
         btn.setAttribute('type', 'button')
         btn.addEventListener('click', this.addElement)
         this.element.childNodes.forEach(this.addDeleteButton)
@@ -40,8 +40,8 @@ export default class extends Controller {
      */
     addDeleteButton = (item) => {
         const btn = document.createElement('button')
-        btn.setAttribute('class', 'button button-submit')
-        btn.innerText = this.deleteLabelValue || 'Supprimer'
+        btn.setAttribute('class', 'delete material-symbols-outlined')
+        btn.innerText = this.deleteLabelValue || 'delete'
         btn.setAttribute('type', 'button')
         item.append(btn)
         btn.addEventListener('click', e => {

@@ -8,11 +8,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Entity\Traits\TimestampableTrait;
 
 
 #[ORM\Entity(repositoryClass: EditorRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Editor
 {
+    use TimestampableTrait;
+
     #[Groups(['searchable'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,7 +37,7 @@ class Editor
     private ?bool $status = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateAdd = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @var Collection<int, Book>
@@ -99,17 +103,26 @@ class Editor
         return $this;
     }
 
-    public function getDateAdd(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->dateAdd;
+        return $this->createdAt;
     }
 
-    public function setDateAdd(\DateTimeInterface $dateAdd): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->dateAdd = $dateAdd;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
+
+   // Méthode pour automatiser la date de création
+   #[ORM\PrePersist]
+   public function setCreatedAtValue(): void
+   {
+       if ($this->createdAt === null) {
+           $this->createdAt = new \DateTime(); // Définit la date actuelle
+       }
+   }
 
     /**
      * @return Collection<int, Book>

@@ -7,11 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\TimestampableTrait;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
 class Order
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -33,7 +37,7 @@ class Order
     private Collection $books;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $orderDate = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -120,14 +124,14 @@ class Order
         return $this;
     }
 
-    public function getOrderDate(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->orderDate;
+        return $this->createdAt;
     }
 
-    public function setOrderDate(\DateTimeInterface $orderDate): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
-        $this->orderDate = $orderDate;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -29,10 +29,17 @@ class FormatType extends AbstractType
             ->add('pagesCount', IntegerType::class)
             ->add('fileSize', NumberType::class)
             ->add('filePath', UrlType::class)
-            ->add('bookExtract', TextareaType::class)
+            ->add('bookExtract', UrlType::class)
             ->add('type', EntityType::class, [
                 'class' => Type::class,
+                'expanded' => true,
                 'choice_label' => 'name',
+                'row_attr' => [
+                    'class' => 'form-radio',
+                ],
+                'attr' => [
+                    'class' => 'radio',
+                ],
             ])
         ;
     }

@@ -15,8 +15,10 @@
                 <th>ID</th>
                 <th>Titre</th>
                 <th>Couverture</th>
-                <th>Résumé</th>
+                {# <th>Résumé</th> #}
                 <th>Contributeurs</th>
+                <th>Type</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,12 +29,12 @@
                     <td>{{ book.title }}</td>
                     <td>
                         {% if book.cover %}
-                            <img src="{{ asset(book.cover) }}" alt="{{ book.title }}" style="max-width: 40px;">
+                            <img src="{{ asset('img/livres/' ~ book.cover) }}" alt="{{ book.title }}" style="max-width: 40px;">
                         {% else %}
                             Pas de couverture
                         {% endif %}
                     </td>
-                    <td>{{ book.summary|length > 50 ? book.summary[:50] ~ '...' : book.summary }}</td>
+                    {# <td>{{ book.summary|length > 50 ? book.summary[:50] ~ '...' : book.summary }}</td> #}
                      <td>
                         {% for boSkCo in book.boSkCos %}
                             {% if boSkCo.skill.name == 'Auteur' %}
@@ -46,10 +48,11 @@
                         {% endfor %}
     
                     </td>
+                    <td>{{ book.status }}</td>
                     <td>
                         <a href="{{ path('book', { id: book.id }) }}" class="btn btn-info btn-sm">Voir</a>
                         <a href="{{ path('admin_book_edit', { id: book.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        <form method="post" action="{#{{ path('book_delete', { id: book.id }) }}#}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
+                        <form method="post" action="{{ path('admin_book_remove', { id: book.id }) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
                             <button class="btn btn-danger btn-sm">Supprimer</button>
                         </form>

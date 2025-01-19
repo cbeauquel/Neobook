@@ -8,10 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Entity\Traits\TimestampableTrait;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
+    use TimestampableTrait;
+
     #[Groups(['searchable'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -39,7 +43,7 @@ class Book
     private ?\DateTimeInterface $parutionDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $bookUpdate = null;
+    private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column]
     private ?bool $status = null;
@@ -48,7 +52,7 @@ class Book
      * @var Collection<int, KeyWords>
      */
     #[Groups(['searchable'])]
-    #[ORM\ManyToMany(targetEntity: KeyWords::class, mappedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: KeyWords::class, mappedBy: 'books', cascade: ['persist'])]
     private Collection $keyWords;
 
     /**
@@ -62,7 +66,7 @@ class Book
      * @var Collection<int, Format>
      */
     #[Groups(['searchable'])]
-    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books', cascade: ['persist'])]
     private Collection $formats;
 
     /**
@@ -78,7 +82,7 @@ class Book
     private Collection $orders;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDate = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @var Collection<int, Feedback>
@@ -95,7 +99,7 @@ class Book
      * @var Collection<int, BoSkCo>
      */
     #[Groups(['searchable'])]
-    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'book', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
     private Collection $boSkCos;
 
     public function __construct()
@@ -174,14 +178,14 @@ class Book
         return $this;
     }
 
-    public function getBookUpdate(): ?\DateTimeInterface
+    public function getUpdateAt(): ?\DateTimeInterface
     {
-        return $this->bookUpdate;
+        return $this->updatedAt;
     }
 
-    public function setBookUpdate(\DateTimeInterface $bookUpdate): static
+    public function setUpdateAt(\DateTimeInterface $updateAt): static
     {
-        $this->bookUpdate = $bookUpdate;
+        $this->updatedAt = $updateAt;
 
         return $this;
     }
@@ -330,14 +334,14 @@ class Book
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->creationDate;
+        return $this->createdAt;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
-        $this->creationDate = $creationDate;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -25,6 +25,9 @@
                 <label for="password">Mot de passe</label>
                 <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
             </div>
+                {% if error %}
+                    <p>Mot de passe oublié ? <a href="" class="button">réinitialiser mon mot de passe</a></p>
+                {% endif %}
                 <input type="hidden" name="_csrf_token"
                     value="{{ csrf_token('authenticate') }}"
                 >
@@ -42,6 +45,10 @@
         <button class btype="submit">
             Se connecter
         </button>
+        {% if error %}
+            <p>Si vous n'êtes pas encore inscrit, vous pouvez <a href="{{path('app_register')}}" class="button">Créer un compte</a></p>
+        {% endif %}
     </form>
+
 </section>
 {% endblock %}

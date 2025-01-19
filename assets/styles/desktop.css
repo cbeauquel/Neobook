@@ -65,6 +65,7 @@ section > h1 {
     text-align: center;
     border-bottom:solid 3px var(--fontLight);
     margin-bottom:-3px;
+    width:100%;
 }
 
 h2 {
@@ -79,6 +80,22 @@ h3 {
     font-size:1.1em;
     font-weight:600;
     text-align: center;
+}
+
+button{
+    margin: 0px 20px;
+    color: var(--fontDark);
+    text-decoration: none;
+    align-items: center;
+    background-color: var(--backgroundDark);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+a {
+    cursor:pointer;
 }
 
 /**
@@ -312,6 +329,11 @@ footer {
     justify-content: space-around;
     width:60%;
     margin:30px auto;
+    background-color: var(--backgroundItem);
+    border-radius:20px;
+    margin:40px auto;
+    padding:40px;
+
 }
 
 .form-row{
@@ -336,20 +358,10 @@ footer {
     border-radius:15px;
     border:2px solid var(--fontDark);
     background-color: var(--background);
-    padding:15px 20px;
+    padding:5px 20px;
 }
 
-.login button{
-    margin: 0px 20px;
-    color: var(--fontDark);
-    text-decoration: none;
-    align-items: center;
-    background-color: var(--backgroundDark);
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 1.2em;
-    cursor: pointer;
-}
+
 
 /****************************CUSTOMER ACCOUNT*********************************/
 .book-card h2{
@@ -401,7 +413,6 @@ a.account-content:hover{
 affichage des catégories en home
 */
 .categories {
-    padding:5px 10px 15px 10px;
     margin:10px;
     width:15.6%;
     background: var(--backgroundDark);
@@ -457,6 +468,10 @@ section > h2 {
     text-align:center;
     font-weight:500;
     font-size:1.1em;
+}
+
+.book-skill{
+    min-width:28%;
 }
 
 .book-title {
@@ -600,11 +615,9 @@ H1.search-results{
 
 .prices button {
     width:40%;
-    height:30px;
     border:none;
     background: var(--linkColor);
     color:var(--fontDark);
-    padding:5px 0px 10px 0px;
     border-radius:10px;
     font-weight: 600;
     font-size:1.1em;

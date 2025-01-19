@@ -80,7 +80,7 @@ HEADER
 }
 
 .admin-container h1{
-    width:70%;
+    width:100%;
     text-align:center;
     margin-bottom:30px;
 }
@@ -102,9 +102,6 @@ HEADER
 }
 
 /*********************************FORMULAIRES************************************************/
-.form-container{
-    width:100%;
-}
 
 .form-row label{
     margin:5px;
@@ -112,13 +109,123 @@ HEADER
 
 .form-row input{
     margin:5px;
+    border-radius:5px;
 }
 
 .form-row div{
     width:100%;
 }
 
-
 #book_status{
     width:3%;
 }
+
+.form-book-category{
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-bottom:solid 1px var(--fontDark);
+    margin-bottom: 20px;
+    padding-bottom:10px;
+    border-bottom:solid 1px var(--fontDark);
+}
+
+.form-book-editor{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: flex-start;
+    gap: 30px;
+    border-bottom:solid 1px var(--fontDark);
+    margin-bottom: 30px;
+    padding-bottom:10px;
+    border-bottom:solid 1px var(--fontDark);
+
+}
+
+.form-book-editor label{
+    width:22%;
+}
+
+.form-book-contributor{
+    margin-bottom: 30px;
+    padding-bottom:10px;
+    border-bottom:solid 1px var(--fontDark);
+}
+
+.form-checkbox{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: flex-start;
+
+}
+
+input.checkbox{
+    width:3%;
+}
+
+.form-book-contributor div div{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.form-book-formats{
+    margin-top:30px;
+    border-top:solid 1px var(--fontDark);
+}
+
+.form-select{
+    width:60%;
+    margin-left:3px;
+}
+
+.form-radio{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items:center;
+}
+
+.radio{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items:center;
+}
+
+.form-radio label{
+    width:40%;
+}
+
+.radio input{
+    width:3%;
+    margin-left:3px;
+}
+
+button.delete {
+    background-color: var(--linkColor);
+    padding: 3px;
+    font-size:1.2em;
+    border: none;
+    border-radius:3px;
+    float:right;
+}
+
+button.add {
+    background-color: var(--fontLight);
+    padding: 3px;
+    font-size:1.2em;
+    border: none;
+    border-radius:3px;
+}
+
+.label-c{
+    padding:5px;
+}
+

@@ -8,11 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Entity\Traits\TimestampableTrait;
 
-
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContributorRepository::class)]
 class Contributor
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -32,16 +35,16 @@ class Contributor
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    #[ORM\Column]
+    private ?bool $status = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateAdd = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @var Collection<int, BoSkCo>
      */
-    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'contributor', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'contributor', orphanRemoval: true, cascade: ['persist'])]
     private Collection $boSkCos;
 
     #[ORM\Column(length: 255)]
@@ -105,26 +108,26 @@ class Contributor
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function isStatus(): ?bool
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(bool $status): static
     {
         $this->status = $status;
 
         return $this;
     }
 
-    public function getDateAdd(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->dateAdd;
+        return $this->createdAt;
     }
 
-    public function setDateAdd(\DateTimeInterface $dateAdd): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
-        $this->dateAdd = $dateAdd;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
