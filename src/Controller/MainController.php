@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(BoSkCoRepository $boSkCoRepository, BookRepository $bookRepository, CategoryRepository $categoryRepository): Response
+    public function index(BookRepository $bookRepository, CategoryRepository $categoryRepository): Response
     {
         $upcomingBooks = $bookRepository->findByDate();
         $categories = $categoryRepository->findall();

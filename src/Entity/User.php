@@ -10,17 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ORM\HasLifecycleCallbacks]
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Email]
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
@@ -33,45 +41,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
+    #[Assert\PasswordStrength]
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $registrationDate = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastVisitDate = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column]
     private ?bool $optIn = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $preference = null;
 
     /**
      * @var Collection<int, Basket>
      */
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Basket::class, mappedBy: 'customer')]
     private Collection $baskets;
 
     /**
      * @var Collection<int, Order>
      */
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
     private Collection $orders;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $nickname = null;
 
     /**
      * @var Collection<int, Feedback>
      */
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'nickName', orphanRemoval: true)]
     private Collection $feedbacks;
 
@@ -184,14 +198,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRegistrationDate(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->registrationDate;
+        return $this->createdAt;
     }
 
-    public function setRegistrationDate(\DateTimeInterface $registrationDate): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
-        $this->registrationDate = $registrationDate;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -21,7 +21,13 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('firstname', TextType::class)
             ->add('lastname', TextType::class)
-            ->add('optIn', CheckboxType::class)
+            ->add('optIn', CheckboxType::class, [
+                'row_attr' => [
+                    'class' => 'form-checkbox',
+                    ],
+                'attr' => [
+                'class' => 'checkbox'
+                ]])
             ->add('email', EmailType::class)
             // ->add('agreeTerms', CheckboxType::class, [
             //     'mapped' => false,
@@ -48,6 +54,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('nickName', TextType::class);
+            // ->add('createdAt', null, [
+            //     'widget' => 'single_text',
+            // ])
         ;
     }
 

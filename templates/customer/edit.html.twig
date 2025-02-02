@@ -7,8 +7,7 @@
     <p>Fil d'ariane</p>
 </div>
 <section class="list">
-    <form class="login" method="post">
-    <div class="form-container">
+     <div class="form-container">
        <h1>Compte de {{app.user.firstname}}</h1>
        {{ form_start(form) }}
         <div class="form-row">
@@ -26,7 +25,6 @@
         <button type="submit" class="button button-submit">Envoyer</button>
         {{ form_end(form) }}
     </div>
-    </form>
 </section>
 
 {% endblock %}

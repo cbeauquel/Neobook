@@ -66,6 +66,7 @@ section > h1 {
     border-bottom:solid 3px var(--fontLight);
     margin-bottom:-3px;
     width:100%;
+    padding-bottom:10px;
 }
 
 h2 {
@@ -333,7 +334,10 @@ footer {
     border-radius:20px;
     margin:40px auto;
     padding:40px;
+}
 
+.form-container form{
+    width:100%;
 }
 
 .form-row{
@@ -653,8 +657,6 @@ H1.search-results{
     height:60px;
 }
 
-
-
 /*Bannière taille du fichier et boutons extraits*/
 .banner{
     display:flex;
@@ -684,4 +686,38 @@ H1.search-results{
 /*************affichage d'une fiche Contributeur********************/
 .contributor-detail{
     background: var(--backgroundItem);
+}
+
+/****************************************PANIER et COMMANDE***********************************/
+.basket-container{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    width:100%;
+}
+
+.basket-container table{
+    width:70%;
+}
+
+.basket-tfoot{
+    background-color: var(--backgroundItem);
+    font-weight:700;
+}
+
+.basket-foot{
+    width:70%;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap:400px;
+}
+
+.basket-foot a{
+    display:flex;
+}
+
+.basket-foot button{
+    background-color: var(--linkColor);
+    border:none;
 }

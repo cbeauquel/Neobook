@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre commande{% endblock %}
+
+{% block body %}
+{#Fil d'ariane#}
+<div class="breadcrumb">
+    <p>Fil d'ariane</p>
+</div>
+<section>
+    {#Bloc #}
+    <div class="contributor-detail">
+            <h1>Ma commande</h1>
+
+    </div>
+
+    {% if basket %}
+    <div class="basket-container">
+        <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Couverture</th>
+                <th>Type</th>
+                <th>Prix HT</th>
+                <th>Prix TTC</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for format in basket.formats %}
+                <tr>
+                {% for books in format.books %}
+                    <td>{{ books.title }}</td>
+                    <td>
+                    <a href="{{path('book', {id: books.id})}}" title="voir le livre">
+                        {% if books.cover %}
+                            <img src="{{ asset('img/livres/' ~ books.cover) }}" alt="{{ books.title }}" style="max-width: 40px;">
+                        {% else %}
+                            Pas de couverture
+                        {% endif %}
+                    </a>
+                    </td>
+                {% endfor %}
+                    <td>
+                        <p>{{format.type.name}}</p>
+                    </td>
+                    <td>
+                        {{format.priceHT}} €
+                    </td>
+                    <td>
+                        {{format.priceTTC}} €
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="basket-tfoot">
+                <td colspan="3">TOTAL</td>
+                <td>{{ basket.totalHT }} €</td>
+                <td>{{ basket.totalTTC }} €</td>
+            </tr>
+        </tfoot>
+    </table>   
+    {% else %}
+        <p class="center">Votre panier est vide</p>
+    {% endif %}
+    <div class="basket-foot">
+        <a class="button" href="{{path('order_view', {id: basket.id})}}">Je paye et télécharge mon livre</a>
+        <a href="{{path('home')}}" title="retour à l'accueil">Continuer mes achats</a>
+    </div>
+</section>
+
+{% endblock %}

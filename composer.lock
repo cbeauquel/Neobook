@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2e9d1fc64e802dc4ea627358dcfd8932",
+    "content-hash": "3f6037e295ff58f9eb3ec2fc970c3cea",
     "packages": [
         {
             "name": "composer/semver",
@@ -1784,6 +1784,56 @@
                 }
             ],
             "time": "2024-09-09T07:06:30+00:00"
+        },
+        {
+            "name": "payplug/payplug-php",
+            "version": "3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/payplug/payplug-php.git",
+                "reference": "c85ed7efa93f3395b4d644429451c374c3d41c5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/payplug/payplug-php/zipball/c85ed7efa93f3395b4d644429451c374c3d41c5f",
+                "reference": "c85ed7efa93f3395b4d644429451c374c3d41c5f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-openssl": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phpunit/phpunit": "5.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Payplug\\": "lib/"
+                },
+                "psr-4": {
+                    "Payplug\\": "lib/Payplug"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayPlug",
+                    "email": "support@payplug.com"
+                }
+            ],
+            "description": "A simple PHP library for PayPlug public API.",
+            "homepage": "https://www.payplug.com",
+            "support": {
+                "issues": "https://github.com/payplug/payplug-php/issues",
+                "source": "https://github.com/payplug/payplug-php/tree/3.6.0"
+            },
+            "time": "2015-05-06T00:00:00+00:00"
         },
         {
             "name": "php-http/discovery",

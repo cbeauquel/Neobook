@@ -88,16 +88,15 @@ class BookType extends AbstractType
             ->add('parutionDate', null, [
                 'widget' => 'single_text',
             ])
-            // ->add('updatedAt')
             ->add('status', CheckboxType::class,  [
+                'required' => false,
                 'row_attr' => [
                 'class' => 'form-checkbox',
                 ],
                 'attr' => [
-                'class' => 'checkbox'
+                    'class' => 'checkbox',
                 ],
             ])
-            // ->add('createdAt')
             // ->add('keyWords', EntityType::class, [
             //     'class' => KeyWords::class,
             //     'choice_label' => 'id',
@@ -108,13 +107,21 @@ class BookType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'entry_options' => ['label' => false],
+                'entry_options' => [
+                    'label' => false,
+                    'attr' =>[
+                        'data-taux-group' => true,
+                        'class' => 'book-formats',
+                ],
+
+                ],
                 'attr' => [
                     'data-controller' => 'form-collection',
                 ],
-                'row_attr' => ['class' => 'form-book-formats']
+                'row_attr' => ['
+                    class' => 'form-book-formats',
+                    ]
             ])
-
         ;
     }
 

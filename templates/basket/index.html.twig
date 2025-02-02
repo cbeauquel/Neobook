@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+{#Fil d'ariane#}
+<div class="breadcrumb">
+    <p>Fil d'ariane</p>
+</div>
+<section>
+    {#Bloc #}
+    <div class="contributor-detail">
+        {% if basket %}
+            <h1>Panier</h1>
+        {% else %}
+            <h1>Panier vide</h1>
+        {% endif %}
+    </div>
+    {% if basket %}
+    <div class="basket-container">
+        <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Couverture</th>
+                <th>Type</th>
+                <th>Prix HT</th>
+                <th>Prix TTC</th>
+                <th>Retirer</th>
+            </tr>
+        </thead>
+        <tbody>           
+        {% for format in basket %}            
+            <tr>
+            {% for book in format.books %}
+                <td>{{ book.title }}</td>
+                <td>
+                <a href="{{path('book', {id: book.id})}}" title="voir le livre">
+                    {% if book.cover %}
+                        <img src="{{ asset('img/livres/' ~ book.cover) }}" alt="{{ book.title }}" style="max-width: 40px;">
+                    {% else %}
+                        Pas de couverture
+                    {% endif %}
+                </a>
+                </td>
+            {% endfor %}
+                <td>
+                    <p>{{format.type.name}}</p>
+                </td>
+                <td>
+                    {{format.priceHT}} €
+                </td>
+                <td>
+                    {{format.priceTTC}} €
+                </td>
+                <td>                           
+                    <form method="post" action="{{ path('basket_remove', {formatId: format.id } ) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ format.id) }}">
+                        <button class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="basket-tfoot">
+                <td colspan="3">TOTAL</td>
+                <td>{{ totalHT }} €</td>
+                <td>{{ totalTTC }} €</td>
+            </tr>
+        </tfoot>
+    </table>   
+    {% else %}
+        <p class="center">Votre panier est vide</p>
+    {% endif %}
+    <div class="basket-foot">
+        {% if basket %}
+            <a class="button" href="{{path('order_view', {id: orderBasket.id})}}">Je commande</a>
+        {% endif %}
+        <a href="{{path('home')}}" title="retour à l'accueil">Continuer mes achats</a>
+    </div>
+</section>
+
+{% endblock %}

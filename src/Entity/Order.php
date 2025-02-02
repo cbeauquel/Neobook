@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Traits\TimestampableTrait;
 
 #[ORM\HasLifecycleCallbacks]
@@ -21,28 +22,31 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column]
     private ?bool $newCustomer = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column]
     private ?float $amount = null;
 
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?User $customer = null;
 
     /**
-     * @var Collection<int, book>
+     * @var Collection<int, Book>
      */
-    #[ORM\ManyToMany(targetEntity: book::class, inversedBy: 'orders')]
+    #[Assert\Valid]
+    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'orders')]
     private Collection $books;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
-
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderStatus $status = null;
 
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Payment $paymentMode = null;
@@ -50,6 +54,7 @@ class Order
     /**
      * @var Collection<int, Download>
      */
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Download::class, mappedBy: 'oderDownload', orphanRemoval: true)]
     private Collection $downloads;
 
@@ -101,14 +106,14 @@ class Order
     }
 
     /**
-     * @return Collection<int, book>
+     * @return Collection<int, Book>
      */
     public function getBooks(): Collection
     {
         return $this->books;
     }
 
-    public function addBook(book $book): static
+    public function addBook(Book $book): static
     {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
@@ -117,21 +122,9 @@ class Order
         return $this;
     }
 
-    public function removeBook(book $book): static
+    public function removeBook(Book $book): static
     {
         $this->books->removeElement($book);
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

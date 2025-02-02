@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\DownloadRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DownloadRepository::class)]
 class Download
@@ -14,18 +15,26 @@ class Download
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Date]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $expirationDate = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $downloadUrl = null;
 
+    #[Assert\NotBlank]
+    #[Assert\PositiveOrZero]
     #[ORM\Column]
     private ?int $downloadCount = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     #[ORM\Column]
     private ?int $maxAttempts = null;
 
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'downloads')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $oderDownload = null;

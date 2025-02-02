@@ -6,6 +6,8 @@ use App\Repository\PaymentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
@@ -15,12 +17,14 @@ class Payment
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $mode = null;
 
     /**
      * @var Collection<int, Order>
      */
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'paymentMode')]
     private Collection $orders;
 

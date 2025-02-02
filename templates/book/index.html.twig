@@ -52,14 +52,21 @@
             </div>
             <div class="card prices">
                 <h2>Prix et formats</h2>
-                {% for format in book.formats %}
-                    <div class="price-format">
-                        <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
-                        <p>{{format.priceHT}}€</p>
+                {% if date(book.parutionDate) > date("now") %}
+                    Disponibe à partir du {{book.parutionDate | date("d/m/Y")}}
+                {% else %}
+                    <form method="post" action="{{path('basket_add', {id: book.id})}}" class="price-format">
+                            {% for format in book.formats %}
+                            <label>
+                                <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
+                                <p>{{format.priceTTC}}€</p>
+                                <input type="checkbox" id="{{format.id}}" name="format[]" value="{{format.id}}">
+                            </label>
+                            {% endfor %}
+                        <button type="submit">J'achète</button>
+                    </form>
 
-                    </div>
-                {% endfor %}
-                <button>J'achète</button>
+                {% endif %}
             </div>
         </div>
         <div class="banner">
@@ -85,20 +92,20 @@
                 {% endif %}
             {% endfor %}  
             <div class="list">
-            {% for format in book.formats %}
-                {% if format.type.name == 'eBook' %}
-                <a class="extract" href="" title="">
-                    <p>Lire un extrait:&nbsp;</p>
-                    <span class="material-symbols-outlined"> {{format.type.typeImg}}</span>
-                </a>
-                {% endif %}
-                {% if format.type.name == 'Audio' %}
-                <a class="extract" href="" title="">
-                    <p>Écouter un extrait:&nbsp;</p>
-                    <span class="material-symbols-outlined"> {{format.type.typeImg}}</span>
-                </a>
-                {% endif %}
-            {% endfor %}
+                {% for format in book.formats %}
+                    {% if format.type.name == 'eBook' %}
+                    <a class="extract" href="" title="">
+                        <p>Lire un extrait:&nbsp;</p>
+                        <span class="material-symbols-outlined"> {{format.type.typeImg}}</span>
+                    </a>
+                    {% endif %}
+                    {% if format.type.name == 'Audio' %}
+                    <a class="extract" href="" title="">
+                        <p>Écouter un extrait:&nbsp;</p>
+                        <span class="material-symbols-outlined"> {{format.type.typeImg}}</span>
+                    </a>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>

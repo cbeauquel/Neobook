@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: FormatRepository::class)]
@@ -18,48 +19,77 @@ class Format
     private ?int $id = null;
     
     #[Groups(['searchable'])]
+    // #[Assert\Isbn(
+    //     type:Assert\Isbn::ISBN_13
+    // )]
+    #[Assert\Length(min:13, max:13)]
     #[ORM\Column(length: 13)]
     private ?string $ISBN = null;
 
+    #[Assert\NotBlank]
     #[Groups(['searchable'])]
     #[ORM\Column]
     private ?float $priceHT = null;
 
+    #[Assert\PositiveOrZero]
     #[Groups(['searchable'])]
     #[ORM\Column]
     private ?int $duration = null;
 
+    #[Assert\PositiveOrZero]
     #[Groups(['searchable'])]
     #[ORM\Column]
     private ?int $wordsCount = null;
 
+    #[Assert\PositiveOrZero]
     #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?int $pagesCount = null;
 
+    #[Assert\PositiveOrZero]
     #[ORM\Column]
     private ?float $fileSize = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $filePath = null;
 
     /**
      * @var Collection<int, Book>
      */
-    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'formats')]
+    #[Assert\NotBlank]
+    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'formats', cascade: ['persist'])]
     private Collection $books;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bookExtract = null;
 
     #[Groups(['searchable'])]
-    #[ORM\ManyToOne(inversedBy: 'formatType')]
+    #[Assert\Valid]
+    #[ORM\ManyToOne(inversedBy: 'formatType', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;
+
+    #[Assert\NotBlank]
+    #[ORM\Column]
+    private ?float $priceTTC = null;
+
+    #[Assert\NotBlank]
+    #[ORM\ManyToOne(inversedBy: 'formats')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tva $tvaRate = null;
+
+    /**
+     * @var Collection<int, Basket>
+     */
+    #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'formats', cascade: ['persist'])]
+    private Collection $baskets;
 
     public function __construct()
     {
         $this->books = new ArrayCollection();
+        $this->baskets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +228,57 @@ class Format
     public function setType(?Type $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getPriceTTC(): ?float
+    {
+        return $this->priceTTC;
+    }
+
+    public function setPriceTTC(float $priceTTC): static
+    {
+        $this->priceTTC = $priceTTC;
+
+        return $this;
+    }
+
+    public function getTvaRate(): ?Tva
+    {
+        return $this->tvaRate;
+    }
+
+    public function setTvaRate(?Tva $TvaRate): static
+    {
+        $this->tvaRate = $TvaRate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Basket>
+     */
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
+    }
+
+    public function addBasket(Basket $basket): static
+    {
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets->add($basket);
+            $basket->addFormat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasket(Basket $basket): static
+    {
+        if ($this->baskets->removeElement($basket)) {
+            $basket->removeFormat($this);
+        }
 
         return $this;
     }

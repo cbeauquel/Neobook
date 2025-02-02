@@ -7,6 +7,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: FeedbackRepository::class)]
@@ -19,20 +21,21 @@ class Feedback
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'feedbacks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $nickName = null;
 
+    #[Assert\PositiveOrZero]
     #[Groups(['searchable'])]
     #[ORM\Column]
     private ?int $stars = null;
 
+    #[Assert\WordCount(min: 1, max: 200)]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
-
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(inversedBy: 'feedbacks')]
     private ?Book $book = null;
 
@@ -73,18 +76,6 @@ class Feedback
     public function setComment(?string $comment): static
     {
         $this->comment = $comment;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

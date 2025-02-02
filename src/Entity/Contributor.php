@@ -9,6 +9,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContributorRepository::class)]
@@ -21,32 +23,37 @@ class Contributor
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
+    #[Assert\NotBlank]
     #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
+    #[Assert\NotBlank]
+    #[Assert\WordCount(min: 10, max: 400)]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $bio = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column]
     private ?bool $status = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @var Collection<int, BoSkCo>
      */
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'contributor', orphanRemoval: true, cascade: ['persist'])]
     private Collection $boSkCos;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
@@ -116,18 +123,6 @@ class Contributor
     public function setStatus(bool $status): static
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

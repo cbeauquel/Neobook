@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: EditorRepository::class)]
@@ -24,24 +25,27 @@ class Editor
     private ?int $id = null;
 
     #[Groups(['searchable'])]
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $logo = null;
 
+    #[Assert\NotBlank]
+    #[Assert\WordCount(min: 10, max: 400)]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column]
     private ?bool $status = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @var Collection<int, Book>
      */
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'editor', orphanRemoval: true)]
     private Collection $books;
 
@@ -102,27 +106,6 @@ class Editor
 
         return $this;
     }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-   // Méthode pour automatiser la date de création
-   #[ORM\PrePersist]
-   public function setCreatedAtValue(): void
-   {
-       if ($this->createdAt === null) {
-           $this->createdAt = new \DateTime(); // Définit la date actuelle
-       }
-   }
 
     /**
      * @return Collection<int, Book>

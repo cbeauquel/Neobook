@@ -41,7 +41,6 @@ class AdminBookController extends AbstractController
 
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid() ){
             foreach ($book->getBoSkCos() as $boSkCo) {
                 if (!$boSkCo->getContributor()) {
@@ -66,10 +65,11 @@ class AdminBookController extends AbstractController
             } else {
                 $newCoverName = $book->getCover();
             }
-
+            
             // updates the 'CoverName' property to store the IMG file name
             // instead of its contents
-            $book->setCover($newCoverName);
+            $book->setCover($newCoverName);          
+
             $manager->persist($book);
             $manager->flush();
             

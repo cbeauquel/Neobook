@@ -20,12 +20,14 @@ class CustomerType extends AbstractType
             ->add('email', EmailType::class)
             ->add('firstname', TextType::class)
             ->add('lastname', TextType::class)
-            ->add('optIn', CheckboxType::class)
-            ->add('preference', EntityType::class, [
-                  'class' => Category::class,
-                  'choice_label' => 'name',
-                  'multiple' => true,
-                  'by_reference' => false,])
+            ->add('optIn', CheckboxType::class, [
+                'row_attr' => [
+                    'class' => 'form-checkbox',
+                    ],
+                'attr' => [
+                'class' => 'checkbox'
+                ]])
+            ->add('preference', TextType::class)
             ->add('nickname', TextType::class)
         ;
     }

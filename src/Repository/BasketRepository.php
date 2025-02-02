@@ -15,7 +15,38 @@ class BasketRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Basket::class);
     }
+        /**
+         * @return Basket
+         */
+       public function findBasketByCustomerOrUserToken(?object $customer, ?string $userToken): ?Basket
+       {
+           return $this->createQueryBuilder('b')
+               ->Where('b.customer = :customer')
+               ->orWhere('b.userToken = :userToken')
+               ->setParameter('customer', $customer)
+               ->setParameter('userToken', $userToken)
+               ->andWhere('b. status = :status' )
+               ->setParameter('status', 'En cours')
+               ->getQuery()
+               ->getOneOrNullResult()
+           ;
+       }
 
+        // /**
+        //  * @return Basket
+        //  */
+        // public function findBasketByUserToken($value): ?Basket
+        // {
+        //     return $this->createQueryBuilder('b')
+        //         ->andWhere('b.userToken = :val')
+        //         ->setParameter('val', $value)
+        //         ->andWhere('b. status = :status' )
+        //         ->setParameter('status', 'En cours')
+        //         ->getQuery()
+        //         ->getOneOrNullResult()
+        //     ;
+        // }
+ 
     //    /**
     //     * @return Basket[] Returns an array of Basket objects
     //     */

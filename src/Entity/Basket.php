@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use App\Enum\BasketStatus;
 use App\Repository\BasketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[ORM\HasLifecycleCallbacks]
@@ -21,24 +23,37 @@ class Basket
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'baskets')]
     private ?User $customer = null;
 
-    #[ORM\Column]
-    private ?float $amount = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $userToken = null;
 
     /**
-     * @var Collection<int, Book>
+     * @var Collection<int, Format>
      */
-    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'baskets')]
-    private Collection $books;
+    #[Assert\Valid]
+    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'baskets', cascade: ['persist'])]
+    private Collection $formats;
+
+    #[Assert\NotBlank()]
+    #[ORM\Column]
+    private ?float $totalHT = null;
+
+    #[Assert\NotBlank()]
+    #[ORM\Column]
+    private ?float $totalTTC = null;
+
+    #[ORM\Column(type: 'string', enumType: BasketStatus::class)]
+    private BasketStatus $status;
 
     public function __construct()
     {
-        $this->books = new ArrayCollection();
+        $this->formats = new ArrayCollection();
+        $this->status = BasketStatus::IN_PROGRESS; // Initialisation par défaut
+        $this->totalHT = '0';
+        $this->totalTTC = '0';
     }
 
     public function getId(): ?int
@@ -58,50 +73,94 @@ class Basket
         return $this;
     }
 
-    public function getAmount(): ?float
-    {
-        return $this->amount;
-    }
-
-    public function setAmount(float $amount): static
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
+    public function getUserToken(): ?string
     {
-        $this->createdAt = $createdAt;
+        return $this->userToken;
+    }
+
+    public function setUserToken(string $userToken): static
+    {
+        $this->userToken = $userToken;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+
+    /**
+     * @return Collection<int, Format>
+     */
+    public function getFormats(): Collection
+    {
+        return $this->formats;
+    }
+
+    public function addFormat(Format $format): static
+    {
+        if (!$this->formats->contains($format)) {
+            $this->formats->add($format);
+        }
+
+        return $this;
+    }
+    
+    public function setFormats(Collection $formats): self
+    {
+        $this->formats = $formats;
+        return $this;
+    }
+
+    public function removeFormat(Format $format): static
+    {
+        $this->formats->removeElement($format);
+
+        return $this;
+    }
+
+    public function getTotalHT(): ?float
+    {
+        return $this->totalHT;
+    }
+
+    public function setTotalHT(float $totalHT): static
+    {
+        $this->totalHT = $totalHT;
+
+        return $this;
+    }
+
+    public function getTotalTTC(): ?float
+    {
+        return $this->totalTTC;
+    }
+
+    public function setTotalTTC(float $totalTTC): static
+    {
+        $this->totalTTC = $totalTTC;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Book>
+     * @return BasketStatus[]
      */
-    public function getBooks(): Collection
+    public function getStatus(): BasketStatus
     {
-        return $this->books;
+        return $this->status;
     }
 
-    public function addBook(Book $book): static
+    public function setStatus(BasketStatus $status): static
     {
-        if (!$this->books->contains($book)) {
-            $this->books->add($book);
-        }
-
-        return $this;
-    }
-
-    public function removeBook(Book $book): static
-    {
-        $this->books->removeElement($book);
+        $this->status = $status;
 
         return $this;
     }

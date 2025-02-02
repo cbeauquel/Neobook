@@ -3,10 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\BoSkCoRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: BoSkCoRepository::class)]
@@ -17,19 +16,21 @@ class BoSkCo
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(inversedBy: 'boSkCos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
 
+    #[Assert\Valid]
     #[Groups(['searchable'])]
     #[ORM\ManyToOne(inversedBy: 'boSkCos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contributor $contributor = null;
 
+    #[Assert\Valid]
     #[Groups(['searchable'])]
     #[ORM\ManyToOne(inversedBy: 'boSkCos')]
     #[ORM\JoinColumn(nullable: false)]
-    #[ORM\JoinColumn]
     private ?Skill $skill = null;
 
     public function getId(): ?int

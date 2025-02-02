@@ -36,7 +36,7 @@
                         <p>Connexion <span class="material-symbols-outlined">person</span></p>
                     </a>
                 {% endif %}
-                    <a>
+                    <a href="{{path('basket_view')}}" title="voir le panier">
                         <p>Panier <span class="material-symbols-outlined">shopping_basket</span></p>
                     </a>
             </nav>
@@ -56,7 +56,7 @@
                     <li><a href="" title="">Conditions d'utilisation</a></li>
                     <li><a href="" title="">Qui sommes-nous ?</a></li>
                     <li><a href="" title="">Comment faire ?</a></li>
-                    <li><a href="" title="">Plan du site</a></li>
+                    <li><a href="{{path('admin_book')}}" title="">Plan du site</a></li>
                  </ul>
             </div>
             <div class="footer-column">

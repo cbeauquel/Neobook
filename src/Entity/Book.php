@@ -9,6 +9,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
@@ -23,28 +25,32 @@ class Book
     private ?int $id = null;
 
     #[Groups(['searchable'])]
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
     #[Groups(['searchable'])]
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
     #[Groups(['searchable'])]
+    #[Assert\NotBlank]
+    #[Assert\WordCount(min: 10, max: 400)]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $summary = null;
 
     #[Groups(['searchable'])]
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $genre = null;
 
     #[Groups(['searchable'])]
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $parutionDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $updatedAt = null;
-
+    // #[Assert\NotBlank]
     #[ORM\Column]
     private ?bool $status = null;
 
@@ -52,6 +58,7 @@ class Book
      * @var Collection<int, KeyWords>
      */
     #[Groups(['searchable'])]
+    #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: KeyWords::class, mappedBy: 'books', cascade: ['persist'])]
     private Collection $keyWords;
 
@@ -59,6 +66,7 @@ class Book
      * @var Collection<int, Category>
      */
     #[Groups(['searchable'])]
+    #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'books')]
     private Collection $categories;
 
@@ -66,31 +74,33 @@ class Book
      * @var Collection<int, Format>
      */
     #[Groups(['searchable'])]
+    #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books', cascade: ['persist'])]
     private Collection $formats;
 
     /**
      * @var Collection<int, Basket>
      */
+    #[Assert\NotBlank]
     #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'books')]
     private Collection $baskets;
 
     /**
      * @var Collection<int, Order>
      */
+    #[Assert\NotBlank]
     #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'books')]
     private Collection $orders;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @var Collection<int, Feedback>
      */
+    #[Assert\Valid]
     #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'book')]
     private Collection $feedbacks;
 
     #[Groups(['searchable'])]
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
@@ -98,6 +108,7 @@ class Book
     /**
      * @var Collection<int, BoSkCo>
      */
+    #[Assert\Valid]
     #[Groups(['searchable'])]
     #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
     private Collection $boSkCos;
@@ -181,13 +192,6 @@ class Book
     public function getUpdateAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
-    }
-
-    public function setUpdateAt(\DateTimeInterface $updateAt): static
-    {
-        $this->updatedAt = $updateAt;
-
-        return $this;
     }
 
     public function isStatus(): ?bool
@@ -286,25 +290,6 @@ class Book
     public function getBaskets(): Collection
     {
         return $this->baskets;
-    }
-
-    public function addBasket(Basket $basket): static
-    {
-        if (!$this->baskets->contains($basket)) {
-            $this->baskets->add($basket);
-            $basket->addBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBasket(Basket $basket): static
-    {
-        if ($this->baskets->removeElement($basket)) {
-            $basket->removeBook($this);
-        }
-
-        return $this;
     }
 
     /**
