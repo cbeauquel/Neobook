@@ -24,12 +24,12 @@ class Contributor
     private ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
     #[Assert\NotBlank]
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 

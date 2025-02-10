@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,9 +19,16 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class AdminBookController extends AbstractController
 {
     #[Route('/admin/book', name: 'admin_book')]
-    public function listAllBooks(BookRepository $bookRepository): Response
+    public function listAllBooks(BookRepository $bookRepository, Request $request): Response
     {
-        $allBooks = $bookRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $limit = 10;
+
+        try {
+            $allBooks = $bookRepository->findPaginatedBooks($page, $limit);
+        } catch (NotValidCurrentPageException $e) {
+            return $this->json(['error' => 'Page non valide'], 400);
+        }
         
 
         return $this->render('admin/adminBook.html.twig', [

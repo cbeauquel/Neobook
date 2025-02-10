@@ -26,20 +26,9 @@ class Order
     #[ORM\Column]
     private ?bool $newCustomer = null;
 
-    #[Assert\NotBlank]
-    #[ORM\Column]
-    private ?float $amount = null;
-
     #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?User $customer = null;
-
-    /**
-     * @var Collection<int, Book>
-     */
-    #[Assert\Valid]
-    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'orders')]
-    private Collection $books;
 
     #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'orders')]
@@ -48,21 +37,23 @@ class Order
 
     #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Payment $paymentMode = null;
 
-    /**
-     * @var Collection<int, Download>
-     */
-    #[Assert\NotBlank]
-    #[ORM\OneToMany(targetEntity: Download::class, mappedBy: 'oderDownload', orphanRemoval: true)]
-    private Collection $downloads;
+    #[ORM\OneToOne(inversedBy: 'orderId', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Basket $basket = null;
 
-    public function __construct()
-    {
-        $this->books = new ArrayCollection();
-        $this->downloads = new ArrayCollection();
-    }
+    #[ORM\OneToOne(inversedBy: 'user_token_id', cascade: ['persist', 'remove'])]
+    private ?Basket $user_token = null;
+
+    #[Assert\NotBlank]
+    #[ORM\Column]
+    private ?float $TotalHT = null;
+
+    #[Assert\NotBlank]
+    #[ORM\Column]
+    private ?float $TotalTTC = null;
 
     public function getId(): ?int
     {
@@ -81,18 +72,6 @@ class Order
         return $this;
     }
 
-    public function getAmount(): ?float
-    {
-        return $this->amount;
-    }
-
-    public function setAmount(float $amount): static
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
     public function getCustomer(): ?User
     {
         return $this->customer;
@@ -101,30 +80,6 @@ class Order
     public function setCustomer(?User $customer): static
     {
         $this->customer = $customer;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Book>
-     */
-    public function getBooks(): Collection
-    {
-        return $this->books;
-    }
-
-    public function addBook(Book $book): static
-    {
-        if (!$this->books->contains($book)) {
-            $this->books->add($book);
-        }
-
-        return $this;
-    }
-
-    public function removeBook(Book $book): static
-    {
-        $this->books->removeElement($book);
 
         return $this;
     }
@@ -153,32 +108,50 @@ class Order
         return $this;
     }
 
-    /**
-     * @return Collection<int, Download>
-     */
-    public function getDownloads(): Collection
+    public function getBasket(): ?Basket
     {
-        return $this->downloads;
+        return $this->basket;
     }
 
-    public function addDownload(Download $download): static
+    public function setBasket(Basket $basket): static
     {
-        if (!$this->downloads->contains($download)) {
-            $this->downloads->add($download);
-            $download->setOderDownload($this);
-        }
+        $this->basket = $basket;
 
         return $this;
     }
 
-    public function removeDownload(Download $download): static
+    public function getUserToken(): ?Basket
     {
-        if ($this->downloads->removeElement($download)) {
-            // set the owning side to null (unless already changed)
-            if ($download->getOderDownload() === $this) {
-                $download->setOderDownload(null);
-            }
-        }
+        return $this->user_token;
+    }
+
+    public function setUserToken(?Basket $user_token): static
+    {
+        $this->user_token = $user_token;
+
+        return $this;
+    }
+
+    public function getTotalHT(): ?float
+    {
+        return $this->TotalHT;
+    }
+
+    public function setTotalHT(float $TotalHT): static
+    {
+        $this->TotalHT = $TotalHT;
+
+        return $this;
+    }
+
+    public function getTotalTTC(): ?float
+    {
+        return $this->TotalTTC;
+    }
+
+    public function setTotalTTC(float $TotalTTC): static
+    {
+        $this->TotalTTC = $TotalTTC;
 
         return $this;
     }

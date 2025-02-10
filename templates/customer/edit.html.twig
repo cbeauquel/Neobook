@@ -3,12 +3,12 @@
 {% block title %}{{app.user.firstname}}{% endblock %}
 
 {% block body %}
-<div class="breadcrumb">
-    <p>Fil d'ariane</p>
-</div>
 <section class="list">
      <div class="form-container">
-       <h1>Compte de {{app.user.firstname}}</h1>
+        <div class="right">
+            <h1>Compte de {{app.user.firstname}}</h1>
+            <a class="extract right" href="{{path('customer_account')}}">Retour</a>
+        </div>
        {{ form_start(form) }}
         <div class="form-row">
             {{ form_row(form.firstname) }}

@@ -3,6 +3,11 @@
 {% block title %}Résultats de recherche{% endblock %}
 
 {% block body %}
+{#Fil d'ariane#}
+<div class="breadcrumb">
+    {% include 'breadcrumb.html.twig' with { 'breadcrumbs': breadcrumbs } %}
+</div>
+
 <section>        
     <h1 class="search-results">Résultats</h1>
     <div class="list">

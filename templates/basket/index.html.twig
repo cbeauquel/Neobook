@@ -5,7 +5,7 @@
 {% block body %}
 {#Fil d'ariane#}
 <div class="breadcrumb">
-    <p>Fil d'ariane</p>
+    {% include 'breadcrumb.html.twig' with { 'breadcrumbs': breadcrumbs } %}
 </div>
 <section>
     {#Bloc #}
@@ -75,7 +75,7 @@
     {% endif %}
     <div class="basket-foot">
         {% if basket %}
-            <a class="button" href="{{path('order_view', {id: orderBasket.id})}}">Je commande</a>
+            <a class="extract" href="{{path('order_add', {id: orderBasket.id})}}">Je commande</a>
         {% endif %}
         <a href="{{path('home')}}" title="retour à l'accueil">Continuer mes achats</a>
     </div>

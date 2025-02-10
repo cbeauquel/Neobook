@@ -18,34 +18,34 @@ class Book
 {
     use TimestampableTrait;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', "getBooks"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks', 'getAuthors'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', "getBook"])]
     #[Assert\NotBlank]
     #[Assert\WordCount(min: 10, max: 400)]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $summary = null;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $genre = null;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $parutionDate = null;
@@ -57,7 +57,7 @@ class Book
     /**
      * @var Collection<int, KeyWords>
      */
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: KeyWords::class, mappedBy: 'books', cascade: ['persist'])]
     private Collection $keyWords;
@@ -65,7 +65,7 @@ class Book
     /**
      * @var Collection<int, Category>
      */
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'books')]
     private Collection $categories;
@@ -73,24 +73,10 @@ class Book
     /**
      * @var Collection<int, Format>
      */
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books', cascade: ['persist'])]
     private Collection $formats;
-
-    /**
-     * @var Collection<int, Basket>
-     */
-    #[Assert\NotBlank]
-    #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'books')]
-    private Collection $baskets;
-
-    /**
-     * @var Collection<int, Order>
-     */
-    #[Assert\NotBlank]
-    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'books')]
-    private Collection $orders;
 
     /**
      * @var Collection<int, Feedback>
@@ -99,9 +85,9 @@ class Book
     #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'book')]
     private Collection $feedbacks;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(inversedBy: 'books', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
@@ -109,7 +95,7 @@ class Book
      * @var Collection<int, BoSkCo>
      */
     #[Assert\Valid]
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
     private Collection $boSkCos;
 
@@ -118,8 +104,6 @@ class Book
         $this->keyWords = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->formats = new ArrayCollection();
-        $this->baskets = new ArrayCollection();
-        $this->orders = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
         $this->boSkCos = new ArrayCollection();
     }
@@ -280,41 +264,6 @@ class Book
     public function removeFormat(Format $format): static
     {
         $this->formats->removeElement($format);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Basket>
-     */
-    public function getBaskets(): Collection
-    {
-        return $this->baskets;
-    }
-
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): static
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->addBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): static
-    {
-        if ($this->orders->removeElement($order)) {
-            $order->removeBook($this);
-        }
 
         return $this;
     }

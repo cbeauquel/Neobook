@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Book;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use DateTimeImmutable;
+use Pagerfanta\Pagerfanta;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Book>
@@ -27,9 +30,11 @@ class BookRepository extends ServiceEntityRepository
            ->innerJoin('bsc.skill', 's')
            ->innerJoin('bsc.contributor', 'c')
            ->andWhere('b.parutionDate > :today')
+           ->andWhere('b.status = :value')
            ->andWhere('s.name = :skillName')
            ->setParameter('skillName', 'Auteur')
            ->setParameter('today', $today)
+           ->setParameter('value', '1')
            ->orderBy('b.id', 'ASC')
            ->setMaxResults(10)
            ->getQuery()
@@ -37,6 +42,29 @@ class BookRepository extends ServiceEntityRepository
        ;
    }
 
+   /**
+    * @return Book[] Returns an array of Book objects
+    */
+    public function findNew(): array
+    {
+     $twentyDaysAgo = new DateTimeImmutable('-20 days'); //tous les livres qui ont une date de création de moins de 20jours
+        return $this->createQueryBuilder('b')
+            ->innerJoin('b.boSkCos', 'bsc')
+            ->innerJoin('bsc.skill', 's')
+            ->innerJoin('bsc.contributor', 'c')
+            ->andWhere('b.createdAt < :date')
+            ->andWhere('b.status = :value')
+            ->andWhere('s.name = :skillName')
+            ->setParameter('skillName', 'Auteur')
+            ->setParameter('date', $twentyDaysAgo)
+            ->setParameter('value', '1')
+            ->orderBy('b.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+ 
     /**
     * @return Book[] Returns an array of Book objects
     */
@@ -75,6 +103,26 @@ class BookRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+   /**
+    * @return Book[] Returns an array of Book objects
+    */
+   public function findPaginatedBooks(int $page, int $limit): Pagerfanta
+   {
+       $queryBuilder = $this->createQueryBuilder('b')
+           ->orderBy('b.id', 'ASC');
+
+        // Adapter pour Pagerfanta
+        $adapter = new QueryAdapter($queryBuilder);
+
+        // Créer un objet Pagerfanta
+        $pagerfanta = new Pagerfanta($adapter);
+        $pagerfanta->setMaxPerPage($limit);
+        $pagerfanta->setCurrentPage($page);
+
+        return $pagerfanta;
+   }
+
 
 //    /**
 //     * @return Book[] Returns an array of Book objects

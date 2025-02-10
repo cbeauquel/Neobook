@@ -18,7 +18,7 @@ class Format
     #[ORM\Column]
     private ?int $id = null;
     
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     // #[Assert\Isbn(
     //     type:Assert\Isbn::ISBN_13
     // )]
@@ -27,25 +27,26 @@ class Format
     private ?string $ISBN = null;
 
     #[Assert\NotBlank]
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\Column]
     private ?float $priceHT = null;
 
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\PositiveOrZero]
-    #[Groups(['searchable'])]
     #[ORM\Column]
     private ?int $duration = null;
 
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\PositiveOrZero]
-    #[Groups(['searchable'])]
     #[ORM\Column]
     private ?int $wordsCount = null;
 
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\PositiveOrZero]
-    #[Groups(['searchable'])]
     #[ORM\Column(length: 255)]
     private ?int $pagesCount = null;
 
+    #[Groups(['getBooks'])]
     #[Assert\PositiveOrZero]
     #[ORM\Column]
     private ?float $fileSize = null;
@@ -65,18 +66,19 @@ class Format
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bookExtract = null;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'formatType', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;
 
+    #[Groups(['getBooks'])]
     #[Assert\NotBlank]
     #[ORM\Column]
     private ?float $priceTTC = null;
 
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(inversedBy: 'formats')]
+    #[ORM\ManyToOne(inversedBy: 'formats', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tva $tvaRate = null;
 

@@ -65,4 +65,6 @@
             {% endfor %}
         </tbody>
     </table>
+    {# Affichage des liens de pagination #}
+    {{ pagerfanta(all_books, 'twitter_bootstrap5') }}
 {% endblock %}

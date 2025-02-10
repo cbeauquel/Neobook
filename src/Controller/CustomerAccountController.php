@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\CustomerType;
+use App\Service\BreadcrumbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ class CustomerAccountController extends AbstractController
 {
     #[IsGranted('IS_AUTHENTICATED', message:'Vous devez avoir un compte pour afficher cette page')]
     #[Route('/account', name: 'customer_account')]
-    public function index(): Response
+    public function index(?User $user, BreadcrumbService $breadcrumbService): Response
     {
         return $this->render('customer/index.html.twig', [
             'controller_name' => 'CustomerAccountController',

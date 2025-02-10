@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\Basket;
 use App\Service\BasketService;
-use Doctrine\Common\Collections\ArrayCollection;
-use App\Repository\BasketRepository;
+use App\Service\BreadcrumbService;
 use App\Repository\FormatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,53 +16,37 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BasketController extends AbstractController
 
 {
-    private $basketService;
-
-    public function __construct(BasketService $basketService)
-    {
-        $this->basketService = $basketService;
-    }
-
-    #[Route('/add/{id}', name: 'add')]
-    public function addToBasket(BasketService $basketService, Request $request, FormatRepository $formatRepository): Response
-    {
-        // on récupère les formats à partir des données choisies par l'utilisateur
-        $choiceFormats = $request->get('format', []);
-        $formats = $formatRepository->findByFormatChoices($choiceFormats);
-        if (!$formats) {
-            throw $this->createNotFoundException('Produit introuvable.');
-        }
-        $basketService->addToBasket($formats);
-
-        $basketService->persistBasket($this->getUser());
-
-        return $this->redirectToRoute('basket_view');
-    }
-
     #[Route('/view', name: 'view')]
     public function showBasket(
         BasketService $basketService,
-        SessionInterface $session,
         EntityManagerInterface $manager,
+        BreadcrumbService $breadcrumbService,
         ): Response
     {
-       // $session->clear();
-        //récupère le panier en session.
-        $sessionBasket = $basketService->getOrCreateSessionBasket();
+        $breadcrumbService->add('Accueil', $this->generateUrl('home'));
+        $breadcrumbService->add('Panier', $this->generateUrl('basket_view'));
+        //  $session->clear();
 
+        //récupère le panier en session.
+        $sessionBasket = $basketService->getSessionBasket();
         // récupère le panier en base
         $bddBasket = $basketService->loadBasket($this->getUser());
 
-        if ($sessionBasket->isEmpty() && $bddBasket) {
-            $idBasket = $bddBasket->getId();
-            $bddBasketFormats = $basketService->loadBasketFormats($idBasket);
+        // récupère le panier en base pour un customer identifié
+        if($this->getUser()){
+            //si le panier en session est vide et que le le panier en bdd n'est pas vide on ajoute les formats du panier en base vers la session
+            if ($sessionBasket->isEmpty() && $bddBasket) {
+                $idBasket = $bddBasket->getId();
+                $bddBasketFormats = $basketService->loadBasketFormats($idBasket);
 
-            // on injecte la nouvelle liste de formats dans le panier en base
-            foreach($bddBasketFormats as $bddBasketFormat){
-            $sessionBasket->add($bddBasketFormat);        
-            } 
+                // on injecte la nouvelle liste de formats dans le panier en session
+                foreach($bddBasketFormats as $bddBasketFormat){
+                $sessionBasket->add($bddBasketFormat);        
+                } 
+                $basketService->saveBasket($sessionBasket);
+            }
         }
-        // dd($bddBasketFormats, $sessionBasket);
+
         // Initialiser les totaux à 0 pour éviter les erreurs
         $totalHT = 0;
         $totalTTC = 0;
@@ -82,15 +63,31 @@ class BasketController extends AbstractController
             }
         }
 
-        //  dd($sessionBasket);
+            // dd($sessionBasket, $session->getId());
         return $this->render('basket/index.html.twig', [
             'controller_name' => 'BasketController',
             'basket' => $sessionBasket,
             'orderBasket' => $bddBasket,
             'totalHT' => $totalHT,
             'totalTTC' => $totalTTC,
+            'breadcrumbs' => $breadcrumbService->get(),
         ]);
     }
+
+    #[Route('/add/{id}', name: 'add')]
+    public function add(BasketService $basketService, Request $request, FormatRepository $formatRepository): Response
+    {
+        // on récupère les formats à partir des données choisies par l'utilisateur
+        $choiceFormats = $request->get('format', []);
+        $formats = $formatRepository->findByFormatChoices($choiceFormats);
+        if (!$formats) {
+            throw $this->createNotFoundException('Produit introuvable.');
+        }
+        $basketService->addToBasket($formats);
+
+        return $this->redirectToRoute('basket_view');
+    }
+
 
     #[Route('/remove-from-basket/{formatId}', name:'remove', methods:['POST'])]
     public function removeFromBasket(int $formatId, BasketService $basketService, FormatRepository $formatRepository)
@@ -99,11 +96,10 @@ class BasketController extends AbstractController
         if (!$formatToRemove) {
             throw $this->createNotFoundException('Produit introuvable.');
         }
-        $basketService->removeToBasket($formatToRemove);
-
-        $basketService->persistBasket($this->getUser());
+        $basketService->removeToBasket($formatToRemove, $this->getUser());
 
         // Rediriger vers la page panier (ou un autre endroit)
         return $this->redirectToRoute('basket_view');
     }
+
 }

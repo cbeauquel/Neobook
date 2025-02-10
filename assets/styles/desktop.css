@@ -38,6 +38,13 @@ body {
     font-size:1.1em;
 }
 
+.right{
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
 p{
     margin:0px;
 }
@@ -234,17 +241,34 @@ header > .nav {
 /*Signature et fil d'ariane*/
 .breadcrumb {
     padding:10px;
-    background-color: #EEEEEE;
+    background-color:var(--backgroundItem);
     width:100%;
     margin-bottom:10px;
-    display: inline-block;
+    list-style: none;
+    display: flex;
+    gap: 5px;
 }
 
-p.signature {
+.breadcrumb-item a {
+    text-decoration: none;
+    color: var(--fontLight);
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: none;
+    color: var(--linkColor);
+}
+
+.breadcrumb-item span {
+    color:var(--fontLight);
+}
+
+h1.signature{
     font-family: "Gentium Book Plus", sans-serif;
     color:var(--fontLight);
     font-size: 2em;
     text-align:center;
+    margin:auto;
 }
 
 /**
@@ -607,6 +631,9 @@ H1.search-results{
     background-color: var(--backgroundDark);
     padding:10px;
     border-radius:10px;
+    width: fit-content;
+    height:fit-content;
+
 }
 
 .extract:hover {
@@ -619,6 +646,7 @@ H1.search-results{
 
 .prices button {
     width:40%;
+    height:70px;
     border:none;
     background: var(--linkColor);
     color:var(--fontDark);

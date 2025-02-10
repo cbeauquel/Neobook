@@ -25,12 +25,11 @@ class Type
     #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'type')]
     private Collection $formatType;
 
-    #[Groups(['searchable'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $typeImg = null;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $name = null;

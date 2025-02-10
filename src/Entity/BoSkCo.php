@@ -22,13 +22,13 @@ class BoSkCo
     private ?Book $book = null;
 
     #[Assert\Valid]
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\ManyToOne(inversedBy: 'boSkCos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contributor $contributor = null;
 
     #[Assert\Valid]
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\ManyToOne(inversedBy: 'boSkCos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Skill $skill = null;

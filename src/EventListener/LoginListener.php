@@ -25,4 +25,4 @@ final class LoginListener
             $this->basketService->persistBasket($user);
         }
     }
-}
+} 

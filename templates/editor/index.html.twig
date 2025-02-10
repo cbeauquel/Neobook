@@ -5,7 +5,7 @@
 {% block body %}
 {#Fil d'ariane#}
 <div class="breadcrumb">
-    <p>Fil d'ariane</p>
+    {% include 'breadcrumb.html.twig' with { 'breadcrumbs': breadcrumbs } %}
 </div>
 {#Fiche éditeur#}
 <section>

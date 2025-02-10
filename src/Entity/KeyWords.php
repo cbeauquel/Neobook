@@ -19,7 +19,7 @@ class KeyWords
     private ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\Column(length: 255)]
     private ?string $tag = null;
 

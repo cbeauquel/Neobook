@@ -5,7 +5,7 @@
 {% block body %}
 {#Fil d'ariane#}
 <div class="breadcrumb">
-    <p>Fil d'ariane</p>
+    {% include 'breadcrumb.html.twig' with { 'breadcrumbs': breadcrumbs } %}
 </div>
 {#Fiche livre#}
 <section class="book-detail">
@@ -59,13 +59,13 @@
                             {% for format in book.formats %}
                             <label>
                                 <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
+                                <p>{{format.type.Name}}</p>
                                 <p>{{format.priceTTC}}€</p>
                                 <input type="checkbox" id="{{format.id}}" name="format[]" value="{{format.id}}">
                             </label>
                             {% endfor %}
-                        <button type="submit">J'achète</button>
+                            <button type="submit">J'achète</button>
                     </form>
-
                 {% endif %}
             </div>
         </div>

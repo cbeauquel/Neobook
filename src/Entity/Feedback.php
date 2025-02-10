@@ -27,7 +27,7 @@ class Feedback
     private ?User $nickName = null;
 
     #[Assert\PositiveOrZero]
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\Column]
     private ?int $stars = null;
 

@@ -3,8 +3,9 @@
 {% block title %}Livres dans la catégorie{{category.name}}{% endblock %}
 
 {% block body %}
+{#Fil d'ariane#}
 <div class="breadcrumb">
-    <p>Fil d'ariane</p>
+    {% include 'breadcrumb.html.twig' with { 'breadcrumbs': breadcrumbs } %}
 </div>
 <section>        
     <h1>{{category.name}}</h1>

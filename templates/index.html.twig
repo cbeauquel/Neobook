@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="breadcrumb">
-    <p class="signature"><h1>Librairie inclusive de livres numériques à lire et à écouter !</h1></p>
+    <h1 class="signature">Librairie inclusive de livres numériques à lire et à écouter !</h1>
 </div>
 <section>
         <div class="list">
@@ -19,6 +19,41 @@
     <h2>À paraître</h2>
     <div class="list">
         {% for book in upcoming_books %}
+        <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
+        <article>
+            <div class="book-content">
+                <p class="contributor-name">
+                    {% for boSkCo in book.boSkCos %}
+                        {% if boSkCo.skill.name == 'Auteur' %}
+                            {{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}}<br>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+                <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
+                <p class="book-title">{{book.title}}</p>
+            </div>
+            <div class="stars">
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+            </div>
+            <ul class="book-prices">
+            {% for format in book.formats %}
+                <li class="book-price">{{format.priceHT}}€</li>
+                <li class="book-type"><span class="material-symbols-outlined">{{format.type.typeImg}}</span> {{format.type.name}}</li>
+            {% endfor %}
+            </ul>
+        </article>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+<section>
+    <h2>Nouveautés</h2>
+    <div class="list">
+        {% for book in new_books %}
         <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
         <article>
             <div class="book-content">
