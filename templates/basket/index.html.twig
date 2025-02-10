@@ -74,7 +74,7 @@
         <p class="center">Votre panier est vide</p>
     {% endif %}
     <div class="basket-foot">
-        {% if basket %}
+        {% if orderBasket %}
             <a class="extract" href="{{path('order_add', {id: orderBasket.id})}}">Je commande</a>
         {% endif %}
         <a href="{{path('home')}}" title="retour à l'accueil">Continuer mes achats</a>

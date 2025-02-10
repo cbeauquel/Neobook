@@ -14,7 +14,7 @@
 
     </div>
 
-    {% if order %}
+    {% if formatsOrder %}
     <div class="order-container">
         <table class="table">
         <thead>
@@ -27,7 +27,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for format in order.formats %}
+            {% for format in formatsOrder.formats %}
                 <tr>
                 {% for books in format.books %}
                     <td>{{ books.title }}</td>
@@ -56,8 +56,8 @@
         <tfoot>
             <tr class="order-tfoot">
                 <td colspan="3">TOTAL</td>
-                <td>{{ order.totalHT }} €</td>
-                <td>{{ order.totalTTC }} €</td>
+                <td>{{ formatsOrder.totalHT }} €</td>
+                <td>{{ formatsOrder.totalTTC }} €</td>
             </tr>
         </tfoot> 
     </table>   
@@ -65,7 +65,7 @@
         <p class="center">Votre panier est vide</p>
     {% endif %}
     <div class="order-foot">
-        <a class="extract" href="{{path('payplug_create', {amount: order.totalHT})}}">Je paye et télécharge mon livre</a>
+        <a class="extract" href="{{path('payplug_pay', {id: order.id})}}">Je paye et télécharge mon livre</a>
         <a href="{{path('home')}}" title="retour à l'accueil">Continuer mes achats</a>
     </div>
 </section>

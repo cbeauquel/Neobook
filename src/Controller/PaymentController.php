@@ -3,39 +3,37 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Order;
 use App\Service\PayPlugService;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
+
 class PaymentController extends AbstractController
 {
-    #[Route('/payplug/create/{amount}', name: 'payplug_create')]
-    public function createPayment(PayPlugService $payPlugService, $amount): JsonResponse
+    #[Route('/payplug/pay/{id}', name: 'payplug_pay')]
+    public function pay(?User $user, PayPlugService $payPlugService, ?Order $order): RedirectResponse
     {
-        $customer = $this->getUser();
-        if (!$customer){
-            throw new UnauthorizedHttpException('L\'utilisateur n\'est pas authentifié');
+        $amount = $order->getTotalHT();
+        $email = $this->getUser()->getEmail();
+        $firstName = $this->getUser()->getFirstname();
+        $lastName = $this->getUser()->getLastname();
+        $returnUrl = 'https://neobook.fr';
+        // dd($amount, $email);
+        if ($amount <= 0 || empty($email)) {
+            throw $this->createNotFoundException('Requête invalide.');
         }
-        $amount = $amount; // Exemple de montant
-        $email = $customer->getEmail();
-        dd($customer);
-        $returnUrl = $this->generateUrl('home', [], true);
 
-        $payment = $payPlugService->createPayment($amount, $email, $returnUrl);
-
-        // if (!$payment) {
-        //     return $this->json(['error' => 'Erreur lors de la création du paiement'], 500);
-        // }
-        // Si PayPlug retourne un tableau, il y a une erreur
-        if (is_array($payment) && isset($payment['error'])) {
-            return $this->json($payment, 500); // HTTP 500 pour signaler une erreur
+        $payment = $payPlugService->createPayment($amount, $email, $firstName, $lastName, $returnUrl);
+        if (!$payment || !isset($payment->hosted_payment->payment_url)) {
+            throw $this->createNotFoundException('Impossible de créer le paiement.');
         }
-        return $this->json([
-            'payment_id' => $payment->id,
-            'payment_url' => $payment->hosted_payment->payment_url
-        ]);
 
+         // Redirection directe vers la page de paiement PayPlug
+        return new RedirectResponse($payment->hosted_payment->payment_url);
     }
 }

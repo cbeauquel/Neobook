@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use function PHPUnit\Framework\throwException;
 
 class OrderController extends AbstractController
 {    
@@ -26,6 +27,7 @@ class OrderController extends AbstractController
         ?Order $order, 
         OrderStatusRepository $orderStatusRepository, 
         OrderRepository $orderRepository,
+        int $id,
         ): Response
     {
         $defautStatus = $orderStatusRepository->findByStatus('En attente');
@@ -33,10 +35,11 @@ class OrderController extends AbstractController
         if(isset($customerOrders)){
             $newCustomer = true;
         }
+        $existingOrder = $orderRepository->findByBasketId($id);
         $customerId = $basket->getCustomer();
         $totalHT = $basket->getTotalHT();
         $totalTTC = $basket->getTotalTTC();
-        if(!$order){
+        if(!$existingOrder){
             $order ??= new Order();
             $order->setCustomer($customerId);
             $order->setTotalHT($totalHT);
@@ -45,10 +48,13 @@ class OrderController extends AbstractController
             $order->setBasket($basket);
             $order->setUserToken($basket);
             $order->setNewCustomer($newCustomer);
+            $basket->setStatus(BasketStatus::TRANSFORMED);
             $manager->persist($order);
             $manager->persist($basket);
             $manager->flush();
-            } 
+            } elseif($existingOrder->getStatus() !== '1') {
+                throw new \RuntimeException('Une commande a déjà été passée avec ce panier');
+            }
         return $this->redirectToRoute('order_view', ['id' => $order->getId()]);
     }
 
@@ -60,7 +66,8 @@ class OrderController extends AbstractController
         // dd($formatsOrder);
         return $this->render('order/index.html.twig', [
             'controller_name' => 'OrderController',
-            'order' =>$formatsOrder,
+            'formatsOrder' => $formatsOrder,
+            'order' => $order,
         ]);
     }
 

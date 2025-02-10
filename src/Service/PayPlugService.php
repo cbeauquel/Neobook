@@ -14,27 +14,34 @@ class PayPlugService
     public function __construct(string $secretKey)
     {
         $this->secretKey = $secretKey;
-        Payplug::init(['secretKey' => $this->secretKey]);
-    }
 
-    public function createPayment(float $amount, string $email, string $returnUrl): Payment|array|null
+        // Initialisation de PayPlug avec la nouvelle méthode
+        Payplug::init([
+            'secretKey' => $this->secretKey,
+            'apiVersion' => '2019-08-06' // Vérifie la dernière version dans la doc
+        ]);      
+    }
+    public function createPayment(float $amount, string $customerEmail, string $firstName, string $lastName, string $returnUrl): ?Payment
     {
         try {
-            $payment = Payment::create([
-                'amount'   => 1000, // ✅ 10.00€ en centimes
+            $paymentData = [
+                'amount' => $amount * 100, // PayPlug attend les centimes
                 'currency' => 'EUR',
-                'billing' => ['email' => 'test@example.com'],
-                'hosted_payment' => ['return_url' => 'https://example.com'],
-            ]);
+                'billing' => [
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'email' => $customerEmail,
+                ],
+                'shipping' => ['delivery_type' => 'DIGITAL_GOODS'],
+                'hosted_payment' => ['return_url' => $returnUrl],
+                'notification_url' => 'https://ton-site.com/webhook/payplug'
+            ];
+            // dd($paymentData);
+            $payment = Payment::create($paymentData);
+    
             return $payment;
-        }
-        catch (\Payplug\Exception\PayplugException $e) {
-            // Log l'erreur détaillée PayPlug
-            error_log("Erreur API PayPlug : " . $e->getMessage());
-            return ['error' => 'PayPlug Error', 'details' => $e->getMessage()];
         } catch (\Exception $e) {
-            error_log("Erreur Générale : " . $e->getMessage());
-            return ['error' => 'General Error', 'details' => $e->getMessage()];
-        }
+            return null;
+        }    
     }
 }

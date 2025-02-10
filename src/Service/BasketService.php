@@ -34,7 +34,9 @@ class BasketService
         if($bddBasketOld && $bddBasketNew){
             $this->manager->getRepository(Basket::class)->bulkUpdateBasketsToAbandoned($customer);
         } 
-        $this->getOrCreateBddBasket($customer);
+        if(!$this->getSessionBasket()->isEmpty()){
+            $this->getOrCreateBddBasket($customer);
+        }
     }
 
     /**

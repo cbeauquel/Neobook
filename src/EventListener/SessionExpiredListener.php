@@ -3,47 +3,52 @@
 namespace App\EventListener;
 
 use App\Enum\BasketStatus;
-use App\Service\BasketService;
 use App\Repository\BasketRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class SessionExpiredListener
 {
     private EntityManagerInterface $entityManager;
-    private Security $security;
     private BasketRepository $basketRepository;
-    private BasketService $basketService;
+    private RequestStack $requestStack;
 
-    public function __construct(EntityManagerInterface $entityManager, Security $security, BasketRepository $basketRepository, BasketService $basketService)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        BasketRepository $basketRepository,
+        RequestStack $requestStack
+    ) {
         $this->entityManager = $entityManager;
-        $this->security = $security;
         $this->basketRepository = $basketRepository;
-        $this->basketService = $basketService;
+        $this->requestStack = $requestStack;
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        
-        // Vérifier si la session est expirée
-        if (!$request->hasSession() || !$request->getSession()->isStarted()) {
+        $session = $this->requestStack->getSession();
+
+        if (!$session->isStarted()) {
             return;
         }
 
-        $session = $request->getSession();
-        $user = $this->security->getUser();
+        // Vérifier si un panier existait en session
+        $basketId = $session->get('basket_id');
 
-        // Vérifier si l'utilisateur n'est plus authentifié (session expirée)
-        if (!$session->has('main') && $user) {
-            // Récupérer ou créer un panier pour l'utilisateur
-            $basket = $this->basketService->getOrCreateBddBasket($user);
-            // dd($basket);
-            // Vérifier si le panier est déjà en état "ABORTED"
-            if ($basket->getStatus() !== BasketStatus::ABORTED) {
+        if (!$basketId) {
+            return;
+        }
+
+        // Vérifier si la session a expiré en regardant si elle a été recréée
+        if (!$session->has('session_initialized')) {
+            // Marquer la session comme initialisée
+            $session->set('session_initialized', true);
+
+            // Récupérer le panier en BDD
+            $basket = $this->basketRepository->find($basketId);
+
+            if ($basket && $basket->getStatus() !== BasketStatus::ABORTED) {
                 $basket->setStatus(BasketStatus::ABORTED);
                 $this->entityManager->persist($basket);
                 $this->entityManager->flush();
