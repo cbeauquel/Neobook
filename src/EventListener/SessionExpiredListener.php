@@ -5,54 +5,64 @@ namespace App\EventListener;
 use App\Enum\BasketStatus;
 use App\Repository\BasketRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class SessionExpiredListener
+final class SessionExpiredListener
 {
-    private EntityManagerInterface $entityManager;
+    private EntityManagerInterface $manager;
     private BasketRepository $basketRepository;
     private RequestStack $requestStack;
+    private int $sessionLifetime; // Durée d'expiration de la session
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        BasketRepository $basketRepository,
-        RequestStack $requestStack
-    ) {
-        $this->entityManager = $entityManager;
+        EntityManagerInterface $manager, 
+        BasketRepository $basketRepository, 
+        RequestStack $requestStack, 
+        int $sessionLifetime = 120 // 30 minutes par défaut 
+        )
+    {
+        $this->manager = $manager;
         $this->basketRepository = $basketRepository;
         $this->requestStack = $requestStack;
+        $this->sessionLifetime = $sessionLifetime;
     }
 
+    #[AsEventListener(event: 'kernel.request')]
     public function onKernelRequest(RequestEvent $event): void
     {
-        $request = $event->getRequest();
         $session = $this->requestStack->getSession();
-
         if (!$session->isStarted()) {
             return;
         }
-
-        // Vérifier si un panier existait en session
-        $basketId = $session->get('basket_id');
-
-        if (!$basketId) {
-            return;
+        $currentTime = time();
+        $lastActivity = $session->get('last_activity');
+        // Mettre à jour le timestamp de dernière activité
+        if (!$lastActivity || ($currentTime - $lastActivity > $this->sessionLifetime)) {
+            $this->handleExpiredSession($session);
         }
+        $session->set('last_activity', $currentTime);
+    }
 
-        // Vérifier si la session a expiré en regardant si elle a été recréée
-        if (!$session->has('session_initialized')) {
-            // Marquer la session comme initialisée
-            $session->set('session_initialized', true);
+    private function handleExpiredSession($session): void
+    {
+        $basketId = $session->getId();
 
-            // Récupérer le panier en BDD
-            $basket = $this->basketRepository->find($basketId);
+        if ($basketId) {
+            $basket = $this->basketRepository->findBasketByUserToken($basketId);
 
             if ($basket && $basket->getStatus() !== BasketStatus::ABORTED) {
                 $basket->setStatus(BasketStatus::ABORTED);
-                $this->entityManager->persist($basket);
-                $this->entityManager->flush();
+                $this->manager->persist($basket);
+                $this->manager->flush();
             }
         }
+
+        // Réinitialiser la session
+        $session->remove('last_activity');
     }
 }

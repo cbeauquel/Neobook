@@ -13,4 +13,4 @@ when@test:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
-            gc_maxlifetime: 300  # 5mn avant expiration
+            gc_maxlifetime: 3600  # 1h avant expiration

@@ -194,14 +194,14 @@ class ApiBookController extends AbstractController
   
     }
 
-    private function getVersionFromRequest(Request $request): string
-    {
-        // Exemple de détection de version dans l'en-tête "Accept"
-        $acceptHeader = $request->headers->get('Accept', '');
-        if (str_contains($acceptHeader, 'application/vnd.api+json;version=2')) {
-            return 'v2';
-        }
-        return 'v1'; // Valeur par défaut
-    }
+    // private function getVersionFromRequest(Request $request): string
+    // {
+    //     // Exemple de détection de version dans l'en-tête "Accept"
+    //     $acceptHeader = $request->headers->get('Accept', '');
+    //     if (str_contains($acceptHeader, 'application/vnd.api+json;version=2')) {
+    //         return 'v2';
+    //     }
+    //     return 'v1'; // Valeur par défaut
+    // }
 }
 

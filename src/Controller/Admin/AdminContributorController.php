@@ -29,7 +29,6 @@ class AdminContributorController extends AbstractController
 
     #[Route('/admin/contributor/add', name: 'admin_contributor_add')]
     #[Route('/admin/contributor/edit/{id}', name: 'admin_contributor_edit', requirements: ['id' => '\d+'])]
-
     public function createContributor(
         ?Contributor $contributor, 
         Request $request, 

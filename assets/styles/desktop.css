@@ -106,6 +106,14 @@ a {
     cursor:pointer;
 }
 
+label{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-bottom: solid 1px var(--backgroundItem);
+    margin-bottom: 10px;
+}
+
 /**
 Messages
 */
@@ -178,6 +186,7 @@ HEADER
     padding:0px 15px;
     height:50px;
     font-size:1.4em;
+    margin:0;
 }
 
 
@@ -434,8 +443,6 @@ a.account-content:hover{
     border:none;
 }
 
-/****************************CUSTOMER ACCOUNT*********************************/
-
 /****************************HOME PAGE****************************************/
 /**
 affichage des catégories en home
@@ -633,11 +640,26 @@ H1.search-results{
     border-radius:10px;
     width: fit-content;
     height:fit-content;
-
 }
 
 .extract:hover {
     background-color: var(--linkColor);
+}
+
+.pal{
+    font-size:3em;
+}
+
+a.pal {
+    color:var(--linkColor);
+}
+
+.to-be-read button.pal{
+    background:none;
+    color:var(--linkColor);
+    font-size:4em;
+    font-weight:400;
+    margin:0 auto;
 }
 
 .prices {
@@ -645,8 +667,7 @@ H1.search-results{
 }
 
 .prices button {
-    width:40%;
-    height:70px;
+    /* width:40%; */
     border:none;
     background: var(--linkColor);
     color:var(--fontDark);
@@ -654,11 +675,12 @@ H1.search-results{
     font-weight: 600;
     font-size:1.1em;
     cursor: pointer;
+    margin:30px auto;
 }
 
 .price-format {
     display:flex;
-    flex-direction: row;
+    flex-direction:column;
     justify-content: flex-start;    
     padding:10px;
     width:100%;

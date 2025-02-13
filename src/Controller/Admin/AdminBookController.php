@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,7 @@ class AdminBookController extends AbstractController
     #[Route('/admin/book', name: 'admin_book')]
     public function listAllBooks(BookRepository $bookRepository, Request $request): Response
     {
+        // pagination (Pagerfanta)
         $page = $request->query->getInt('page', 1);
         $limit = 10;
 

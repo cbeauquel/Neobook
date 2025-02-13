@@ -99,6 +99,13 @@ class Book
     #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
     private Collection $boSkCos;
 
+    /**
+     * @var Collection<int, ToBeRead>
+     */
+    #[Assert\Valid]
+    #[ORM\OneToMany(targetEntity: ToBeRead::class, mappedBy: 'book')]
+    private Collection $toBeReads;
+
     public function __construct()
     {
         $this->keyWords = new ArrayCollection();
@@ -106,6 +113,7 @@ class Book
         $this->formats = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
         $this->boSkCos = new ArrayCollection();
+        $this->toBeReads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -351,4 +359,35 @@ class Book
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ToBeRead>
+     */
+    public function getToBeReads(): Collection
+    {
+        return $this->toBeReads;
+    }
+
+    public function addToBeReads(ToBeRead $toBeRead): static
+    {
+        if (!$this->toBeReads->contains($toBeRead)) {
+            $this->toBeReads->add($toBeRead);
+            $toBeRead->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removetoBeRead(ToBeRead $toBeRead): static
+    {
+        if ($this->toBeReads->removeElement($toBeRead)) {
+            // set the owning side to null (unless already changed)
+            if ($toBeRead->getBook() === $this) {
+                $toBeRead->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

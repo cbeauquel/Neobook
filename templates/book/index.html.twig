@@ -51,6 +51,14 @@
                 {{book.summary | raw }}
             </div>
             <div class="card prices">
+                <h2>Ajouter à ma PAL</h2>
+                    {% if form %}
+                        {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                    {% else %}
+                        <a href="{{path('customer_account')}}" class="material-symbols-outlined pal">bookmark_heart</a>
+                    {% endif %}
                 <h2>Prix et formats</h2>
                 {% if date(book.parutionDate) > date("now") %}
                     Disponibe à partir du {{book.parutionDate | date("d/m/Y")}}
@@ -58,13 +66,13 @@
                     <form method="post" action="{{path('basket_add', {id: book.id})}}" class="price-format">
                             {% for format in book.formats %}
                             <label>
+                                <input type="checkbox" id="{{format.id}}" name="format[]" value="{{format.id}}">
                                 <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
                                 <p>{{format.type.Name}}</p>
                                 <p>{{format.priceTTC}}€</p>
-                                <input type="checkbox" id="{{format.id}}" name="format[]" value="{{format.id}}">
                             </label>
                             {% endfor %}
-                            <button type="submit">J'achète</button>
+                            <button type="submit">Ajouter au panier</button>
                     </form>
                 {% endif %}
             </div>

@@ -92,11 +92,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    /**
+     * @var Collection<int, ToBeRead>
+     */
+    #[ORM\OneToMany(targetEntity: ToBeRead::class, mappedBy: 'customer')]
+    private Collection $toBeReads;
+
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
+        $this->toBeReads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -276,36 +283,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): static
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): static
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getCustomer() === $this) {
-                $order->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getNickName(): ?string
     {
         return $this->nickname;
@@ -356,6 +333,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getCustomer() === $this) {
+                $order->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ToBeRead>
+     */
+    public function getToBeReads(): Collection
+    {
+        return $this->toBeReads;
+    }
+
+    public function addToBeRead(ToBeRead $toBeRead): static
+    {
+        if (!$this->toBeReads->contains($toBeRead)) {
+            $this->toBeReads->add($toBeRead);
+            $toBeRead->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeToBeRead(ToBeRead $toBeRead): static
+    {
+        if ($this->toBeReads->removeElement($toBeRead)) {
+            // set the owning side to null (unless already changed)
+            if ($toBeRead->getCustomer() === $this) {
+                $toBeRead->setCustomer(null);
+            }
+        }
 
         return $this;
     }

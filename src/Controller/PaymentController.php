@@ -5,12 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Service\PayPlugService;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 
 class PaymentController extends AbstractController

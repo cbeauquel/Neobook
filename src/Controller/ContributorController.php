@@ -30,7 +30,7 @@ class ContributorController extends AbstractController
 
         $id = [$request->get('id')];
         $uniqSkills = $contributorRepository->findSkillsByAuthorId($id);
-        $booksByAuthors = $bookRepository->FindByAuthorId($id);
+        $booksByAuthors = $bookRepository->findByAuthorId($id);
         return $this->render('contributor/index.html.twig', [
             'contributor' => $contributor,
             'skills' => $uniqSkills,

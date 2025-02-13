@@ -19,7 +19,7 @@ class BoSkCoRepository extends ServiceEntityRepository
     /**
     * @return array Returns an array of Contributors id
     */
-    public function FindContributorByBookId($value): array
+    public function findContributorByBookId($value): array
     {
         return $this->createQueryBuilder('bsc')
             ->select('c.id AS contributorsId')

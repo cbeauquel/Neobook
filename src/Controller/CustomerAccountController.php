@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\ToBeRead;
 use App\Form\CustomerType;
 use App\Service\BreadcrumbService;
+use App\Repository\ToBeReadRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +18,14 @@ class CustomerAccountController extends AbstractController
 {
     #[IsGranted('IS_AUTHENTICATED', message:'Vous devez avoir un compte pour afficher cette page')]
     #[Route('/account', name: 'customer_account')]
-    public function index(?User $user, BreadcrumbService $breadcrumbService): Response
+    public function index(ToBeReadRepository $toBeReadRepository): Response
     {
+        $booksToBeRead = $toBeReadRepository->findByCustomerId($this->getUser());
+
+        //  dd($booksToBeRead);
         return $this->render('customer/index.html.twig', [
             'controller_name' => 'CustomerAccountController',
+            'books_to_be_read' => $booksToBeRead,
         ]);
     }
 
@@ -43,5 +49,14 @@ class CustomerAccountController extends AbstractController
             'form' => $form,
         ]);
     }
-    
+
+    #[Route('/remove/{id}', name: 'tbr_remove', methods: ['GET', 'POST'])]
+    public function remove(?ToBeRead $toBeRead, EntityManagerInterface $manager ): Response
+    {
+        $manager->remove($toBeRead);
+        $manager->flush();
+
+        $this->addFlash('success', 'Le livre a été ajouté à votre liste de lecture.');
+        return $this->redirectToRoute('customer_account');
+    }
 }
