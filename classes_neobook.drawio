@@ -1736,7 +1736,7 @@
           <mxGeometry x="1030" y="456" width="70" height="30" as="geometry" />
         </mxCell>
         <mxCell id="OcBheB9gcrbXgq8i64xP-36" value="Non" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=2" vertex="1" parent="1">
-          <mxGeometry x="940" y="429" width="90" height="30" as="geometry" />
+          <mxGeometry x="942.5" y="420" width="90" height="30" as="geometry" />
         </mxCell>
         <mxCell id="OcBheB9gcrbXgq8i64xP-38" value="Paiement OK ?" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=2" vertex="1" parent="1">
           <mxGeometry x="1030" y="426" width="90" height="30" as="geometry" />
