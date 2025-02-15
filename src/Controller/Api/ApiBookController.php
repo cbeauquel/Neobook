@@ -106,7 +106,6 @@ class ApiBookController extends AbstractController
      *
      */
     #[OA\Tag(name:'Books')]
-
     public function deleteBook(?Book $book, EntityManagerInterface $manager, TagAwareCacheInterface $cachePool): JsonResponse
     {
         $cachePool->invalidateTags(["booksCache"]);

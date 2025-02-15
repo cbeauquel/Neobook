@@ -382,6 +382,14 @@ footer {
     margin: 20px auto;
 }
 
+.form-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
 .form-row label{
     width: 25%;
     margin-right: 10px;
@@ -398,7 +406,13 @@ footer {
     padding:5px 20px;
 }
 
+.register{
+    margin:0;
+}
 
+.form-container button{
+    margin:auto;
+}
 
 /****************************CUSTOMER ACCOUNT*********************************/
 .book-card h2{

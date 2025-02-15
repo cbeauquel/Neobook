@@ -18,21 +18,23 @@ class Editor
 {
     use TimestampableTrait;
 
-    #[Groups(['searchable'])]
+    #[Groups(['searchable', 'getEditors'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['searchable', 'getBooks'])]
+    #[Groups(['searchable', 'getBooks', 'getEditors'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['getEditors'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $logo = null;
 
+    #[Groups(['getEditor'])]
     #[Assert\NotBlank]
     #[Assert\WordCount(min: 10, max: 400)]
     #[ORM\Column(type: Types::TEXT)]
@@ -45,6 +47,7 @@ class Editor
     /**
      * @var Collection<int, Book>
      */
+    #[Groups(['getEditors'])]
     #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'editor', orphanRemoval: true)]
     private Collection $books;

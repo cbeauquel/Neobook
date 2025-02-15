@@ -18,7 +18,7 @@ class Skill
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['searchable', 'getBooks'])]
+    #[Groups(['searchable', 'getBooks', 'getContributors'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $name = null;

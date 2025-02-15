@@ -18,27 +18,30 @@ class Contributor
 {
     use TimestampableTrait;
 
+    #[Groups(['getContributors'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Groups(['searchable', 'getBooks'])]
+    #[Groups(['searchable', 'getBooks', 'getContributors'])]
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
     #[Assert\NotBlank]
-    #[Groups(['searchable', 'getBooks'])]
+    #[Groups(['searchable', 'getBooks', 'getContributors'])]
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
     #[Assert\NotBlank]
+    #[Groups(['getContributor'])]
     #[Assert\WordCount(min: 10, max: 400)]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $bio = null;
 
     #[Assert\NotBlank]
+    #[Groups(['getContributors'])]
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
 
@@ -50,6 +53,7 @@ class Contributor
      * @var Collection<int, BoSkCo>
      */
     #[Assert\NotBlank]
+    #[Groups(['getContributors'])]
     #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'contributor', orphanRemoval: true, cascade: ['persist'])]
     private Collection $boSkCos;
 

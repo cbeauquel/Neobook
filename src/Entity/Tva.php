@@ -28,11 +28,11 @@ class Tva
      */
     #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'tvaRate')]
-    private Collection $formats;
+    private Collection $formatTvaRate;
 
     public function __construct()
     {
-        $this->formats = new ArrayCollection();
+        $this->formatTvaRate = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,15 +55,15 @@ class Tva
     /**
      * @return Collection<int, Format>
      */
-    public function getFormats(): Collection
+    public function getFormatTvaRate(): Collection
     {
-        return $this->formats;
+        return $this->formatTvaRate;
     }
 
     public function addFormat(Format $format): static
     {
-        if (!$this->formats->contains($format)) {
-            $this->formats->add($format);
+        if (!$this->formatTvaRate->contains($format)) {
+            $this->formatTvaRate->add($format);
             $format->setTvaRate($this);
         }
 
@@ -72,7 +72,7 @@ class Tva
 
     public function removeFormat(Format $format): static
     {
-        if ($this->formats->removeElement($format)) {
+        if ($this->formatTvaRate->removeElement($format)) {
             // set the owning side to null (unless already changed)
             if ($format->getTvaRate() === $this) {
                 $format->setTvaRate(null);

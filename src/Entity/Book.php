@@ -18,13 +18,13 @@ class Book
 {
     use TimestampableTrait;
 
-    #[Groups(['searchable', "getBooks"])]
+    #[Groups(['searchable', 'getBooks'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['searchable', 'getBooks', 'getAuthors'])]
+    #[Groups(['searchable', 'getBooks', 'getContributors', 'getEditors'])]
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -34,7 +34,7 @@ class Book
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
-    #[Groups(['searchable', "getBook"])]
+    #[Groups(['searchable', 'getBook'])]
     #[Assert\NotBlank]
     #[Assert\WordCount(min: 10, max: 400)]
     #[ORM\Column(type: Types::TEXT)]
@@ -75,7 +75,7 @@ class Book
      */
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books', orphanRemoval: true, cascade: ['persist'])]
     private Collection $formats;
 
     /**

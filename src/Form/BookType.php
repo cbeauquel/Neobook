@@ -8,7 +8,6 @@ use App\Entity\Category;
 use App\Form\BoSkCoType;
 use App\Form\FormatType;
 use Symfony\Component\Form\AbstractType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
@@ -17,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class BookType extends AbstractType
@@ -83,7 +83,11 @@ class BookType extends AbstractType
                     ])
                 ],
             ])
-            ->add('summary', CKEditorType::class)
+            ->add('summary', TextareaType::class, [
+                'row_attr' => [
+                    'id' => 'editor',
+                    ],
+            ])
             ->add('genre', TextType::class)
             ->add('parutionDate', null, [
                 'widget' => 'single_text',
@@ -113,7 +117,6 @@ class BookType extends AbstractType
                         'data-taux-group' => true,
                         'class' => 'book-formats',
                 ],
-
                 ],
                 'attr' => [
                     'data-controller' => 'form-collection',

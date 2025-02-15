@@ -23,7 +23,7 @@ class ContributorType extends AbstractType
         $builder
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
-            ->add('bio', CKEditorType::class)
+            ->add('bio', TextareaType::class)
             ->add('photo', FileType::class, [
                 'label' => 'photo (img file)',
                 // unmapped means that this field is not associated to any entity property

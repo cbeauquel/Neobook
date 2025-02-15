@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class EditorType extends AbstractType
 {
@@ -43,7 +44,7 @@ class EditorType extends AbstractType
                     ])
                 ],
             ])
-            ->add('description', CKEditorType::class)
+            ->add('description',TextareaType::class)
             ->add('status', CheckboxType::class, [
                 'row_attr' => [
                     'class' => 'form-checkbox',

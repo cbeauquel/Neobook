@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use Pagerfanta\Pagerfanta;
 use App\Entity\Contributor;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Contributor>
@@ -35,6 +37,29 @@ class ContributorRepository extends ServiceEntityRepository
            ;
        }
     
+       /**
+        * @return array[] Returns an array of contributors
+        */
+        public function findPaginatedcontributors($page, $limit): Pagerfanta
+        {
+            $queryBuilder = $this->createQueryBuilder('c')
+            ->join('c.boSkCos', 'bo')
+            ->orderBy('c.id', 'ASC');
+
+    
+            // Adapter pour Pagerfanta
+            $adapter = new QueryAdapter($queryBuilder);
+    
+            // Créer un objet Pagerfanta
+            $pagerfanta = new Pagerfanta($adapter);
+            $pagerfanta->setMaxPerPage($limit);
+            $pagerfanta->setCurrentPage($page);
+    
+            return $pagerfanta;
+        }
+ 
+   
+
     //    /**
     //     * @return Contributor[] Returns an array of Contributor objects
     //     */

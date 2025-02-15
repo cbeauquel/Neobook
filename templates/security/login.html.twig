@@ -41,13 +41,11 @@
                         <label for="_remember_me">Remember me</label>
                     </div>
                 #}
+                <button btype="submit">
+                    Se connecter
+                </button>
         </div>
-        <button class btype="submit">
-            Se connecter
-        </button>
-        {% if error %}
-            <p>Si vous n'êtes pas encore inscrit, vous pouvez <a href="{{path('app_register')}}" class="button">Créer un compte</a></p>
-        {% endif %}
+            <p class="register">Si vous n'êtes pas encore inscrit, vous pouvez <a href="{{path('app_register')}}" class="button">Créer un compte</a></p>
     </form>
 
 </section>

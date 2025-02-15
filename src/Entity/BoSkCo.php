@@ -17,6 +17,7 @@ class BoSkCo
     private ?int $id = null;
 
     #[Assert\NotBlank]
+    #[Groups(['getContributors','getEditors'])]
     #[ORM\ManyToOne(inversedBy: 'boSkCos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
@@ -28,7 +29,7 @@ class BoSkCo
     private ?Contributor $contributor = null;
 
     #[Assert\Valid]
-    #[Groups(['searchable', 'getBooks'])]
+    #[Groups(['searchable', 'getBooks', 'getContributors'])]
     #[ORM\ManyToOne(inversedBy: 'boSkCos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Skill $skill = null;

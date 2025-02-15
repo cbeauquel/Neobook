@@ -19,8 +19,18 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname', TextType::class)
-            ->add('lastname', TextType::class)
+            ->add('firstname', TextType::class, 
+            [
+                'row_attr' => [
+                    'class' => 'form-div',
+                ],
+            ])
+            ->add('lastname', TextType::class, 
+            [
+                'row_attr' => [
+                    'class' => 'form-div',
+                ],
+            ])
             ->add('optIn', CheckboxType::class, [
                 'row_attr' => [
                     'class' => 'form-checkbox',
@@ -28,7 +38,12 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                 'class' => 'checkbox'
                 ]])
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, 
+            [
+                'row_attr' => [
+                    'class' => 'form-div',
+                ],
+            ])
             // ->add('agreeTerms', CheckboxType::class, [
             //     'mapped' => false,
             //     'constraints' => [
@@ -41,6 +56,9 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
+                'row_attr' => [
+                    'class' => 'form-div',
+                ],
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
@@ -54,7 +72,12 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('nickName', TextType::class);
+            ->add('nickName', TextType::class, 
+            [
+                'row_attr' => [
+                    'class' => 'form-div',
+                ],
+            ])
             // ->add('createdAt', null, [
             //     'widget' => 'single_text',
             // ])
