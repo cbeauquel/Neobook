@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36" version="26.0.4" pages="2">
   <diagram name="Classes" id="Qrp6eOdbpMzTY8ybpvon">
-    <mxGraphModel dx="1195" dy="615" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="738" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -725,6 +725,28 @@
         <mxCell id="8vrlHL8-MQNbAzAgbJk6-35" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;*&lt;/font&gt;" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=top;" connectable="0" vertex="1" parent="8vrlHL8-MQNbAzAgbJk6-33">
           <mxGeometry x="1" relative="1" as="geometry">
             <mxPoint x="-10" y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8vrlHL8-MQNbAzAgbJk6-36" value="" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;rounded=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryPerimeter=0;" edge="1" parent="1" source="8vrlHL8-MQNbAzAgbJk6-25" target="KuQCFoT9xeXWZH-1og_O-6">
+          <mxGeometry x="-0.2042" relative="1" as="geometry">
+            <mxPoint x="443" y="730.01" as="sourcePoint" />
+            <mxPoint x="350" y="755.01" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="238" y="650" />
+              <mxPoint x="238" y="650" />
+              <mxPoint x="238" y="387" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8vrlHL8-MQNbAzAgbJk6-37" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;1&lt;/font&gt;" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;" connectable="0" vertex="1" parent="8vrlHL8-MQNbAzAgbJk6-36">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8vrlHL8-MQNbAzAgbJk6-38" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;*&lt;/font&gt;" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=top;" connectable="0" vertex="1" parent="8vrlHL8-MQNbAzAgbJk6-36">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="20" as="offset" />
           </mxGeometry>
         </mxCell>
       </root>
