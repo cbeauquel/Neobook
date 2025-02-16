@@ -56,6 +56,7 @@ class BasketService
         $this->saveBasket($sessionBasket);
         // Récupérer ou créer un panier en base
         $bddBasket = $this->getOrCreateBddBasket($customer);
+        // dd($customer);
         $idBasket = $bddBasket->getId();
         // Récupérer les formats en base et en session
         $bddBasketFormats = $this->loadBasketFormats($idBasket);
@@ -91,27 +92,30 @@ class BasketService
         $this->saveBasket($sessionBasket);
         // Récupérer ou créer un panier en base
         $bddBasket = $this->loadBasket($customer);
-        $idBasket = $bddBasket->getId();
-         // Récupérer les formats en base et en session
-        //on isole les formats du panier
-        $bddBasketFormats = $this->loadBasketFormats($idBasket);
-        // dd($sessionBasket);
-        // SUPPRIMER les formats qui ne sont plus dans la session
-        foreach ($bddBasketFormats as $bddFormat) {
-            if (!$sessionBasket->exists(fn($key, $item) => $item->getId() === $bddFormat->getId())) {
-                $bddBasketFormats->removeElement($bddFormat);
+        if($bddBasket){
+            $idBasket = $bddBasket->getId();
+            // Récupérer les formats en base et en session
+            //on isole les formats du panier
+            $bddBasketFormats = $this->loadBasketFormats($idBasket);
+            // dd($sessionBasket);
+            // SUPPRIMER les formats qui ne sont plus dans la session
+            foreach ($bddBasketFormats as $bddFormat) {
+                if (!$sessionBasket->exists(fn($key, $item) => $item->getId() === $bddFormat->getId())) {
+                    $bddBasketFormats->removeElement($bddFormat);
+                }
             }
+        
+            //s'il n'y a plus de formats dans le panier, on supprime le panier sinon on injecte la nouvelle liste de formats dans le panier en base
+            if($bddBasketFormats->isEmpty()){
+                $this->manager->remove($bddBasket);
+            } else {
+                $bddBasket->setFormats($bddBasketFormats);
+                // dd($bddBasket);
+                // Sauvegarder le panier en base
+                $this->manager->persist($bddBasket);
+            }
+            $this->manager->flush();
         }
-        //s'il n'y a plus de formats dans le panier, on supprime le panier sinon on injecte la nouvelle liste de formats dans le panier en base
-        if($bddBasketFormats->isEmpty()){
-            $this->manager->remove($bddBasket);
-        } else {
-            $bddBasket->setFormats($bddBasketFormats);
-            // dd($bddBasket);
-            // Sauvegarder le panier en base
-            $this->manager->persist($bddBasket);
-        }
-        $this->manager->flush();
     }
 
     /**
@@ -163,15 +167,15 @@ class BasketService
     {
         $session = $this->getSession();
         $userToken = $session->getId();
-        
         $basket = $this->manager->getRepository(Basket::class)->findBasketByCustomerOrUserToken($customer, $userToken);
         // Créer un panier s'il n'existe pas
         if (!$basket) {
             $basket = new Basket();
             if ($customer) {
                 $basket->setCustomer($customer);
+                $basket->setUserToken($userToken);
             } else {
-                $basket->setUserToken($session->getId());
+                $basket->setUserToken($userToken);
             }
         } else {
             if ($customer) {

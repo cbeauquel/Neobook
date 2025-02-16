@@ -6,16 +6,17 @@ use App\Entity\Order;
 use App\Entity\Basket;
 use App\Form\OrderType;
 use App\Enum\BasketStatus;
+use App\Service\BreadcrumbService;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\OrderStatusRepository;
 use Symfony\Component\HttpFoundation\Request;
+use function PHPUnit\Framework\throwException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-use function PHPUnit\Framework\throwException;
 
 class OrderController extends AbstractController
 {    
@@ -55,13 +56,17 @@ class OrderController extends AbstractController
             } elseif($existingOrder->getStatus() !== '1') {
                 throw new \RuntimeException('Une commande a déjà été passée avec ce panier');
             }
+
         return $this->redirectToRoute('order_view', ['id' => $order->getId()]);
     }
 
     #[IsGranted('IS_AUTHENTICATED', message:'Pour passer à la commande, identifiez vous ou créez votre compte')]
     #[Route('/view/{id}', name: 'order_view', requirements: ['id' => '\d+'])]
-    public function viewOrder(?Order $order, OrderRepository $orderRepository): Response
+    public function viewOrder(?Order $order, BreadcrumbService $breadcrumbService,): Response
     {
+        $breadcrumbService->add('Accueil', $this->generateUrl('home'));
+        $breadcrumbService->add('Commande', $this->generateUrl('order_view'));
+
         $formatsOrder = $order->getBasket();
         // dd($formatsOrder);
         return $this->render('order/index.html.twig', [

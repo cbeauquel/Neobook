@@ -36,7 +36,7 @@ class PayPlugService
                 'hosted_payment' => ['return_url' => $returnUrl],
                 'notification_url' => 'https://ton-site.com/webhook/payplug'
             ];
-            // dd($paymentData);
+            //  dd($paymentData);
             $payment = Payment::create($paymentData);
     
             return $payment;

@@ -5,17 +5,15 @@
 {% block body %}
 {#Fil d'ariane#}
 <div class="breadcrumb">
-    <p>Fil d'ariane</p>
+    {% include 'breadcrumb.html.twig' with { 'breadcrumbs': breadcrumbs } %}
 </div>
 <section>
     {#Bloc #}
     <div class="contributor-detail">
             <h1>Ma commande</h1>
-
     </div>
-
     {% if formatsOrder %}
-    <div class="order-container">
+    <div class="basket-container">
         <table class="table">
         <thead>
             <tr>
@@ -66,7 +64,6 @@
     {% endif %}
     <div class="order-foot">
         <a class="extract" href="{{path('payplug_pay', {id: order.id})}}">Je paye et télécharge mon livre</a>
-        <a href="{{path('home')}}" title="retour à l'accueil">Continuer mes achats</a>
     </div>
 </section>
 

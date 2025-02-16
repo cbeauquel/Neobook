@@ -51,7 +51,9 @@ class BasketController extends AbstractController
                 $manager->remove($bddBasket);
                 $manager->flush();
             }
-        } 
+        } elseif($bddBasket){
+            $session->remove('basket');
+        }
 
         // Initialiser les totaux à 0 pour éviter les erreurs
         $totalHT = 0;
@@ -89,7 +91,7 @@ class BasketController extends AbstractController
         if (!$formats) {
             throw $this->createNotFoundException('Produit introuvable.');
         }
-        $basketService->addToBasket($formats);
+        $basketService->addToBasket($formats, $this->getUser());
 
         return $this->redirectToRoute('basket_view');
     }

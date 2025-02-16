@@ -8,12 +8,17 @@ use App\Service\PayPlugService;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\OrderStatusRepository;
+use App\Repository\OrderRepository;
+use Doctrine\ORM\EntityManagerInterface;
+
+
 
 
 class PaymentController extends AbstractController
 {
     #[Route('/payplug/pay/{id}', name: 'payplug_pay')]
-    public function pay(?User $user, PayPlugService $payPlugService, ?Order $order): RedirectResponse
+    public function pay(PayPlugService $payPlugService, ?Order $order, OrderStatusRepository $orderStatusRepository, EntityManagerInterface $manager): RedirectResponse
     {
         $amount = $order->getTotalHT();
         $email = $this->getUser()->getEmail();
@@ -24,9 +29,14 @@ class PaymentController extends AbstractController
         if ($amount <= 0 || empty($email)) {
             throw $this->createNotFoundException('Requête invalide.');
         }
-
+        $status = $orderStatusRepository->findByStatus('Échoué');
         $payment = $payPlugService->createPayment($amount, $email, $firstName, $lastName, $returnUrl);
+        // dd($payment);
         if (!$payment || !isset($payment->hosted_payment->payment_url)) {
+            $order->setStatus($status);
+            $manager->persist($order);
+            $manager->flush();
+            return $this->redirectToRoute('customer_account');
             throw $this->createNotFoundException('Impossible de créer le paiement.');
         }
 

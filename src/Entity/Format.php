@@ -59,7 +59,7 @@ class Format
      * @var Collection<int, Book>
      */
     #[Assert\NotBlank]
-    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'formatTvaRate')]
+    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'formats')]
     private Collection $books;
 
     #[Assert\NotBlank]
@@ -77,7 +77,7 @@ class Format
     #[ORM\Column]
     private ?float $priceTTC = null;
 
-    #[Assert\NotBlank]
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'formatTvaRate', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tva $tvaRate = null;
