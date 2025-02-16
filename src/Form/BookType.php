@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Book;
 use App\Entity\Editor;
 use App\Entity\Category;
+use App\Entity\KeyWords;
 use App\Form\BoSkCoType;
 use App\Form\FormatType;
 use Symfony\Component\Form\AbstractType;
@@ -101,11 +102,12 @@ class BookType extends AbstractType
                     'class' => 'checkbox',
                 ],
             ])
-            // ->add('keyWords', EntityType::class, [
-            //     'class' => KeyWords::class,
-            //     'choice_label' => 'id',
-            //     'multiple' => true,
-            // ])
+            ->add('keyWords', EntityType::class, [
+                'class' => KeyWords::class,
+                'choice_label' => 'tag',
+                'by_reference' => false,
+                'multiple' => true,
+            ])
             ->add('formats', CollectionType::class, [
                 'entry_type' => FormatType::class,
                 'allow_add' => true,

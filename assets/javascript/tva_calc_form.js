@@ -1,3 +1,4 @@
+    console.log('This log comes from calc');
     document.addEventListener('DOMContentLoaded', () => {
         // Sélectionner tous les conteneurs de groupes de taux
         const tauxGroups = document.querySelectorAll('[data-taux-group]');
@@ -23,7 +24,7 @@
                     const priceTTC = priceHT + ((priceHT * taux) / 100);
                     priceTTCField.value = priceTTC.toFixed(2); // Arrondi à 2 décimales
                 };
-        
+
                 // Écouter les changements sur les champs PriceHT et Taux
                 priceHTField.addEventListener('input', calculatePriceTTC);
                 tauxFields.forEach(radio => {

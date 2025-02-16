@@ -32,7 +32,7 @@
                         <p>{{ app.user.firstname }} <span class="material-symbols-outlined">person</span></p>
                     </a>
                 {% else %}
-                    <a href="{{path('login')}}" title="lien de connexion">
+                    <a href="{{path('customer_account')}}" title="lien de connexion">
                         <p>Connexion <span class="material-symbols-outlined">person</span></p>
                     </a>
                 {% endif %}
@@ -52,25 +52,33 @@
                 <h3>Informations</h3>
                 <ul>
                     <li><a href="{{path('home')}}" title="">Accueil</a></li>
-                    <li><a href="" title="">Mentions légales</a></li>
-                    <li><a href="" title="">Conditions d'utilisation</a></li>
-                    <li><a href="" title="">Qui sommes-nous ?</a></li>
-                    <li><a href="" title="">Comment faire ?</a></li>
+                    <li><a href="{{path('mentions_legales')}}" title="">Mentions légales</a></li>
+                    <li><a href="{{path('conditions_utilisation')}}" title="">Conditions d'utilisation</a></li>
+                    <li><a href="{{path('qui_sommes_nous')}}" title="">Qui sommes-nous ?</a></li>
+                    {# <li><a href="" title="">Comment faire ?</a></li> #}
                     <li><a href="{{path('admin_book')}}" title="">Plan du site</a></li>
                  </ul>
             </div>
             <div class="footer-column">
                 <h3>Mon compte</h3>
-                <ul>
-                    <li><a href="" title="">Mes commandes</a></li>
-                    <li><a href="" title="">Mes informations</a></li>
-                </ul>
+                {% if app.user %}
+                    <ul>
+                        <li><a href="{{path('customer_account')}}" title="">Mes commandes</a></li>
+                        <li><a href="{{path('customer_edit', {id: app.user.id})}}" title="">Mes informations</a></li>
+                    </ul>
+                {% else %}
+                    <a href="{{path('customer_account')}}" title="lien de connexion">
+                        <p>Connectez-vous ou créez un compte</p>
+                    </a>
+                {% endif %}
             </div>
             <div class="footer-column">
                 <h3>Catégories</h3>
-                <ul>
-                    <li><a href="" title="">catégories</a></li>
-                </ul>
+                    <ul>
+                        {% for category in footerLinks %}
+                            <li><a href="{{path('category', {id:category.id})}}" title="">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
             </div>
         </footer>
     </body>

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\ToBeRead;
 use App\Form\CustomerType;
 use App\Service\BreadcrumbService;
+use App\Repository\OrderRepository;
 use App\Repository\ToBeReadRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,15 +19,17 @@ class CustomerAccountController extends AbstractController
 {
     #[IsGranted('IS_AUTHENTICATED', message:'Vous devez avoir un compte pour afficher cette page')]
     #[Route('/account', name: 'customer_account')]
-    public function index(ToBeReadRepository $toBeReadRepository): Response
+    public function index(ToBeReadRepository $toBeReadRepository, OrderRepository $orderRepository): Response
     {
         $booksToBeRead = $toBeReadRepository->findByCustomerId($this->getUser());
+        $myInvoices = $orderRepository->findByCustomerId($this->getUser());
 
-        //  dd($booksToBeRead);
+        //  dd($myInvoices);
         return $this->render('customer/index.html.twig', [
             'controller_name' => 'CustomerAccountController',
             'books_to_be_read' => $booksToBeRead,
-        ]);
+            'my_invoices' => $myInvoices,
+         ]);
     }
 
     #[IsGranted('ROLE_USER', message:'Vous devez avoir un compte pour afficher cette page')]
@@ -59,4 +62,5 @@ class CustomerAccountController extends AbstractController
         $this->addFlash('success', 'Le livre a été ajouté à votre liste de lecture.');
         return $this->redirectToRoute('customer_account');
     }
+    
 }

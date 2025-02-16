@@ -20,6 +20,12 @@ trait TimestampableTrait
         $this->updatedAt = new \DateTime();
     }
 
+    #[ORM\PrePersist]
+    public function getCreatedAt():?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
     #[ORM\PreUpdate]
     public function setUpdatedAtValue(): void
     {

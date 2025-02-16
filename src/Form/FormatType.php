@@ -6,6 +6,8 @@ use App\Entity\Tva;
 use App\Entity\Book;
 use App\Entity\Type;
 use App\Entity\Format;
+use App\Repository\TvaRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,8 +22,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class FormatType extends AbstractType
 {
+    private $manager;
+
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $rateDefault = $this->manager->getRepository(Tva::class)->find(1); // ID 1 par exemple
         $builder
             ->add('ISBN', TextType::class)
             ->add('priceHT', MoneyType::class, [
@@ -34,11 +44,12 @@ class FormatType extends AbstractType
                 'label' => 'Prix TTC',
                 'attr' => [
                     'data-price-ttc' => true, // Attribut pour JavaScript
-                    'readonly' => true,      // Champ en lecture seule
+                    // 'readonly' => true,      // Champ en lecture seule
                 ],
             ])
             ->add('tvaRate', EntityType::class, [
                 'class' => Tva::class,
+                'data' => $rateDefault,
                 'expanded' => true,
                 'choice_label' => 'taux',
                 'choice_attr' => function ($choice, $key, $value) {

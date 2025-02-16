@@ -138,6 +138,30 @@ affichage en liste horizontale (flex row)
 }
 
 /**
+PAGE DE CONTENU
+*/
+.content{
+    background-color: var(--backgroundItem);
+    padding:20px;
+    border-top:solid 3px var(--fontLight);
+    width:80%;
+    margin:auto;
+}
+
+.content p{
+    margin-bottom:12px;
+}
+
+.content h2{
+    font-size:1.2em;
+}
+
+.content h3{
+    font-size:1.1em;
+    text-align:left;
+}
+
+/**
 HEADER
 */
 .logo {
@@ -504,6 +528,14 @@ section > h2 {
     width:100%;
 }
 
+.book-content-pal {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap:10px;
+    height:420px;
+}
+
 .book-content {
     display:flex;
     flex-direction: column;
@@ -511,6 +543,7 @@ section > h2 {
     gap:10px;
     height:380px;
 }
+
 
 .contributor-name {
     height:2.5em;
@@ -785,3 +818,4 @@ a.pal {
     background-color: var(--linkColor);
     border:none;
 }
+

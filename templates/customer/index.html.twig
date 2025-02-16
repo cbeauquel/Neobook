@@ -9,10 +9,15 @@
         <article class="book-card" >
             <h2>Mes commandes</h2>
             <span class="material-symbols-outlined customer-account">receipt_long</span>
-            <a href="" class="account-content end">
+            {% if my_invoices %}
+            <a href="#invoices" class="account-content end">
                 <span class="material-symbols-outlined">preview</span>
-                <p>Consulter</p>
+                <p class="mt-1">Consulter</p>
             </a>
+            {% else %}
+                <p>Vous n'avez pas encore réalisé de commande</p>
+            {% endif %}
+
         </article>
         <article class="book-card" >
             <h2>Bibliothèque</h2>
@@ -54,13 +59,14 @@
     </div>
 </section>
 {#ma PAL#}
+{% if books_to_be_read %}
 <section>
     <h2>Ma PAL</h2>
     <div class="list">
         {% for book_tbr in books_to_be_read %}
         <a class="book-card" href="{{path('book', {id: book_tbr.book.id})}}" title="">
         <article>
-            <div class="book-content">
+            <div class="book-content-pal">
                 <div class="tbr-delete">
                      <button onclick="window.location.href='{{ path('tbr_remove', {id: book_tbr.id}) }}'" title="supprime le livre de la PAL" class="material-symbols-outlined">delete</button>
                 </div>
@@ -74,13 +80,6 @@
                 <img class="cover" src="{{asset('img/livres/' ~ book_tbr.book.cover)}}" alt="{{book_tbr.book.title}}" >
                 <p class="book-title">{{book_tbr.book.title}}</p>
             </div>
-            <div class="stars">
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-            </div>
             <ul class="book-prices">
             {% for format in book_tbr.book.formats %}
                 <li class="book-price">{{format.priceHT}}€</li>
@@ -91,6 +90,41 @@
         </a>
         {% endfor %}
     </div>
-
 </section>
+{% endif %}
+{# Mes factures #}
+{% if my_invoices %}
+    
+<section id="invoices">
+    <h2>Mes factures</h2>
+    <div class="list">
+        <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Référence</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Total HT</th>
+                <th>Total TTC</th>
+            </tr>
+        </thead>
+        <tbody>           
+        {% for invoice in my_invoices %}            
+            <tr>
+                <td>{{ invoice.id }}</td>
+                <td>{{ invoice.userToken.userToken }}</td>
+                <td>{{ invoice.createdAt | date("d/m/Y") }}</td>
+                <td>{{ invoice.status.status }}</td>
+                <td>{{ invoice.totalHT }}</td>
+                <td>{{ invoice.totalTTC }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>   
+
+    </div>
+</section>
+{% endif %}
+
 {% endblock %}

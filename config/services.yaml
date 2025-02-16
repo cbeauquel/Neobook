@@ -14,7 +14,14 @@ services:
     
     # Services spécifiques
     App\Service\BasketService: ~
+    App\Service\FooterService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+        tags: [ 'twig.extension' ]
 
+    App\Twig\GlobalVariables:
+        arguments:
+            $footerService: '@App\Service\FooterService'
     #Listeners
     App\EventListener\GlobalSearchListener:
             tags:
