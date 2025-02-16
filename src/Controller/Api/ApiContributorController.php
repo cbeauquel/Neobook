@@ -116,6 +116,11 @@ class ApiContributorController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN', message:'Vous n\'avez pas les droits suffisants pour agir sur un contributeur')]
     #[Route('/api/contributors', name: 'contributor_post', methods:['POST'])]
+    #[OA\RequestBody(
+        required: true,
+        content:new OA\JsonContent(ref: new Model(type: Contributor::class, groups: ['getContributors', 'getContributor']))
+    )]
+
     /**    * Cette méthode permet d'ajouter un contributeur (uniquement pour les profils admin)'.
      *
      */
@@ -154,6 +159,11 @@ class ApiContributorController extends AbstractController
     }
 
     #[Route('/api/contributor/{id}', name: 'contributor_update', requirements:['id' => '\d+'], methods:['PUT'])]
+    #[OA\RequestBody(
+        required: true,
+        content:new OA\JsonContent(ref: new Model(type: Contributor::class, groups: ['getContributors', 'getContributor']))
+    )]
+
     /**
      * Cette méthode permet de modifier un contributeur (uniquement pour les profils admin)'.
      *

@@ -116,6 +116,11 @@ class ApiBookController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN', message:'Vous n\'avez pas les droits suffisants pour agir sur un livre')]
     #[Route('/api/books', name: 'book_post', methods:['POST'])]
+    #[OA\RequestBody(
+        required: true,
+        content:new OA\JsonContent(ref: new Model(type: Book::class, groups: ['getBooks', 'getBook']))
+    )]
+
     /**
      * Cette méthode permet d'ajouter un livre (uniquement pour les profils admin)'.
      *
@@ -155,6 +160,10 @@ class ApiBookController extends AbstractController
     }
 
     #[Route('/api/book/{id}', name: 'book_update', requirements:['id' => '\d+'], methods:['PUT'])]
+    #[OA\RequestBody(
+        required: true,
+        content:new OA\JsonContent(ref: new Model(type: Book::class, groups: ['getBooks', 'getBook']))
+        )]
     /**
      * Cette méthode permet de modifier un livre (uniquement pour les profils admin)'.
      *

@@ -116,6 +116,11 @@ class ApiEditorController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN', message:'Vous n\'avez pas les droits suffisants pour agir sur un editeur')]
     #[Route('/api/editors', name: 'editor_post', methods:['POST'])]
+    #[OA\RequestBody(
+        required: true,
+        content:new OA\JsonContent(ref: new Model(type: Editor::class, groups: ['getEditors', 'getEditor']))
+    )]
+
     /**    * Cette méthode permet d'ajouter un editeur (uniquement pour les profils admin)'.
      *
      */
@@ -154,6 +159,11 @@ class ApiEditorController extends AbstractController
     }
 
     #[Route('/api/editor/{id}', name: 'editor_update', requirements:['id' => '\d+'], methods:['PUT'])]
+    #[OA\RequestBody(
+        required: true,
+        content:new OA\JsonContent(ref: new Model(type: Editor::class, groups: ['getEditors', 'getEditor']))
+    )]
+
     /**
      * Cette méthode permet de modifier un editeur (uniquement pour les profils admin)'.
      *
