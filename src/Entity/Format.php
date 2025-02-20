@@ -59,7 +59,7 @@ class Format
      * @var Collection<int, Book>
      */
     #[Assert\NotBlank]
-    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'formats')]
+    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'formats', cascade: ['persist'])]
     private Collection $books;
 
     #[Assert\NotBlank]

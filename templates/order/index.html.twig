@@ -12,6 +12,10 @@
     <div class="contributor-detail">
             <h1>Ma commande</h1>
     </div>
+    <div class="order-foot">
+        <a class="extract" href="{{path('order_abort', {id: order.id})}}">Annuler la commande</a>
+    </div>
+
     {% if formatsOrder %}
     <div class="basket-container">
         <table class="table">
@@ -65,6 +69,7 @@
     <div class="order-foot">
         <a class="extract" href="{{path('payplug_pay', {id: order.id})}}">Je paye et télécharge mon livre</a>
     </div>
+
 </section>
 
 {% endblock %}

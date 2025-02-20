@@ -132,6 +132,18 @@ class BasketService
         return $bddBasket;
     }
 
+    
+    /**
+     * @return Basket retourne l'objet basket issu de la BDD sur interrogation du UserToken 
+     */
+    public function loadAllBaskets($userToken): ?Basket
+    {        
+
+        $oldBasket = $this->manager->getRepository(Basket::class)->findBasketByUserToken($userToken);
+
+        return $oldBasket;
+    }
+
     /**
      * @return ArrayCollection retourne les formats d'un panier en base sous forme d'arraycollection sur interrogation de l'id du panier
      */

@@ -28,8 +28,11 @@ class BasketController extends AbstractController
         $breadcrumbService->add('Panier', $this->generateUrl('basket_view'));
         //  $session->clear();
         //récupère le panier en session.
+        $userToken = $session->getId();
         $sessionBasket = $basketService->getSessionBasket();
         // récupère le panier en base
+        $oldBasket = $basketService->loadAllBaskets($userToken);
+
         $bddBasket = $basketService->loadBasket($this->getUser());
         // Si le panier en session est vide et que le panier en base n'est pas vide
         if($sessionBasket->isEmpty() && $bddBasket){
@@ -51,10 +54,9 @@ class BasketController extends AbstractController
                 $manager->remove($bddBasket);
                 $manager->flush();
             }
-        } elseif($bddBasket){
-            $session->remove('basket');
+        } elseif (!$oldBasket) {
+            $session->remove($sessionBasket);
         }
-
         // Initialiser les totaux à 0 pour éviter les erreurs
         $totalHT = 0;
         $totalTTC = 0;

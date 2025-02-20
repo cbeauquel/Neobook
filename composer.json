@@ -106,6 +106,7 @@
         }
     },
     "require-dev": {
+        "blackfire/php-sdk": "^2.5",
         "doctrine/doctrine-fixtures-bundle": "^4.0",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "7.2.*",
