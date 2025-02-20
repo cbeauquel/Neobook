@@ -10,7 +10,6 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class EditorFactory extends PersistentProxyObjectFactory
 {
-    private CONST EDITOR_NAME = ['Ella Editions', 'CAIRN', 'Amphora', 'De Borée'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -33,11 +32,12 @@ final class EditorFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'dateAdd' => self::faker()->dateTime(),
+            'createdAt' => self::faker()->dateTime(),
             'description' => self::faker()->text(),
-            'logo' => self::faker()->imageUrl(),
-            'name' => self::faker()->randomElement(self::EDITOR_NAME),
-            'status' => 1,
+            'logo' => self::faker()->text(255),
+            'name' => self::faker()->text(255),
+            'status' => self::faker()->boolean(),
+            'updatedAt' => self::faker()->dateTime(),
         ];
     }
 

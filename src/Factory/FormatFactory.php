@@ -32,14 +32,16 @@ final class FormatFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'ISBN' => self::faker()->isbn13(),
-            'duration' => self::faker()->randomNumber($nbDigits = 2, $strict = true),
-            'filePath' => self::faker()->filePath(),
-            'fileSize' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 30),
-            'pagesCount' => self::faker()->randomNumber($nbDigits = 3, $strict = true),
-            'priceHT' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 3, $max = 30),
-            'wordsCount' => self::faker()->randomNumber($nbDigits = 4),
+            'ISBN' => self::faker()->text(13),
+            'duration' => self::faker()->randomNumber(),
+            'filePath' => self::faker()->text(255),
+            'fileSize' => self::faker()->randomFloat(),
+            'pagesCount' => self::faker()->randomNumber(),
+            'priceHT' => self::faker()->randomFloat(),
+            'priceTTC' => self::faker()->randomFloat(),
+            'tvaRate' => TvaFactory::new(),
             'type' => TypeFactory::new(),
+            'wordsCount' => self::faker()->randomNumber(),
         ];
     }
 

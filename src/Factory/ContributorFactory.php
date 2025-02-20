@@ -10,9 +10,6 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class ContributorFactory extends PersistentProxyObjectFactory
 {
-    private CONST CONTRIBUTOR_LASTNAMES = ['Jovnovic', 'Grelet', 'Vaissière', 'Shearer', 'Le Gloahec'];
-    private CONST CONTRIBUTOR_FIRSTNAMES = ['Anne', 'Marcel', 'Jean-François', 'Lyonel', 'Françoise'];
-    private CONST CONTRIBUTOR_PICTURES = ['img\contributeurs\bessou.jpg', 'img\contributeurs\grelet.jpg', 'img\contributeurs\jovanovic.jpg', 'img\contributeurs\legloahec.jpg', 'img\contributeurs\shearer.jpg', 'img\contributeurs\vaissierejf.jpg' ];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -36,11 +33,13 @@ final class ContributorFactory extends PersistentProxyObjectFactory
     {
         return [
             'bio' => self::faker()->text(),
-            'dateAdd' => self::faker()->dateTime(),
-            'lastname' => self::faker()->randomElement(self::CONTRIBUTOR_LASTNAMES),
-            'photo' => self::faker()->randomElement(self::CONTRIBUTOR_PICTURES),
-            'status' => 1,
-            'firstname' => self::faker()->randomElement(self::CONTRIBUTOR_FIRSTNAMES),
+            'createdAt' => self::faker()->dateTime(),
+            'firstname' => self::faker()->text(255),
+            'lastname' => self::faker()->text(255),
+            'photo' => self::faker()->text(255),
+            'slug' => self::faker()->text(255),
+            'status' => self::faker()->boolean(),
+            'updatedAt' => self::faker()->dateTime(),
         ];
     }
 

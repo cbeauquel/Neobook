@@ -10,7 +10,6 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class SkillFactory extends PersistentProxyObjectFactory
 {
-    private CONST SKILL_NAMES = ['Auteur', 'Lecteur', 'Préfacier'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -33,7 +32,7 @@ final class SkillFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'name' => self::faker()->RandomElement(self::SKILL_NAMES),
+            'name' => self::faker()->text(255),
         ];
     }
 

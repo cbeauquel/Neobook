@@ -2,16 +2,14 @@
 
 namespace App\Factory;
 
-use App\Entity\Type;
+use App\Entity\KeyWords;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Type>
+ * @extends PersistentProxyObjectFactory<KeyWords>
  */
-final class TypeFactory extends PersistentProxyObjectFactory
+final class KeyWordsFactory extends PersistentProxyObjectFactory
 {
-    private CONST FORMAT_TYPE = ['eBook', 'Audio'];
-    private CONST TYPE_IMG = ['book', 'headphones'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -23,7 +21,7 @@ final class TypeFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Type::class;
+        return KeyWords::class;
     }
 
     /**
@@ -34,8 +32,7 @@ final class TypeFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'name' => self::faker()->randomElement(self::FORMAT_TYPE),
-            'typeImg' => self::faker()->randomElement(self::TYPE_IMG),
+            'tag' => self::faker()->text(255),
         ];
     }
 
@@ -45,7 +42,7 @@ final class TypeFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Type $type): void {})
+            // ->afterInstantiate(function(KeyWords $keyWords): void {})
         ;
     }
 }

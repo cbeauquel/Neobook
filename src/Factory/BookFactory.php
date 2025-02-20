@@ -34,17 +34,12 @@ final class BookFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'bookUpdate' => self::faker()->dateTime(),
             'cover' => self::faker()->randomElement(self::BOOK_COVER),
-            'creationDate' => self::faker()->dateTime(),
-            'categories' => CategoryFactory::randomRange(1,3),
-            'formats' => FormatFactory::randomRange(1, 2),
-            'editor' => EditorFactory::random(),
-            'genre' => self::faker()->domainWord(),
+            'genre' => self::faker()->text(255),
             'parutionDate' => self::faker()->dateTime(),
-            'status' => 1,
+            'status' => self::faker()->boolean(),
             'summary' => self::faker()->text(),
-            'title' => self::faker()->randomElement(self::BOOK_TITLE),
+            'title' => self::faker()->text(255),
         ];
     }
 

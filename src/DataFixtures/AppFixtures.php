@@ -22,10 +22,8 @@ class AppFixtures extends Fixture
         ContributorFactory::createMany(6);
         EditorFactory::createMany(4);
         FormatFactory::createMany(22);
-        CategoryFactory::createMany(12);
         BookFactory::createMany(12);
         BoSkCoFactory::createMany(24);
-        TypeFactory::createMany(2);
         $manager->flush();
     }
 }
