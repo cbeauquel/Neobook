@@ -17,8 +17,8 @@ Dans un premier temps, installer les dépendances :
 composer install
 ```
 
-### Docker (optionnel)
-Si vous souhaitez utiliser Docker Compose, il vous suffit de lancer la commande suivante :
+### Docker 
+Si vous utiliser Docker Compose pour meilisearch (moteur de recherche), il vous suffit de lancer la commande suivante :
 ```bash
 docker compose up -d
 ```
@@ -51,7 +51,6 @@ symfony console doctrine:database:create
 symfony console doctrine:migrations:migrate -n
 ```
 
-#### Charger les fixtures
-```bash
-symfony console doctrine:fixtures:load -n --purge-with-truncate
+à défaut de fixtures, j'ai mis le fichier d'une base de données avec des données test
+le mdp des utilisateurs est 'trucmuche'
 ```
