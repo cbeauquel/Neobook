@@ -75,7 +75,7 @@ class Book
      */
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
     private Collection $formats;
 
     /**

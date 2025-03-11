@@ -19,6 +19,21 @@ final class ContributorFactory extends PersistentProxyObjectFactory
     {
     }
 
+    public static function createCustomContributors(): void
+    {
+        self::createSequence([
+            ['firstname' => 'Lyonel', 'lastname' => 'Shearer', 'photo' => 'shearer.jpg'],
+            ['firstname' => 'Françoise', 'lastname' => 'Le Gloahec', 'photo' => 'legloahec.jpg'],
+            ['firstname' => 'Jean-François', 'lastname' => 'Vaissière', 'photo' => 'vaissierejf.jpg'],
+            ['firstname' => 'Anne', 'lastname' => 'Jovanovic', 'photo' => 'jovanovic.jpg'],
+            ['firstname' => 'Yves', 'lastname' => 'Carchon', 'photo' => 'carchon.jpg'],
+            ['firstname' => 'Marcel', 'lastname' => 'Grelet', 'photo' => 'grelet.jpg'],
+            ['firstname' => 'Bernard', 'lastname' => 'Bessou', 'photo' => 'bessou.jpg'],
+            ['firstname' => 'Philippe', 'lastname' => 'Grandcoin', 'photo' => 'grandcoin.jpg'],
+            ['firstname' => 'Christian', 'lastname' => 'Laborie', 'photo' => 'laborie.jpg'],
+        ]);
+    }
+
     public static function class(): string
     {
         return Contributor::class;
@@ -33,13 +48,10 @@ final class ContributorFactory extends PersistentProxyObjectFactory
     {
         return [
             'bio' => self::faker()->text(),
-            'createdAt' => self::faker()->dateTime(),
             'firstname' => self::faker()->text(255),
             'lastname' => self::faker()->text(255),
             'photo' => self::faker()->text(255),
-            'slug' => self::faker()->text(255),
             'status' => self::faker()->boolean(),
-            'updatedAt' => self::faker()->dateTime(),
         ];
     }
 
@@ -48,8 +60,11 @@ final class ContributorFactory extends PersistentProxyObjectFactory
      */
     protected function initialize(): static
     {
-        return $this
-            // ->afterInstantiate(function(Contributor $contributor): void {})
-        ;
+        return $this->afterInstantiate(function (Contributor $contributor): void {
+            $slug = strtolower($contributor->getFirstname() . '-' . $contributor->getLastname());
+            $slug = str_replace(' ', '-', $slug); // Remplace les espaces par des tirets
+            $slug = preg_replace('/[^a-z0-9\-]/', '', $slug); // Supprime les caractères spéciaux
+            $contributor->setSlug($slug);
+        });
     }
 }

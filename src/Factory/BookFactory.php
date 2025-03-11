@@ -11,7 +11,7 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 final class BookFactory extends PersistentProxyObjectFactory
 {
     private CONST BOOK_TITLE = ['L\'armée sans Prince 2 - Catholique et Royale', 'La Terre éphémère', 'Une fleur pour l\'éternité', 'Le goût subtil du venin', 'Derrière la fumée', 'Jean Jaurès, n\'oublions pas ses combats'];
-    private CONST BOOK_COVER = ['img/livres/derriere-la-fumee.jpg', 'img/livres/l-armee-sans-prince-tome-2-catholique-et-royale.jpg', 'img/livres/la-terre-ephemere-tome-5-osmose.jpg', 'img/livres/la-terre-ephemere-tome-5-osmose.jpg', 'img/livres/petite-histoire-de-jean-jaures.jpg', 'img/livres/une-fleur-pour-l-eternite.jpg'];
+    private CONST BOOK_COVER = ['derriere-la-fumee.jpg', 'l-armee-sans-prince-tome-2-catholique-et-royale.jpg', 'la-terre-ephemere-tome-5-osmose.jpg', 'la-terre-ephemere-tome-5-osmose.jpg', 'petite-histoire-de-jean-jaures.jpg', 'une-fleur-pour-l-eternite.jpg'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
@@ -33,13 +33,18 @@ final class BookFactory extends PersistentProxyObjectFactory
      */
     protected function defaults(): array|callable
     {
+        $publishedAt = self::faker()->dateTimeBetween('-1 years', '+1years');
         return [
             'cover' => self::faker()->randomElement(self::BOOK_COVER),
-            'genre' => self::faker()->text(255),
-            'parutionDate' => self::faker()->dateTime(),
-            'status' => self::faker()->boolean(),
+            'genre' => self::faker()->slug($nbWords = 1, $variableNbWords = true),
+            'parutionDate' => $publishedAt,
+            'status' => self::faker()->boolean($chanceOfGettingTrue = 90),
             'summary' => self::faker()->text(),
-            'title' => self::faker()->text(255),
+            'title' => self::faker()->randomElement(self::BOOK_TITLE),
+            'categories' => CategoryFactory::randomRange(1, 4),
+            'editor' => EditorFactory::random(),
+            'boSkCos' => BoSkCoFactory::new()->range(1, 4),
+            'keyWords' => KeyWordsFactory::new()->range(1, 5),
         ];
     }
 

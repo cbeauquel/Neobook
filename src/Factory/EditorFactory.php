@@ -19,6 +19,17 @@ final class EditorFactory extends PersistentProxyObjectFactory
     {
     }
 
+    public static function createCustomEditors(): void
+    {
+        self::createSequence([
+            ['name' => 'De Borée', 'logo' => 'deboree-678cdd6ce61b3.png'],
+            ['name' => 'Amphora', 'logo' => 'amphora.jpg'],
+            ['name' => 'Cairn', 'logo' => 'cairn.jpg'],
+            ['name' => 'Ella', 'logo' => 'ella.jpg'],
+            ['name' => 'Marivole', 'logo' => 'marivole-678cd5c609a88.png'],
+        ]);
+    }
+
     public static function class(): string
     {
         return Editor::class;
@@ -32,12 +43,10 @@ final class EditorFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'createdAt' => self::faker()->dateTime(),
-            'description' => self::faker()->text(),
-            'logo' => self::faker()->text(255),
-            'name' => self::faker()->text(255),
+            'description' => self::faker()->text(200),
+            'logo' => self::faker()->imageUrl(640, 480, 'business'),
+            'name' => self::faker()->company(),
             'status' => self::faker()->boolean(),
-            'updatedAt' => self::faker()->dateTime(),
         ];
     }
 
