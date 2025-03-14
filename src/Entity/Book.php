@@ -71,11 +71,11 @@ class Book
     private Collection $categories;
 
     /**
-     * @var Collection<int, Format>
+     * @var Collection<int, Formats>
      */
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'books', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
     private Collection $formats;
 
     /**
@@ -253,7 +253,7 @@ class Book
     }
 
     /**
-     * @return Collection<int, Format>
+     * @return Collection<int, Formats>
      */
     public function getFormats(): Collection
     {

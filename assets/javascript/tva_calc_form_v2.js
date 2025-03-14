@@ -1,25 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Utiliser MutationObserver pour observer les changements dans le DOM
-    const observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-            mutation.addedNodes.forEach(node => {
-                // Vérifier si le nœud ajouté est un élément du formulaire
-                if (node instanceof Element && node.matches('[data-taux-group]')) {
-                    // Un nouveau groupe a été ajouté, appliquer la logique
-                    handleTauxGroup(node);
-                }
-            });
-        });
-    });
+console.log('This log comes from calc'); // Vérification de chargement
 
-    // Configurer l'observateur pour surveiller les ajouts de nœuds
-    observer.observe(document.querySelector('form'), { childList: true, subtree: true });
+function initTVACalculator() {
+    // console.log("Initialisation du calcul TVA...");
 
-    // Fonction pour gérer la logique d'un groupe de taux
-    function handleTauxGroup(group) {
+    const tauxGroups = document.querySelectorAll('[data-taux-group]');
+    // if (!tauxGroups.length) {
+    //     console.warn("Aucun groupe de TVA trouvé !");
+    //     return;
+    // }
+
+    tauxGroups.forEach(group => {
         const priceHTField = group.querySelector('[data-price-ht]');
         const tauxFields = group.querySelectorAll('[data-taux] input[type="radio"]');
         const priceTTCField = group.querySelector('[data-price-ttc]');
+
+        // console.log("Vérification des champs:", priceHTField, priceTTCField, tauxFields);
 
         if (priceHTField && tauxFields.length > 0 && priceTTCField) {
             const calculatePriceTTC = () => {
@@ -35,17 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 priceTTCField.value = priceTTC.toFixed(2);
             };
 
-            // Calcul initial
-            calculatePriceTTC();
-
             priceHTField.addEventListener('input', calculatePriceTTC);
-            tauxFields.forEach(radio => {
-                radio.addEventListener('change', calculatePriceTTC);
-            });
-        }
-    }
+            tauxFields.forEach(radio => radio.addEventListener('change', calculatePriceTTC));
 
-    // Gérer les groupes déjà présents au chargement de la page
-    const initialTauxGroups = document.querySelectorAll('[data-taux-group]');
-    initialTauxGroups.forEach(handleTauxGroup);
-});
+            // **Forçage du calcul après un petit délai si nécessaire**
+            setTimeout(calculatePriceTTC, 500);
+        }
+    });
+}
+
+// Exécuter au chargement normal et avec Turbo / Stimulus
+document.addEventListener('DOMContentLoaded', initTVACalculator);
+document.addEventListener('turbo:load', initTVACalculator);
+document.addEventListener('stimulus:connect', initTVACalculator);

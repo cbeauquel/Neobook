@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\KeyWords;
+use App\Entity\Tva;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<KeyWords>
+ * @extends PersistentProxyObjectFactory<Tva>
  */
-final class KeyWordsFactory extends PersistentProxyObjectFactory
+final class TvaFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -21,7 +21,7 @@ final class KeyWordsFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return KeyWords::class;
+        return Tva::class;
     }
 
     /**
@@ -32,7 +32,7 @@ final class KeyWordsFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'tag' => self::faker()->slug($nbWords = 1, $variableNbWords = true),
+            'taux' => self::faker()->randomFloat(),
         ];
     }
 
@@ -42,7 +42,7 @@ final class KeyWordsFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(KeyWords $keyWords): void {})
+            // ->afterInstantiate(function(Tva $tva): void {})
         ;
     }
 }

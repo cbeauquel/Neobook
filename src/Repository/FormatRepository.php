@@ -24,7 +24,7 @@ class FormatRepository extends ServiceEntityRepository
        {
            return $this->createQueryBuilder('f')
                ->andWhere('f.id IN (:val)')
-               ->innerJoin('f.books', 'b')
+               ->innerJoin('f.book', 'b')
                ->innerJoin('b. editor', 'e')
                ->innerJoin('f.type', 't')
                ->innerJoin('f.tvaRate', 'r')
@@ -50,7 +50,7 @@ class FormatRepository extends ServiceEntityRepository
                ->join('f.baskets','b')
                ->setParameter('val', $value)
                ->addSelect('bo')
-               ->innerJoin('f.books', 'bo')
+               ->innerJoin('f.book', 'bo')
                ->innerJoin('f.type', 't')
                ->addSelect('t')
                ->orderBy('f.id', 'ASC')

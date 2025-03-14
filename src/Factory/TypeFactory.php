@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\KeyWords;
+use App\Entity\Type;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<KeyWords>
+ * @extends PersistentProxyObjectFactory<Type>
  */
-final class KeyWordsFactory extends PersistentProxyObjectFactory
+final class TypeFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -21,7 +21,7 @@ final class KeyWordsFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return KeyWords::class;
+        return Type::class;
     }
 
     /**
@@ -32,7 +32,8 @@ final class KeyWordsFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'tag' => self::faker()->slug($nbWords = 1, $variableNbWords = true),
+            'name' => self::faker()->text(255),
+            'typeImg' => self::faker()->text(255),
         ];
     }
 
@@ -42,7 +43,7 @@ final class KeyWordsFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(KeyWords $keyWords): void {})
+            // ->afterInstantiate(function(Type $type): void {})
         ;
     }
 }

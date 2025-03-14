@@ -41,7 +41,18 @@ DATABASE_URL=mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=ut
 symfony console doctrine:database:drop --force --if-exists
 ```
 
-
-importer le fichier neobook.sql, le fichier de la base de données avec des données test
-le mdp des utilisateurs est 'trucmuche'
+#### Créer la base de données
+ ```bash
+ symfony console doctrine:database:create
+ ```
+ 
+ #### Exécuter les migrations
+ ```bash
+ symfony console doctrine:migrations:migrate -n
+ ```
+ 
+ #### Charger les fixtures
+ ```bash
+ symfony console doctrine:fixtures:load -n --purge-with-truncate
+ ```
 ```
