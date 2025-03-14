@@ -71,7 +71,7 @@ class Book
     private Collection $categories;
 
     /**
-     * @var Collection<int, Format>
+     * @var Collection<int, Formats>
      */
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
@@ -253,7 +253,7 @@ class Book
     }
 
     /**
-     * @return Collection<int, Format>
+     * @return Collection<int, Formats>
      */
     public function getFormats(): Collection
     {

@@ -57,7 +57,7 @@ class Format
 
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'formatBook', cascade: ['persist'])]
+    #[ORM\ManyToOne(inversedBy: 'formats', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book;
 

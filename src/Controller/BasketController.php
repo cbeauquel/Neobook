@@ -73,7 +73,7 @@ class BasketController extends AbstractController
             }
         }
 
-            // dd($sessionBasket, $session->getId());
+        // dd($sessionBasket);
         return $this->render('basket/index.html.twig', [
             'controller_name' => 'BasketController',
             'basket' => $sessionBasket,

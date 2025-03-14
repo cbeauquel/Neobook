@@ -12,10 +12,6 @@
  * The "importmap:require" command can be used to add new entries to this file.
  */
 return [
-    'app' => [
-        'path' => './assets/app.js',
-        'entrypoint' => true,
-    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
@@ -34,5 +30,9 @@ return [
     'bootstrap/dist/css/bootstrap.min.css' => [
         'version' => '5.3.3',
         'type' => 'css',
+    ],
+    'app' => [
+        'path' => './assets/app.js',
+        'entrypoint' => true,
     ],
 ];

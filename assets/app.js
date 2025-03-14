@@ -6,10 +6,10 @@ import './bootstrap.js';
  * This file will be included onto the page via the importmap() Twig function,
  * which should already be in your base.html.twig.
  */
-import './javascript/tva_calc_form_v2.js';
 import './vendor/bootstrap/dist/css/bootstrap.min.css';
 import './styles/desktop.css';
 import './styles/admin.css';
+import './javascript/tva_calc_form_v2.js';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
