@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class OrderStatusTest extends TestCase
 {
     public function testIsTrue(): void
-    {      
+    {
         $orderTest = new Order();
         $ordersTest = new ArrayCollection($elements = [$orderTest]);
 
@@ -24,7 +24,7 @@ class OrderStatusTest extends TestCase
 
     public function testIsFalse(): void
     {
-        {      
+        {
             $orderTest = new Order();
             $ordersTest = new ArrayCollection($elements = [$orderTest]);
     

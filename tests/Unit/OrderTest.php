@@ -2,11 +2,11 @@
 
 namespace App\Tests;
 
-use App\Entity\User;
-use App\Entity\Order;
 use App\Entity\Basket;
-use App\Entity\Payment;
+use App\Entity\Order;
 use App\Entity\OrderStatus;
+use App\Entity\Payment;
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class OrderTest extends TestCase
@@ -31,7 +31,7 @@ class OrderTest extends TestCase
         $this->assertTrue($orderTest->isNewCustomer() === true);
         $this->assertTrue($orderTest->getCustomer() === $userTest);
         $this->assertTrue($orderTest->getStatus() === $orderStatusTest);
-        $this->assertTrue($orderTest->getPaymentMode() ===$paymentModeTest);
+        $this->assertTrue($orderTest->getPaymentMode() === $paymentModeTest);
         $this->assertTrue($orderTest->getBasket() === $basketTest);
         $this->assertTrue($orderTest->getUserToken() === $basketTest);
         $this->assertTrue($orderTest->getTotalHT() === '19.99');
@@ -55,7 +55,7 @@ class OrderTest extends TestCase
                   ->setTotalHT('19.99')
                   ->setTotalTTC('26.99');
 
-        $this->assertFalse($orderTest->isNewCustomer() === False);
+        $this->assertFalse($orderTest->isNewCustomer() === false);
         $this->assertFalse($orderTest->getCustomer() === new User());
         $this->assertFalse($orderTest->getStatus() === new OrderStatus());
         $this->assertFalse($orderTest->getPaymentMode() === new Payment());
@@ -77,5 +77,4 @@ class OrderTest extends TestCase
         $this->assertEmpty($orderTest->getTotalHT());
         $this->assertEmpty($orderTest->getTotalTTC());
     }
-
 }

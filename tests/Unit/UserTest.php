@@ -2,14 +2,14 @@
 
 namespace App\Tests;
 
-use DateTime;
-use App\Entity\User;
 use App\Entity\Basket;
 use App\Entity\Feedback;
 use App\Entity\Order;
 use App\Entity\ToBeRead;
-use PHPUnit\Framework\TestCase;
+use App\Entity\User;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {

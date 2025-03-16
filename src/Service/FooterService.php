@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 
 namespace App\Service;
 
@@ -6,11 +7,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class FooterService
 {
-    private EntityManagerInterface $manager;
-
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(private readonly EntityManagerInterface $manager)
     {
-        $this->manager = $manager;
     }
 
     public function getFooterLinks(): array

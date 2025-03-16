@@ -2,17 +2,17 @@
 
 namespace App\Tests;
 
-use DateTime;
 use App\Entity\Book;
 use App\Entity\BoSkCo;
+use App\Entity\Category;
 use App\Entity\Editor;
+use App\Entity\Feedback;
 use App\Entity\Format;
 use App\Entity\KeyWord;
-use App\Entity\Category;
-use App\Entity\Feedback;
 use App\Entity\ToBeRead;
-use PHPUnit\Framework\TestCase;
 use App\Entity\Traits\TimestampableTrait;
+use DateTime;
+use PHPUnit\Framework\TestCase;
 
 class BookTest extends TestCase
 {
@@ -98,13 +98,13 @@ class BookTest extends TestCase
         $this->assertFalse($bookTest->getCreatedAt() === new DateTime());
         $this->assertFalse($bookTest->getUpdatedAt() === new DateTime());
         $this->assertFalse($bookTest->isStatus() === '0');
-        $this->assertNotContains(new KeyWord, $bookTest->getKeyWords());
-        $this->assertNotContains(new Category, $bookTest->getCategories());
-        $this->assertNotContains(new Format, $bookTest->getFormats());
-        $this->assertNotContains(new Feedback, $bookTest->getFeedbacks());
-        $this->assertFalse($bookTest->getEditor() === new Editor);
-        $this->assertNotContains(new BoSkCo, $bookTest->getBoSkCos());
-        $this->assertNotContains(new ToBeRead, $bookTest->getToBeReads());
+        $this->assertNotContains(new KeyWord(), $bookTest->getKeyWords());
+        $this->assertNotContains(new Category(), $bookTest->getCategories());
+        $this->assertNotContains(new Format(), $bookTest->getFormats());
+        $this->assertNotContains(new Feedback(), $bookTest->getFeedbacks());
+        $this->assertFalse($bookTest->getEditor() === new Editor());
+        $this->assertNotContains(new BoSkCo(), $bookTest->getBoSkCos());
+        $this->assertNotContains(new ToBeRead(), $bookTest->getToBeReads());
     }
 
     public function testIsEmpty(): void
@@ -126,6 +126,4 @@ class BookTest extends TestCase
         $this->assertEmpty($bookTest->getBoSkCos());
         $this->assertEmpty($bookTest->getToBeReads());
     }
-
-
 }

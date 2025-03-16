@@ -2,46 +2,45 @@
 
 namespace App\Controller;
 
-use App\Entity\Order;
 use App\Entity\Basket;
-use App\Form\OrderType;
+use App\Entity\Order;
 use App\Enum\BasketStatus;
-use App\Service\BreadcrumbService;
+use App\Form\OrderType;
 use App\Repository\OrderRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\OrderStatusRepository;
+use App\Service\BreadcrumbService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use function PHPUnit\Framework\throwException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use function PHPUnit\Framework\throwException;
 
 #[Route('/order', name: 'order_')]
 class OrderController extends AbstractController
-{    
-    #[IsGranted('IS_AUTHENTICATED', message:'Pour passer à la commande, identifiez vous ou créez votre compte')]
-    #[Route('/add/{id}', name: 'add', requirements:['id' => '\d+'])]
+{
+    #[IsGranted('IS_AUTHENTICATED', message: 'Pour passer à la commande, identifiez vous ou créez votre compte')]
+    #[Route('/add/{id}', name: 'add', requirements: ['id' => '\d+'])]
     public function addOrder(
-        ?Basket $basket, 
-        EntityManagerInterface $manager, 
-        ?Order $order, 
-        OrderStatusRepository $orderStatusRepository, 
+        ?Basket $basket,
+        EntityManagerInterface $manager,
+        ?Order $order,
+        OrderStatusRepository $orderStatusRepository,
         OrderRepository $orderRepository,
         int $id,
-        ): Response
-    {
+    ): Response {
         $defautStatus = $orderStatusRepository->findByStatus('En attente');
         $customerOrders = $orderRepository->findByUserId($this->getUser());
-        if(isset($customerOrders)){
+        if (isset($customerOrders)) {
             $newCustomer = false;
         }
         $existingOrder = $orderRepository->findByBasketId($id);
         $customerId = $basket->getCustomer();
         $totalHT = $basket->getTotalHT();
         $totalTTC = $basket->getTotalTTC();
-        if(!$existingOrder){
+        if (!$existingOrder) {
             $order ??= new Order();
             $order->setCustomer($customerId);
             $order->setTotalHT($totalHT);
@@ -52,18 +51,18 @@ class OrderController extends AbstractController
             $order->setNewCustomer($newCustomer);
             $manager->persist($order);
             $manager->flush();
-            } elseif($existingOrder->getStatus()->getId() != '1') {
-                throw new \RuntimeException('Une commande a déjà été passée avec ce panier');
-            } else {
-                return $this->redirectToRoute('order_view', ['id' => $existingOrder->getId()]);
-            }
+        } elseif ($existingOrder->getStatus()->getId() != '1') {
+            throw new \RuntimeException('Une commande a déjà été passée avec ce panier');
+        } else {
+            return $this->redirectToRoute('order_view', ['id' => $existingOrder->getId()]);
+        }
 
         return $this->redirectToRoute('order_view', ['id' => $order->getId()]);
     }
 
-    #[IsGranted('IS_AUTHENTICATED', message:'Pour passer à la commande, identifiez vous ou créez votre compte')]
+    #[IsGranted('IS_AUTHENTICATED', message: 'Pour passer à la commande, identifiez vous ou créez votre compte')]
     #[Route('/view/{id}', name: 'view', requirements: ['id' => '\d+'])]
-    public function viewOrder(?Order $order, BreadcrumbService $breadcrumbService,): Response
+    public function viewOrder(?Order $order, BreadcrumbService $breadcrumbService): Response
     {
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Commande', $this->generateUrl('order_view', ['id' => $order->getId()]));
@@ -79,7 +78,7 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[IsGranted('IS_AUTHENTICATED', message:'Pour passer à la commande, identifiez vous ou créez votre compte')]
+    #[IsGranted('IS_AUTHENTICATED', message: 'Pour passer à la commande, identifiez vous ou créez votre compte')]
     #[Route('/abort/{id}', name: 'abort', requirements: ['id' => '\d+'])]
     public function deleteOrder(?Order $order, EntityManagerInterface $manager, OrderStatusRepository $orderStatusRepository): Response
     {
@@ -91,7 +90,6 @@ class OrderController extends AbstractController
         $manager->persist($order);
         $manager->flush();
             
-            return $this->redirectToRoute('customer_account');
+        return $this->redirectToRoute('customer_account');
     }
-
 }

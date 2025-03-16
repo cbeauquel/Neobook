@@ -2,24 +2,21 @@
 
 namespace App\DataFixtures;
 
-
-use App\Factory\TvaFactory;
 use App\Factory\BookFactory;
-use App\Factory\TypeFactory;
-use App\Factory\UserFactory;
-use App\Factory\SkillFactory;
 use App\Factory\BoSkCoFactory;
+use App\Factory\CategoryFactory;
+use App\Factory\ContributorFactory;
 use App\Factory\EditorFactory;
 use App\Factory\FormatFactory;
-use App\Factory\PaymentFactory;
-use App\Factory\CategoryFactory;
 use App\Factory\KeyWordsFactory;
-use App\Factory\ContributorFactory;
 use App\Factory\OrderStatusFactory;
-use Doctrine\Persistence\ObjectManager;
+use App\Factory\PaymentFactory;
+use App\Factory\SkillFactory;
+use App\Factory\TvaFactory;
+use App\Factory\TypeFactory;
+use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-
-
+use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
@@ -89,38 +86,32 @@ class AppFixtures extends Fixture
             throw new \Exception("Les entités Type et Tva doivent exister avant de créer des Formats.");
         }
 
-        BookFactory::createMany(36, function() {
-            return [
-                'categories' => CategoryFactory::randomRange(0, 3),
-                'editor' => EditorFactory::random(),
-                'boSkCos' => BoSkCoFactory::new()->range(1, 4),
-                'keyWords' => KeyWordsFactory::new()->range(1, 5),
-                'formats' => FormatFactory::new()->range(1, 2),
-            ];
-        });
+        BookFactory::createMany(36, fn() => [
+            'categories' => CategoryFactory::randomRange(0, 3),
+            'editor' => EditorFactory::random(),
+            'boSkCos' => BoSkCoFactory::new()->range(1, 4),
+            'keyWords' => KeyWordsFactory::new()->range(1, 5),
+            'formats' => FormatFactory::new()->range(1, 2),
+        ]);
 
         $manager->flush();
 
         FormatFactory::new()
-        ->create(function() {
-            return [
-                'type' => TypeFactory::random(),
-                'tvaRate' => TvaFactory::random(),
-                'book' => BookFactory::random(),
-            ];
-        }); 
+        ->create(fn() => [
+            'type' => TypeFactory::random(),
+            'tvaRate' => TvaFactory::random(),
+            'book' => BookFactory::random(),
+        ]);
 
         $manager->flush();
 
         BoSkCoFactory::new()
-            ->create(function() {
-            return [
+            ->create(fn() => [
                 'book' => BookFactory::random(),
                 'contributor' => ContributorFactory::random(),
                 'skill' => SkillFactory::random(),
-            ];
-        });
+            ]);
 
         $manager->flush();
     }
-}       
+}

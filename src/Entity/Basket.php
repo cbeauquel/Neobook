@@ -2,15 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableTrait;
 use App\Enum\BasketStatus;
 use App\Repository\BasketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Traits\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BasketRepository::class)]
@@ -39,11 +37,11 @@ class Basket
     private Collection $formats;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
     private ?string $totalHT = null;
 
     #[Assert\NotBlank()]
-    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
     private ?string $totalTTC = null;
 
     #[ORM\Column(type: 'string', enumType: BasketStatus::class)]

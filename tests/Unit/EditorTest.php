@@ -4,8 +4,8 @@ namespace App\Tests;
 
 use App\Entity\Book;
 use App\Entity\Editor;
-use PHPUnit\Framework\TestCase;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
 
 class EditorTest extends TestCase
 {
@@ -45,7 +45,7 @@ class EditorTest extends TestCase
         $this->assertFalse($editorTest->getName() === 'EditestFalse');
         $this->assertFalse($editorTest->getLogo() === 'testFalse.jpg');
         $this->assertFalse($editorTest->getDescription() === 'description de test false');
-        $this->assertFalse($editorTest->isStatus() === False);
+        $this->assertFalse($editorTest->isStatus() === false);
         $this->assertFalse($editorTest->getBooks() === new ArrayCollection($elements = [$bookTest]));
     }
 

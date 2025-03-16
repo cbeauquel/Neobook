@@ -6,13 +6,10 @@ use App\Service\BasketService;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-final class LoginListener
+final readonly class LoginListener
 {
-    private $basketService;
-
-    public function __construct(BasketService $basketService)
+    public function __construct(private BasketService $basketService)
     {
-        $this->basketService = $basketService;
     }
 
     #[AsEventListener(event: 'security.interactive_login')]
@@ -25,4 +22,4 @@ final class LoginListener
             $this->basketService->persistBasket($user);
         }
     }
-} 
+}

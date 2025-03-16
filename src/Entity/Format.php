@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 #[ORM\Entity(repositoryClass: FormatRepository::class)]
 class Format
 {
@@ -22,7 +21,7 @@ class Format
     // #[Assert\Isbn(
     //     type:Assert\Isbn::ISBN_13
     // )]
-    #[Assert\Length(min:13, max:13)]
+    #[Assert\Length(min: 13, max: 13)]
     #[ORM\Column(length: 13)]
     private ?string $ISBN = null;
 
@@ -54,7 +53,7 @@ class Format
     #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'formats', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Book $book;
+    private ?Book $book = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
@@ -68,12 +67,12 @@ class Format
 
     #[Assert\NotBlank]
     #[Groups(['searchable', 'getBooks'])]
-    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
     private ?string $priceHT = null;
 
     #[Groups(['getBooks'])]
     #[Assert\NotBlank]
-    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
     private ?string $priceTTC = null;
 
     #[Assert\Valid]
@@ -275,5 +274,4 @@ class Format
 
         return $this;
     }
-
 }

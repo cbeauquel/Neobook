@@ -4,8 +4,8 @@ namespace App\Tests;
 
 use App\Entity\BoSkCo;
 use App\Entity\Contributor;
-use PHPUnit\Framework\TestCase;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
 
 class ContributorTest extends TestCase
 {

@@ -6,20 +6,15 @@ use Payplug\Payplug;
 use Payplug\Resource\Payment;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-
 class PayPlugService
 {
-    private string $secretKey;
-
-    public function __construct(string $secretKey)
+    public function __construct(private readonly string $secretKey)
     {
-        $this->secretKey = $secretKey;
-
         // Initialisation de PayPlug avec la nouvelle méthode
         Payplug::init([
             'secretKey' => $this->secretKey,
             'apiVersion' => '2019-08-06' // Vérifie la dernière version dans la doc
-        ]);      
+        ]);
     }
     public function createPayment(float $amount, string $customerEmail, string $firstName, string $lastName, string $returnUrl): ?Payment
     {
@@ -40,8 +35,8 @@ class PayPlugService
             $payment = Payment::create($paymentData);
     
             return $payment;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
-        }    
+        }
     }
 }

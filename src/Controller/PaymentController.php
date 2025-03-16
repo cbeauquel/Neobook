@@ -2,18 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\Order;
-use App\Service\PayPlugService;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Repository\OrderStatusRepository;
+use App\Entity\User;
 use App\Repository\OrderRepository;
+use App\Repository\OrderStatusRepository;
+use App\Service\PayPlugService;
 use Doctrine\ORM\EntityManagerInterface;
-
-
-
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Attribute\Route;
 
 class PaymentController extends AbstractController
 {
@@ -40,7 +37,7 @@ class PaymentController extends AbstractController
             throw $this->createNotFoundException('Impossible de créer le paiement.');
         }
 
-         // Redirection directe vers la page de paiement PayPlug
+        // Redirection directe vers la page de paiement PayPlug
         return new RedirectResponse($payment->hosted_payment->payment_url);
     }
 }

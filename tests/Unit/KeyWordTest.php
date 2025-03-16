@@ -3,10 +3,10 @@
 namespace App\Tests;
 
 use App\Entity\Book;
-use App\Entity\KeyWord;
 use App\Entity\Category;
-use PHPUnit\Framework\TestCase;
+use App\Entity\KeyWord;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
 
 class KeyWordTest extends TestCase
 {

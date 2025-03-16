@@ -3,9 +3,9 @@
 namespace App\Tests;
 
 use App\Entity\Book;
-use App\Entity\Skill;
 use App\Entity\BoSkCo;
 use App\Entity\Contributor;
+use App\Entity\Skill;
 use PHPUnit\Framework\TestCase;
 
 class BoSkCoTest extends TestCase

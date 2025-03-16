@@ -16,25 +16,25 @@ class ToBeReadRepository extends ServiceEntityRepository
         parent::__construct($registry, ToBeRead::class);
     }
 
-      /**
-        * @return ToBeRead[] Returns an array of ToBeRead objects
-        */
-       public function findByCustomerId($value): array
-       {
-           return $this->createQueryBuilder('t')
-               ->innerJoin('t.book', 'b')
-               ->innerJoin('b.boSkCos', 'bsc')
-               ->innerJoin('bsc.skill', 's')
-               ->innerJoin('bsc.contributor', 'c')
-               ->addSelect('b')
-               ->andWhere('t.customer = :val')
-               ->setParameter('val', $value)
-               ->orderBy('t.id', 'ASC')
-               ->setMaxResults(10)
-               ->getQuery()
-               ->getResult()
-           ;
-       }
+    /**
+      * @return ToBeRead[] Returns an array of ToBeRead objects
+      */
+    public function findByCustomerId($value): array
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.book', 'b')
+            ->innerJoin('b.boSkCos', 'bsc')
+            ->innerJoin('bsc.skill', 's')
+            ->innerJoin('bsc.contributor', 'c')
+            ->addSelect('b')
+            ->andWhere('t.customer = :val')
+            ->setParameter('val', $value)
+            ->orderBy('t.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     //    /**
     //     * @return ToBeRead[] Returns an array of ToBeRead objects

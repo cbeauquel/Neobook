@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class SkillTest extends TestCase
 {
     public function testIsTrue(): void
-    {      
+    {
         $boSkCoTest = new BoSkCo();
         $boSkCosTest = new ArrayCollection($elements = [$boSkCoTest]);
 
@@ -23,7 +23,7 @@ class SkillTest extends TestCase
     }
 
     public function testIsFalse(): void
-    {      
+    {
         $boSkCoTest = new BoSkCo();
         $boSkCosTest = new ArrayCollection($elements = [$boSkCoTest]);
 

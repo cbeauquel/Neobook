@@ -1,4 +1,5 @@
 <?php
+
 namespace App\EventListener;
 
 use App\Service\SearchFormProvider;
@@ -8,15 +9,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
 
 #[AsEventListener(event: KernelEvents::CONTROLLER, method: '__invoke')]
-final class GlobalSearchListener
+final readonly class GlobalSearchListener
 {
-    private SearchFormProvider $searchFormProvider;
-    private Environment $twig;
-
-    public function __construct(SearchFormProvider $searchFormProvider, Environment $twig)
+    public function __construct(private SearchFormProvider $searchFormProvider, private Environment $twig)
     {
-        $this->searchFormProvider = $searchFormProvider;
-        $this->twig = $twig;
     }
 
     public function __invoke(ControllerEvent $event): void

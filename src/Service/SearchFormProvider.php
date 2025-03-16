@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 
 namespace App\Service;
 
@@ -8,12 +9,9 @@ use Symfony\Component\Form\FormView;
 
 class SearchFormProvider
 {
-    private FormFactoryInterface $formFactory;
-
     // Injection du FormFactoryInterface via le constructeur
-    public function __construct(FormFactoryInterface $formFactory)
+    public function __construct(private readonly FormFactoryInterface $formFactory)
     {
-        $this->formFactory = $formFactory;
     }
 
     public function getSearchForm(): FormView

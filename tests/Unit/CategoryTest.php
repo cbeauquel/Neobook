@@ -4,8 +4,8 @@ namespace App\Tests;
 
 use App\Entity\Book;
 use App\Entity\Category;
-use PHPUnit\Framework\TestCase;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
 
 class CategoryTest extends TestCase
 {
@@ -41,7 +41,6 @@ class CategoryTest extends TestCase
 
         $categoryTest->removeBook(new Book());
         $this->assertTrue($categoryTest->getBooks() === $booksTest);
-
     }
     
     public function testIsEmpty(): void

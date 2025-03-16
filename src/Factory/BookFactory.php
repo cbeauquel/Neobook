@@ -10,8 +10,8 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class BookFactory extends PersistentProxyObjectFactory
 {
-    private CONST BOOK_TITLE = ['L\'armée sans Prince 2 - Catholique et Royale', 'La Terre éphémère', 'Une fleur pour l\'éternité', 'Le goût subtil du venin', 'Derrière la fumée', 'Jean Jaurès, n\'oublions pas ses combats'];
-    private CONST BOOK_COVER = ['derriere-la-fumee.jpg', 'l-armee-sans-prince-tome-2-catholique-et-royale.jpg', 'la-terre-ephemere-tome-5-osmose.jpg', 'la-terre-ephemere-tome-5-osmose.jpg', 'petite-histoire-de-jean-jaures.jpg', 'une-fleur-pour-l-eternite.jpg'];
+    private const BOOK_TITLE = ['L\'armée sans Prince 2 - Catholique et Royale', 'La Terre éphémère', 'Une fleur pour l\'éternité', 'Le goût subtil du venin', 'Derrière la fumée', 'Jean Jaurès, n\'oublions pas ses combats'];
+    private const BOOK_COVER = ['derriere-la-fumee.jpg', 'l-armee-sans-prince-tome-2-catholique-et-royale.jpg', 'la-terre-ephemere-tome-5-osmose.jpg', 'la-terre-ephemere-tome-5-osmose.jpg', 'petite-histoire-de-jean-jaures.jpg', 'une-fleur-pour-l-eternite.jpg'];
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *

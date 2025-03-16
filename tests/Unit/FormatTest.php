@@ -2,13 +2,13 @@
 
 namespace App\Tests;
 
-use App\Entity\Tva;
-use App\Entity\Book;
-use App\Entity\Type;
 use App\Entity\Basket;
+use App\Entity\Book;
 use App\Entity\Format;
-use PHPUnit\Framework\TestCase;
+use App\Entity\Tva;
+use App\Entity\Type;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
 
 class FormatTest extends TestCase
 {
@@ -20,7 +20,7 @@ class FormatTest extends TestCase
         $basketTest = new Basket();
         $basketsTest = new ArrayCollection($elements = [$basketTest]);
 
-        $formatTest = new Format();      
+        $formatTest = new Format();
         $formatTest->setISBN('9782812937767')
                    ->setDuration(10)
                    ->setWordsCount(25125)
@@ -34,7 +34,7 @@ class FormatTest extends TestCase
                    ->setTvaRate($tvaTest)
                    ->setBook($bookTest)
                    ->addBasket($basketTest)
-                   ->setBaskets($basketsTest);       
+                   ->setBaskets($basketsTest);
 
         $this->assertTrue($formatTest->getISBN() === '9782812937767');
         $this->assertTrue($formatTest->getDuration() === 10);
@@ -59,7 +59,7 @@ class FormatTest extends TestCase
         $basketTest = new Basket();
         $basketsTest = new ArrayCollection($elements = [$basketTest]);
 
-        $formatTest = new Format();      
+        $formatTest = new Format();
         $formatTest->setISBN('9782812937767')
                    ->setDuration(10)
                    ->setWordsCount(25125)
@@ -73,7 +73,7 @@ class FormatTest extends TestCase
                    ->setTvaRate($tvaTest)
                    ->setBook($bookTest)
                    ->addBasket($basketTest)
-                   ->setBaskets($basketsTest);       
+                   ->setBaskets($basketsTest);
 
         $this->assertFalse($formatTest->getISBN() === '9782812937765');
         $this->assertFalse($formatTest->getDuration() === 18);
@@ -92,11 +92,11 @@ class FormatTest extends TestCase
 
     public function testIsEmpty(): void
     {
-        $formatTest = new Format();      
+        $formatTest = new Format();
 
         $this->assertEmpty($formatTest->getISBN());
         $this->assertEmpty($formatTest->getDuration());
-        $this->assertEmpty($formatTest->getWordsCount());       
+        $this->assertEmpty($formatTest->getWordsCount());
         $this->assertEmpty($formatTest->getPagesCount());
         $this->assertEmpty($formatTest->getFileSize());
         $this->assertEmpty($formatTest->getFilePath());

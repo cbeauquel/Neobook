@@ -2,25 +2,24 @@
 
 namespace App\Controller;
 
-use Meilisearch\Client;
 use App\Entity\Book;
 use App\Service\BreadcrumbService;
+use Meilisearch\Client;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 
 class SearchController extends AbstractController
 {
-    #[Route('/search', name: 'search', methods:['GET'])]
+    #[Route('/search', name: 'search', methods: ['GET'])]
     public function search(Client $meilisearchClient, Request $request, BreadcrumbService $breadcrumbService): Response
     {
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Recherche', $this->generateUrl('search'));
 
         // Récupérer la recherche
-        $query = $request->get('keyword', ''); 
+        $query = $request->get('keyword', '');
         $results = [];
 
         if (!empty($query)) {

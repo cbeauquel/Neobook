@@ -6,29 +6,27 @@ use App\Entity\Book;
 use App\Entity\ToBeRead;
 use App\Form\ToBeReadType;
 use App\Repository\BookRepository;
-use App\Service\BreadcrumbService;
 use App\Repository\BoSkCoRepository;
+use App\Service\BreadcrumbService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\Routing\Attribute\Route;
 
 class BookController extends AbstractController
 {
     #[Route('/book/{id}', name: 'book', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function showBook(
-        Book $book, 
-        BookRepository $bookRepository, 
-        BoSkCoRepository $boSkCoRepository, 
-        Request $request, 
+        Book $book,
+        BookRepository $bookRepository,
+        BoSkCoRepository $boSkCoRepository,
+        Request $request,
         BreadcrumbService $breadcrumbService,
         EntityManagerInterface $entityManager,
         int $id,
-        ): Response
-    {        
+    ): Response {
         $slug = $book->getTitle();
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Livre', $this->generateUrl('book', ['id' => $id]));
@@ -57,9 +55,7 @@ class BookController extends AbstractController
 
                 // $this->addFlash('success', 'Le livre a été ajouté à votre liste de lecture.');
                 return $this->redirectToRoute('customer_account');
-
             }
-
         }
 
         return $this->render('book/index.html.twig', [

@@ -2,8 +2,8 @@
 
 namespace App\Tests;
 
-use App\Entity\Tva;
 use App\Entity\Format;
+use App\Entity\Tva;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 

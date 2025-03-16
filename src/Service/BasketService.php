@@ -1,23 +1,19 @@
-<?php 
+<?php
+
 
 namespace App\Service;
 
-use App\Entity\User;
 use App\Entity\Basket;
 use App\Entity\Format;
+use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class BasketService
-{ 
-    private $requestStack;
-    private $manager;
-
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $manager)
+{
+    public function __construct(private readonly RequestStack $requestStack, private readonly EntityManagerInterface $manager)
     {
-        $this->requestStack = $requestStack;
-        $this->manager = $manager;
     }
    
     /**
@@ -25,16 +21,16 @@ class BasketService
      */
     public function persistBasket(?User $customer = null): void
     {
-        // Récupérer un nouveau panier en base s'il y en a un       
+        // Récupérer un nouveau panier en base s'il y en a un
         $bddBasketOld = $this->loadBasket($customer);
         $session = $this->getSession();
         $userToken = $session->getId();
         $bddBasketNew = $this->manager->getRepository(Basket::class)->findBasketByUserToken($userToken);
 
-        if($bddBasketOld && $bddBasketNew){
+        if ($bddBasketOld && $bddBasketNew) {
             $this->manager->getRepository(Basket::class)->bulkUpdateBasketsToAbandoned($customer);
-        } 
-        if(!$this->getSessionBasket()->isEmpty()){
+        }
+        if (!$this->getSessionBasket()->isEmpty()) {
             $this->getOrCreateBddBasket($customer);
         }
     }
@@ -46,10 +42,10 @@ class BasketService
     {
         $sessionBasket = $this->getSessionBasket();
 
-        foreach($formats as $format){
+        foreach ($formats as $format) {
             // Vérifier si le produit est déjà dans le panier
-            $exists = $sessionBasket->exists(fn($key, $item) => $item->getId() === $format->getId());
-            if(!$exists){
+            $exists = $sessionBasket->exists(fn ($key, $item) => $item->getId() === $format->getId());
+            if (!$exists) {
                 $sessionBasket->add($format);
             }
         }
@@ -61,13 +57,13 @@ class BasketService
         // Récupérer les formats en base et en session
         $bddBasketFormats = $this->loadBasketFormats($idBasket);
         // Pour chaque format du panier en session on vérifie s'il existe dans le panier en base. Sinon on l'ajoute au panier en base
-        foreach($sessionBasket as $sessionFormat){
+        foreach ($sessionBasket as $sessionFormat) {
             // Vérifier si le produit est déjà dans le panier
-            $exists = $bddBasketFormats->exists(fn($key, $item) => $item->getId() === $sessionFormat->getId());
-            if(!$exists){
+            $exists = $bddBasketFormats->exists(fn ($key, $item) => $item->getId() === $sessionFormat->getId());
+            if (!$exists) {
                 $bddBasketFormats->add($sessionFormat);
             }
-        }      
+        }
 
         // on injecte la nouvelle liste de formats dans le panier en base
         $bddBasket->setFormats($bddBasketFormats);
@@ -80,7 +76,7 @@ class BasketService
     /**
      * Supprime un format du panier en session et synchronise avec la BDD
      */
-    public function removeToBasket(object $formatToRemove,?User $customer)
+    public function removeToBasket(object $formatToRemove, ?User $customer)
     {
         $sessionBasket = $this->getSessionBasket();
         foreach ($sessionBasket as $format) {
@@ -92,7 +88,7 @@ class BasketService
         $this->saveBasket($sessionBasket);
         // Récupérer ou créer un panier en base
         $bddBasket = $this->loadBasket($customer);
-        if($bddBasket){
+        if ($bddBasket) {
             $idBasket = $bddBasket->getId();
             // Récupérer les formats en base et en session
             //on isole les formats du panier
@@ -100,13 +96,13 @@ class BasketService
             // dd($sessionBasket);
             // SUPPRIMER les formats qui ne sont plus dans la session
             foreach ($bddBasketFormats as $bddFormat) {
-                if (!$sessionBasket->exists(fn($key, $item) => $item->getId() === $bddFormat->getId())) {
+                if (!$sessionBasket->exists(fn ($key, $item) => $item->getId() === $bddFormat->getId())) {
                     $bddBasketFormats->removeElement($bddFormat);
                 }
             }
         
             //s'il n'y a plus de formats dans le panier, on supprime le panier sinon on injecte la nouvelle liste de formats dans le panier en base
-            if($bddBasketFormats->isEmpty()){
+            if ($bddBasketFormats->isEmpty()) {
                 $this->manager->remove($bddBasket);
             } else {
                 $bddBasket->setFormats($bddBasketFormats);
@@ -122,7 +118,7 @@ class BasketService
      * @return Basket retourne l'objet basket issu de la BDD sur interrogation de l'ID customer ou du UserToken (user non authentifié)
      */
     public function loadBasket(?User $customer): ?Basket
-    {        
+    {
         // Récupérer un panier en base
         $session = $this->getSession();
         $userToken = $session->getId();
@@ -134,10 +130,10 @@ class BasketService
 
     
     /**
-     * @return Basket retourne l'objet basket issu de la BDD sur interrogation du UserToken 
+     * @return Basket retourne l'objet basket issu de la BDD sur interrogation du UserToken
      */
     public function loadAllBaskets($userToken): ?Basket
-    {        
+    {
         $oldBasket = $this->manager->getRepository(Basket::class)->findBasketByUserToken($userToken);
 
         return $oldBasket;
@@ -147,7 +143,7 @@ class BasketService
      * @return ArrayCollection retourne les formats d'un panier en base sous forme d'arraycollection sur interrogation de l'id du panier
      */
     public function loadBasketFormats($bddBasketId): ArrayCollection
-    {        
+    {
         // Récupérer ou créer un panier en base
         $basketFormats = $this->manager->getRepository(Format::class)->findFormatsByBasketId($bddBasketId);
         

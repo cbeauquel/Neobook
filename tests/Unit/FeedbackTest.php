@@ -2,10 +2,10 @@
 
 namespace App\Tests;
 
-use DateTime;
 use App\Entity\Book;
-use App\Entity\User;
 use App\Entity\Feedback;
+use App\Entity\User;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class FeedbackTest extends TestCase
@@ -61,5 +61,4 @@ class FeedbackTest extends TestCase
         $this->assertEmpty($feedbackTest->getCreatedAt());
         $this->assertEmpty($feedbackTest->getUpdatedAt());
     }
-
 }

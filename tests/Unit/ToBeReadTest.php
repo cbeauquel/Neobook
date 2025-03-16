@@ -3,8 +3,8 @@
 namespace App\Tests;
 
 use App\Entity\Book;
-use App\Entity\User;
 use App\Entity\ToBeRead;
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ToBeReadTest extends TestCase

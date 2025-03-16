@@ -2,8 +2,8 @@
 
 namespace App\Tests;
 
-use App\Entity\Type;
 use App\Entity\Format;
+use App\Entity\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 

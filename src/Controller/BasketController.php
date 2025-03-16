@@ -2,19 +2,18 @@
 
 namespace App\Controller;
 
+use App\Repository\FormatRepository;
 use App\Service\BasketService;
 use App\Service\BreadcrumbService;
-use App\Repository\FormatRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/basket', name: 'basket_')]
 class BasketController extends AbstractController
-
 {
     #[Route('/view', name: 'view')]
     public function showBasket(
@@ -22,8 +21,7 @@ class BasketController extends AbstractController
         EntityManagerInterface $manager,
         BreadcrumbService $breadcrumbService,
         SessionInterface $session,
-        ): Response
-    {
+    ): Response {
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Panier', $this->generateUrl('basket_view'));
         //  $session->clear();
@@ -35,21 +33,21 @@ class BasketController extends AbstractController
 
         $bddBasket = $basketService->loadBasket($this->getUser());
         // Si le panier en session est vide et que le panier en base n'est pas vide
-        if($sessionBasket->isEmpty() && $bddBasket){
+        if ($sessionBasket->isEmpty() && $bddBasket) {
             // Si un utilisateur est connecté
             if ($this->getUser()) {
                 $idBasket = $bddBasket->getId();
                 $bddBasketFormats = $basketService->loadBasketFormats($idBasket);
-                    if($bddBasketFormats->isEmpty()){
-                        $manager->remove($bddBasket);
-                        $manager->flush();
-                    } else {
-                        // on injecte la nouvelle liste de formats dans le panier en session
-                        foreach($bddBasketFormats as $bddBasketFormat){
-                        $sessionBasket->add($bddBasketFormat);       
-                        }
-                        $basketService->saveBasket($sessionBasket);
-                    } 
+                if ($bddBasketFormats->isEmpty()) {
+                    $manager->remove($bddBasket);
+                    $manager->flush();
+                } else {
+                    // on injecte la nouvelle liste de formats dans le panier en session
+                    foreach ($bddBasketFormats as $bddBasketFormat) {
+                        $sessionBasket->add($bddBasketFormat);
+                    }
+                    $basketService->saveBasket($sessionBasket);
+                }
             } else {
                 $manager->remove($bddBasket);
                 $manager->flush();
@@ -63,9 +61,9 @@ class BasketController extends AbstractController
         if ($sessionBasket->isEmpty()) {
             $sessionBasket = null;
         } else {
-            $totalHT = $sessionBasket->reduce(fn($sum, $format)=> $sum + $format->getPriceHT(), 0);
-            $totalTTC = $sessionBasket->reduce(fn($sum, $format)=> $sum + $format->getPriceTTC(), 0);
-            if($bddBasket){
+            $totalHT = $sessionBasket->reduce(fn ($sum, $format) => $sum + $format->getPriceHT(), 0);
+            $totalTTC = $sessionBasket->reduce(fn ($sum, $format) => $sum + $format->getPriceTTC(), 0);
+            if ($bddBasket) {
                 $bddBasket->setTotalHT($totalHT);
                 $bddBasket->setTotalTTC($totalTTC);
                 $manager->persist($bddBasket);
@@ -99,7 +97,7 @@ class BasketController extends AbstractController
     }
 
 
-    #[Route('/remove-from-basket/{formatId}', name:'remove', methods:['POST'])]
+    #[Route('/remove-from-basket/{formatId}', name: 'remove', methods: ['POST'])]
     public function removeFromBasket(int $formatId, BasketService $basketService, FormatRepository $formatRepository)
     {
         $formatToRemove = $formatRepository->find($formatId);
@@ -111,5 +109,4 @@ class BasketController extends AbstractController
         // Rediriger vers la page panier (ou un autre endroit)
         return $this->redirectToRoute('basket_view');
     }
-
 }

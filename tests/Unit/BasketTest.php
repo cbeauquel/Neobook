@@ -2,9 +2,9 @@
 
 namespace App\Tests;
 
-use App\Entity\User;
 use App\Entity\Basket;
 use App\Entity\Format;
+use App\Entity\User;
 use App\Enum\BasketStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -66,5 +66,4 @@ class BasketTest extends TestCase
         $this->assertEmpty($basketTest->getTotalHT());
         $this->assertEmpty($basketTest->getTotalTTC());
     }
-
 }

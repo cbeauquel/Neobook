@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableTrait;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Traits\TimestampableTrait;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -48,11 +48,11 @@ class Order
     private ?Basket $user_token = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
     private ?string $TotalHT = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
     private ?string $TotalTTC = null;
 
     public function getId(): ?int

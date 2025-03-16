@@ -2,17 +2,14 @@
 
 namespace App\EventListener;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Doctrine\ORM\EntityManagerInterface;
 
-final class LastVisitListener
+final readonly class LastVisitListener
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     #[AsEventListener(event: 'security.interactive_login')]
@@ -28,6 +25,6 @@ final class LastVisitListener
             // Enregistre les modifications en base
             $this->entityManager->persist($user);
             $this->entityManager->flush();
-        }    
+        }
     }
 }

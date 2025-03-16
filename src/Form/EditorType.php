@@ -3,15 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Editor;
-use Symfony\Component\Form\AbstractType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class EditorType extends AbstractType
 {
@@ -44,7 +44,7 @@ class EditorType extends AbstractType
                     ])
                 ],
             ])
-            ->add('description',TextareaType::class)
+            ->add('description', TextareaType::class)
             ->add('status', CheckboxType::class, [
                 'row_attr' => [
                     'class' => 'form-checkbox',
