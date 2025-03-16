@@ -61,6 +61,12 @@ class Skill
         return $this->boSkCos;
     }
 
+    public function setBoSkCos(Collection $boSkCos): static
+    {
+        $this->boSkCos = $boSkCos;
+        return $this;
+    }
+
     public function addBoSkCo(BoSkCo $boSkCo): static
     {
         if (!$this->boSkCos->contains($boSkCo)) {

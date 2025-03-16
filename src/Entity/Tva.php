@@ -69,6 +69,12 @@ class Tva
 
         return $this;
     }
+    
+    public function setFormatTvaRate(Collection $formatTvaRate): static
+    {
+        $this->formatTvaRate = $formatTvaRate;
+        return $this;
+    }
 
     public function removeFormat(Format $format): static
     {

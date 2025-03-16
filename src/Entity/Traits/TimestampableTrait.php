@@ -20,7 +20,6 @@ trait TimestampableTrait
         $this->updatedAt = new \DateTime();
     }
 
-    #[ORM\PrePersist]
     public function getCreatedAt():?\DateTimeInterface
     {
         return $this->createdAt;
@@ -30,5 +29,10 @@ trait TimestampableTrait
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function getUpdatedAt():?\DateTimeInterface
+    {
+        return $this->updatedAt;
     }
 }

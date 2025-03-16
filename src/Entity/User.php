@@ -67,8 +67,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Basket>
      */
-    #[Assert\NotBlank]
+    #[Assert\Valid]
     #[ORM\OneToMany(targetEntity: Basket::class, mappedBy: 'customer')]
+    #[ORM\Column(nullable: true)]
     private Collection $baskets;
 
     /**
@@ -76,6 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
+    #[ORM\Column(nullable: true)]
     private Collection $orders;
 
     #[Assert\NotBlank]
@@ -205,18 +207,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getLastVisitDate(): ?\DateTimeInterface
     {
         return $this->lastVisitDate;
@@ -270,6 +260,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    
+    public function setBaskets(Collection $baskets): static
+    {
+        $this->baskets = $baskets;
+        return $this;
+    }
 
     public function removeBasket(Basket $basket): static
     {
@@ -313,6 +309,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function setFeedbacks(Collection $feedbacks): static
+    {
+        $this->feedbacks = $feedbacks;
+        return $this;
+    }
+    
     public function removeFeedback(Feedback $feedback): static
     {
         if ($this->feedbacks->removeElement($feedback)) {
@@ -354,6 +356,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+ 
+    public function setOrders(Collection $orders): static
+    {
+        $this->orders = $orders;
+        return $this;
+    }
 
     public function removeOrder(Order $order): static
     {
@@ -382,6 +390,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $toBeRead->setCustomer($this);
         }
 
+        return $this;
+    }
+
+    public function setToBeReads(Collection $toBeReads): static
+    {
+        $this->toBeReads = $toBeReads;
         return $this;
     }
 

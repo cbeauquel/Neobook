@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\KeyWords;
+use App\Entity\KeyWord;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<KeyWords>
  */
-class KeyWordsRepository extends ServiceEntityRepository
+class KeyWordRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, KeyWords::class);
+        parent::__construct($registry, KeyWord::class);
     }
 
     //    /**
-    //     * @return KeyWords[] Returns an array of KeyWords objects
+    //     * @return KeyWord[] Returns an array of KeyWord objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class KeyWordsRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?KeyWords
+    //    public function findOneBySomeField($value): ?KeyWord
     //    {
     //        return $this->createQueryBuilder('k')
     //            ->andWhere('k.exampleField = :val')

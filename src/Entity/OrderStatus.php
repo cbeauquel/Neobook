@@ -68,6 +68,12 @@ class OrderStatus
         return $this;
     }
 
+    public function setOrders(Collection $orders): static
+    {
+        $this->orders = $orders;
+        return $this;
+    }
+
     public function removeOrder(Order $order): static
     {
         if ($this->orders->removeElement($order)) {

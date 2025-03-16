@@ -69,6 +69,12 @@ class Category
         return $this;
     }
 
+    public function setBooks(Collection $books): static
+    {
+        $this->books = $books;
+        return $this;
+    }
+
     public function removeBook(Book $book): static
     {
         $this->books->removeElement($book);

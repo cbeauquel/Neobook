@@ -63,6 +63,12 @@ class Type
         return $this;
     }
 
+    public function setFormatType(Collection $formatType): static
+    {
+        $this->formatType = $formatType;
+        return $this;
+    }
+
     public function removeFormatType(Format $formatType): static
     {
         if ($this->formatType->removeElement($formatType)) {

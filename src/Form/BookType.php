@@ -4,8 +4,8 @@ namespace App\Form;
 
 use App\Entity\Book;
 use App\Entity\Editor;
+use App\Entity\KeyWord;
 use App\Entity\Category;
-use App\Entity\KeyWords;
 use App\Form\BoSkCoType;
 use App\Form\FormatType;
 use Symfony\Component\Form\AbstractType;
@@ -103,7 +103,7 @@ class BookType extends AbstractType
                 ],
             ])
             ->add('keyWords', EntityType::class, [
-                'class' => KeyWords::class,
+                'class' => KeyWord::class,
                 'choice_label' => 'tag',
                 'by_reference' => false,
                 'multiple' => true,

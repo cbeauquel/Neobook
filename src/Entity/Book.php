@@ -59,7 +59,7 @@ class Book
      */
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToMany(targetEntity: KeyWords::class, mappedBy: 'books', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: KeyWord::class, mappedBy: 'books', cascade: ['persist'])]
     private Collection $keyWords;
 
     /**
@@ -181,11 +181,6 @@ class Book
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
     public function isStatus(): ?bool
     {
         return $this->status;
@@ -206,7 +201,7 @@ class Book
         return $this->keyWords;
     }
 
-    public function addKeyWord(KeyWords $keyWord): static
+    public function addKeyWord(KeyWord $keyWord): static
     {
         if (!$this->keyWords->contains($keyWord)) {
             $this->keyWords->add($keyWord);
@@ -216,7 +211,7 @@ class Book
         return $this;
     }
 
-    public function removeKeyWord(KeyWords $keyWord): static
+    public function removeKeyWord(KeyWord $keyWord): static
     {
         if ($this->keyWords->removeElement($keyWord)) {
             $keyWord->removeBook($this);
@@ -272,18 +267,6 @@ class Book
     public function removeFormat(Format $format): static
     {
         $this->formats->removeElement($format);
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -48,12 +48,12 @@ class Order
     private ?Basket $user_token = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column]
-    private ?float $TotalHT = null;
+    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    private ?string $TotalHT = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column]
-    private ?float $TotalTTC = null;
+    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    private ?string $TotalTTC = null;
 
     public function getId(): ?int
     {
@@ -132,24 +132,24 @@ class Order
         return $this;
     }
 
-    public function getTotalHT(): ?float
+    public function getTotalHT(): ?string
     {
         return $this->TotalHT;
     }
 
-    public function setTotalHT(float $TotalHT): static
+    public function setTotalHT(string $TotalHT): static
     {
         $this->TotalHT = $TotalHT;
 
         return $this;
     }
 
-    public function getTotalTTC(): ?float
+    public function getTotalTTC(): ?string
     {
         return $this->TotalTTC;
     }
 
-    public function setTotalTTC(float $TotalTTC): static
+    public function setTotalTTC(string $TotalTTC): static
     {
         $this->TotalTTC = $TotalTTC;
 

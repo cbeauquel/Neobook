@@ -128,6 +128,12 @@ class Editor
         return $this;
     }
 
+    public function setBooks(Collection $books): static
+    {
+        $this->books = $books;
+        return $this;
+    }
+
     public function removeBook(Book $book): static
     {
         if ($this->books->removeElement($book)) {

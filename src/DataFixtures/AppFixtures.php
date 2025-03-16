@@ -11,6 +11,7 @@ use App\Factory\SkillFactory;
 use App\Factory\BoSkCoFactory;
 use App\Factory\EditorFactory;
 use App\Factory\FormatFactory;
+use App\Factory\PaymentFactory;
 use App\Factory\CategoryFactory;
 use App\Factory\KeyWordsFactory;
 use App\Factory\ContributorFactory;
@@ -60,6 +61,12 @@ class AppFixtures extends Fixture
             ['name' => 'Essais, témoignage'],
             ['name' => 'Biographies'],
             ['name' => 'Sport et bien-être'],
+        ]);
+
+        PaymentFactory::createSequence([
+            ['mode' => 'Carte Bancaire'],
+            ['mode' => 'Paypal'],
+            ['mode' => 'Virement'],
         ]);
 
         OrderStatusFactory::createSequence([

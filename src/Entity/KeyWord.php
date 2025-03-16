@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\KeyWordsRepository;
+use App\Repository\KeyWordRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,8 +10,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: KeyWordsRepository::class)]
-class KeyWords
+#[ORM\Entity(repositoryClass: KeyWordRepository::class)]
+class KeyWord
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -66,6 +66,12 @@ class KeyWords
             $this->books->add($book);
         }
 
+        return $this;
+    }
+
+    public function setBooks(Collection $books): static
+    {
+        $this->books = $books;
         return $this;
     }
 

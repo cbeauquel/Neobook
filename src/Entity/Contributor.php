@@ -149,6 +149,13 @@ class Contributor
         return $this;
     }
 
+    public function setBoSkCos(Collection $boSkCos): static
+    {
+        $this->boSkCos = $boSkCos;
+        return $this;
+    }
+
+
     public function removeBoSkCo(BoSkCo $boSkCo): static
     {
         if ($this->boSkCos->removeElement($boSkCo)) {

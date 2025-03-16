@@ -23,10 +23,11 @@ class Basket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\Valid]
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(inversedBy: 'baskets')]
     private ?User $customer = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $userToken = null;
 
@@ -37,13 +38,13 @@ class Basket
     #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'baskets', cascade: ['persist'])]
     private Collection $formats;
 
-    #[Assert\NotBlank()]
-    #[ORM\Column]
-    private ?float $totalHT = null;
+    #[Assert\NotBlank]
+    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    private ?string $totalHT = null;
 
     #[Assert\NotBlank()]
-    #[ORM\Column]
-    private ?float $totalTTC = null;
+    #[ORM\Column(type:'decimal', precision: 4, scale: 2)]
+    private ?string $totalTTC = null;
 
     #[ORM\Column(type: 'string', enumType: BasketStatus::class)]
     private BasketStatus $status;
@@ -79,11 +80,6 @@ class Basket
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
     public function getUserToken(): ?string
     {
         return $this->userToken;
@@ -95,12 +91,6 @@ class Basket
 
         return $this;
     }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
 
     /**
      * @return Collection<int, Format>
@@ -119,7 +109,7 @@ class Basket
         return $this;
     }
     
-    public function setFormats(Collection $formats): self
+    public function setFormats(Collection $formats): static
     {
         $this->formats = $formats;
         return $this;
@@ -132,24 +122,24 @@ class Basket
         return $this;
     }
 
-    public function getTotalHT(): ?float
+    public function getTotalHT(): ?string
     {
         return $this->totalHT;
     }
 
-    public function setTotalHT(float $totalHT): static
+    public function setTotalHT(string $totalHT): static
     {
         $this->totalHT = $totalHT;
 
         return $this;
     }
 
-    public function getTotalTTC(): ?float
+    public function getTotalTTC(): ?string
     {
         return $this->totalTTC;
     }
 
-    public function setTotalTTC(float $totalTTC): static
+    public function setTotalTTC(string $totalTTC): static
     {
         $this->totalTTC = $totalTTC;
 
