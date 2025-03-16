@@ -138,7 +138,6 @@ class BasketService
      */
     public function loadAllBaskets($userToken): ?Basket
     {        
-
         $oldBasket = $this->manager->getRepository(Basket::class)->findBasketByUserToken($userToken);
 
         return $oldBasket;
@@ -151,6 +150,7 @@ class BasketService
     {        
         // Récupérer ou créer un panier en base
         $basketFormats = $this->manager->getRepository(Format::class)->findFormatsByBasketId($bddBasketId);
+        
         return $basketFormats;
     }
 

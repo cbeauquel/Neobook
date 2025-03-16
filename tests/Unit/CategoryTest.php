@@ -21,6 +21,9 @@ class CategoryTest extends TestCase
 
         $this->assertTrue($categoryTest->getName() === 'categoryTest');
         $this->assertTrue($categoryTest->getBooks() === $booksTest);
+
+        $categoryTest->removeBook($bookTest);
+        $this->assertEmpty($categoryTest->getBooks());
     }
 
     public function testIsFalse(): void
@@ -35,6 +38,10 @@ class CategoryTest extends TestCase
 
         $this->assertFalse($categoryTest->getName() === 'categoryTestFalse');
         $this->assertFalse($categoryTest->getBooks() === new ArrayCollection($elements = [$bookTest]));
+
+        $categoryTest->removeBook(new Book());
+        $this->assertTrue($categoryTest->getBooks() === $booksTest);
+
     }
     
     public function testIsEmpty(): void
