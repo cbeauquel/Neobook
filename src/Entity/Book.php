@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\KeyWord;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -54,7 +55,7 @@ class Book
     private ?bool $status = null;
 
     /**
-     * @var Collection<int, KeyWords>
+     * @var Collection<int, KeyWord>
      */
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
@@ -70,7 +71,7 @@ class Book
     private Collection $categories;
 
     /**
-     * @var Collection<int, Formats>
+     * @var Collection<int, Format>
      */
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
@@ -193,7 +194,7 @@ class Book
     }
 
     /**
-     * @return Collection<int, KeyWords>
+     * @return Collection<int, KeyWord>
      */
     public function getKeyWords(): Collection
     {
@@ -247,7 +248,7 @@ class Book
     }
 
     /**
-     * @return Collection<int, Formats>
+     * @return Collection<int, Format>
      */
     public function getFormats(): Collection
     {

@@ -36,8 +36,8 @@ class BookController extends AbstractController
         $id = $request->get('id');
         $idContributors = $boSkCoRepository->findContributorByBookId($id);
         $booksByAuthors = $bookRepository->findByAuthorId($idContributors);
-        // dd($booksByAuthors);
 
+        /** @var \App\Entity\User|null $user */
         $user = $this->getUser(); // Récupération de l'utilisateur connecté
         $form = null;
         if ($user) {

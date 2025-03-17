@@ -145,7 +145,7 @@ class Basket
     }
 
     /**
-     * @return BasketStatus[]
+     * @return BasketStatus
      */
     public function getStatus(): BasketStatus
     {

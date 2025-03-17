@@ -35,14 +35,14 @@ class FeedbackTest extends TestCase
         $bookTest = new Book();
         $feedbackTest = new Feedback();
         $feedbackTest->setNickName($userTest)
-                     ->setStars('2')
+                     ->setStars(2)
                      ->setComment('test de commentaire')
                      ->setBook($bookTest);
         $feedbackTest->setCreatedAtValue();
         $feedbackTest->setUpdatedAtValue();
 
         $this->assertFalse($feedbackTest->getNickName() === new User());
-        $this->assertFalse($feedbackTest->getStars() === '1');
+        $this->assertFalse($feedbackTest->getStars() === 1);
         $this->assertFalse($feedbackTest->getComment() === 'test de commentaire faux');
         $this->assertFalse($feedbackTest->getBook() === new Book());
         $this->assertFalse($feedbackTest->getCreatedAt() === new DateTime());

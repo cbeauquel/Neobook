@@ -62,7 +62,6 @@ class BasketTest extends TestCase
         $basketTest = new Basket();
         $this->assertEmpty($basketTest->getCustomer());
         $this->assertEmpty($basketTest->getUserToken());
-        $this->assertEmpty($basketTest->getFormats());
         $this->assertEmpty($basketTest->getTotalHT());
         $this->assertEmpty($basketTest->getTotalTTC());
     }

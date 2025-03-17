@@ -66,9 +66,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Basket>
      */
-    #[Assert\Valid]
+    #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Basket::class, mappedBy: 'customer')]
-    #[ORM\Column(nullable: true)]
     private Collection $baskets;
 
     /**
@@ -76,7 +75,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[Assert\NotBlank]
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
-    #[ORM\Column(nullable: true)]
     private Collection $orders;
 
     #[Assert\NotBlank]

@@ -33,7 +33,7 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * @return Order au moins une order avec l'id du basket fourni
     */
-    public function findByBasketId($value): ?Order
+    public function findByBasketId(int $value): ?Order
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.basket = :val')
@@ -51,7 +51,7 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * @return Order[] Returns an array of Order objects
      */
-    public function findByCustomerId($value): array
+    public function findByCustomerId(object $value): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.customer = :val')

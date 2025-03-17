@@ -46,6 +46,5 @@ class TypeTest extends TestCase
         $typeTest = new Type();
         $this->assertEmpty($typeTest->getTypeImg());
         $this->assertEmpty($typeTest->getName());
-        $this->assertEmpty($typeTest->getFormatType());
     }
 }

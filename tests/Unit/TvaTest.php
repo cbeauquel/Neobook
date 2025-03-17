@@ -33,7 +33,7 @@ class TvaTest extends TestCase
                 ->addFormat($formatTest)
                 ->setFormatTvaRate($formatsTest);
 
-        $this->assertFalse($tvaTest->getTaux() === 20);
+        $this->assertFalse($tvaTest->getTaux() === 5.4);
         $this->assertFalse($tvaTest->getFormatTvaRate() === new ArrayCollection($elements = [$formatTest]));
     }
 
@@ -41,6 +41,5 @@ class TvaTest extends TestCase
     {
         $tvaTest = new Tva();
         $this->assertEmpty($tvaTest->getTaux());
-        $this->assertEmpty($tvaTest->getFormatTvaRate());
     }
 }

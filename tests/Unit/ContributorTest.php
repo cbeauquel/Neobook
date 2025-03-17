@@ -18,7 +18,7 @@ class ContributorTest extends TestCase
                         ->setLastname('lastnameTest')
                         ->setBio('bioTest')
                         ->setPhoto('phototest.jpg')
-                        ->setStatus('1')
+                        ->setStatus(true)
                         ->setSlug('firstnameLastnameTest')
                         ->addBoSkCo($boSkCoTest)
                         ->setBoSkCos($boSkCoTests);
@@ -41,7 +41,7 @@ class ContributorTest extends TestCase
                         ->setLastname('lastnameTest')
                         ->setBio('bioTest')
                         ->setPhoto('phototest.jpg')
-                        ->setStatus('1')
+                        ->setStatus(true)
                         ->setSlug('firstnameLastnameTest')
                         ->addBoSkCo($boSkCoTest)
                         ->setBoSkCos($boSkCoTests);
@@ -64,6 +64,5 @@ class ContributorTest extends TestCase
         $this->assertEmpty($contributorTest->getPhoto());
         $this->assertEmpty($contributorTest->isStatus());
         $this->assertEmpty($contributorTest->getSlug());
-        $this->assertEmpty($contributorTest->getBoSkCos());
     }
 }

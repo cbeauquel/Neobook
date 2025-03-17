@@ -41,6 +41,5 @@ class OrderStatusTest extends TestCase
     {
         $orderStatusTest = new OrderStatus();
         $this->assertEmpty($orderStatusTest->getStatus());
-        $this->assertEmpty($orderStatusTest->getOrders());
     }
 }

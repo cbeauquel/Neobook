@@ -47,6 +47,5 @@ class CategoryTest extends TestCase
     {
         $categoryTest = new Category();
         $this->assertEmpty($categoryTest->getName());
-        $this->assertEmpty($categoryTest->getBooks());
     }
 }

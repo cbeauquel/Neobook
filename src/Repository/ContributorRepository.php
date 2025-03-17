@@ -20,9 +20,10 @@ class ContributorRepository extends ServiceEntityRepository
 
 
     /**
-     * @return array[] Returns an array of skills by authorId
+     * @return array<string> Returns an array of skills by authorId
+     * @param array<mixed> $value
      */
-    public function findSkillsByAuthorId($value): array
+    public function findSkillsByAuthorId(array $value): array
     {
         return $this->createQueryBuilder('c')
             ->select('DISTINCT s.name')
@@ -38,9 +39,9 @@ class ContributorRepository extends ServiceEntityRepository
     }
     
     /**
-     * @return array[] Returns an array of contributors
+     * @return Pagerfanta Returns an array of contributors
      */
-    public function findPaginatedcontributors($page, $limit): Pagerfanta
+    public function findPaginatedcontributors(int $page, int $limit): Pagerfanta
     {
         $queryBuilder = $this->createQueryBuilder('c')
         ->join('c.boSkCos', 'bo')

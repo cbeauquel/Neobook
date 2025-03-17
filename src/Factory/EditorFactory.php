@@ -14,6 +14,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
      * @todo inject services if required
+     * @return array<mixed>
      */
     public function __construct()
     {
@@ -39,8 +40,9 @@ final class EditorFactory extends PersistentProxyObjectFactory
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     * @return array<mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'description' => self::faker()->text(200),

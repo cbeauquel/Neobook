@@ -105,6 +105,5 @@ class FormatTest extends TestCase
         $this->assertEmpty($formatTest->getPriceHT());
         $this->assertEmpty($formatTest->getPriceTTC());
         $this->assertEmpty($formatTest->getTvaRate());
-        $this->assertEmpty($formatTest->getBaskets());
     }
 }

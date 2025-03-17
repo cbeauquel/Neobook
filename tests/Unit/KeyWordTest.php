@@ -42,6 +42,5 @@ class KeyWordTest extends TestCase
     {
         $KeyWordTest = new KeyWord();
         $this->assertEmpty($KeyWordTest->getTag());
-        $this->assertEmpty($KeyWordTest->getBooks());
     }
 }

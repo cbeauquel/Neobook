@@ -11,6 +11,9 @@ class FooterService
     {
     }
 
+    /**
+     * @return array<int, object>
+     */
     public function getFooterLinks(): array
     {
         return $this->manager->getRepository(\App\Entity\Category::class)->findAll();

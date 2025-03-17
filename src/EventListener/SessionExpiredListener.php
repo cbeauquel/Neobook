@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Enum\BasketStatus;
 use App\Repository\BasketRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\session;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -21,7 +22,7 @@ final readonly class SessionExpiredListener
     }
 
     #[AsEventListener(event: 'kernel.request')]
-    public function onKernelRequest(RequestEvent $event): void
+    public function onKernelRequest(RequestEvent $event, string $session): void
     {
         $session = $this->requestStack->getSession();
         if (!$session->isStarted()) {
@@ -35,7 +36,10 @@ final readonly class SessionExpiredListener
         }
         $session->set('last_activity', $currentTime);
     }
-
+    
+    /**
+     *@param SessionInterface $session
+     */
     private function handleExpiredSession($session): void
     {
         $basketId = $session->getId();

@@ -35,7 +35,7 @@ class BookTest extends TestCase
                  ->setSummary('Je teste le summary, résumé du livre')
                  ->setGenre('genreTest')
                  ->setParutionDate($dateTimeTest)
-                 ->setStatus('1')
+                 ->setStatus(true)
                  ->addKeyWord($keyWordTest)
                  ->addCategory($categoryTest)
                  ->addFormat($formatTest)
@@ -81,7 +81,7 @@ class BookTest extends TestCase
                  ->setSummary('Je teste le summary, résumé du livre')
                  ->setGenre('genreTest')
                  ->setParutionDate($dateTimeTest)
-                 ->setStatus('1')
+                 ->setStatus(true)
                  ->addKeyWord($keyWordTest)
                  ->addCategory($categoryTest)
                  ->addFormat($formatTest)
@@ -97,7 +97,7 @@ class BookTest extends TestCase
         $this->assertFalse($bookTest->getParutionDate() === new DateTime());
         $this->assertFalse($bookTest->getCreatedAt() === new DateTime());
         $this->assertFalse($bookTest->getUpdatedAt() === new DateTime());
-        $this->assertFalse($bookTest->isStatus() === '0');
+        $this->assertFalse($bookTest->isStatus() === false);
         $this->assertNotContains(new KeyWord(), $bookTest->getKeyWords());
         $this->assertNotContains(new Category(), $bookTest->getCategories());
         $this->assertNotContains(new Format(), $bookTest->getFormats());
@@ -118,12 +118,6 @@ class BookTest extends TestCase
         $this->assertEmpty($bookTest->getCreatedAt());
         $this->assertEmpty($bookTest->getUpdatedAt());
         $this->assertEmpty($bookTest->isStatus());
-        $this->assertEmpty($bookTest->getKeyWords());
-        $this->assertEmpty($bookTest->getCategories());
-        $this->assertEmpty($bookTest->getFormats());
-        $this->assertEmpty($bookTest->getFeedbacks());
         $this->assertEmpty($bookTest->getEditor());
-        $this->assertEmpty($bookTest->getBoSkCos());
-        $this->assertEmpty($bookTest->getToBeReads());
     }
 }

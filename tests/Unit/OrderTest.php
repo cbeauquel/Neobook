@@ -19,7 +19,7 @@ class OrderTest extends TestCase
         $orderStatusTest = new OrderStatus();
 
         $orderTest = new Order();
-        $orderTest->setNewCustomer('1')
+        $orderTest->setNewCustomer(true)
                   ->setCustomer($userTest)
                   ->setStatus($orderStatusTest)
                   ->setPaymentMode($paymentModeTest)
@@ -46,7 +46,7 @@ class OrderTest extends TestCase
         $orderStatusTest = new OrderStatus();
 
         $orderTest = new Order();
-        $orderTest->setNewCustomer('1')
+        $orderTest->setNewCustomer(true)
                   ->setCustomer($userTest)
                   ->setStatus($orderStatusTest)
                   ->setPaymentMode($paymentModeTest)

@@ -42,7 +42,6 @@ class AdminContributorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $photo */
             $photo = $form->get('photo')->getData();
 
             if ($photo) {

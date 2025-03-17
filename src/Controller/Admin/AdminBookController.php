@@ -59,9 +59,8 @@ class AdminBookController extends AbstractController
                     $boSkCo->setContributor(new Contributor());
                 }
             }
-            /** @var UploadedFile $cover */
-            $cover = $form->get('cover')->getData();
 
+            $cover = $form->get('cover')->getData();
             if ($cover) {
                 $originalCoverName = pathinfo((string) $cover->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL

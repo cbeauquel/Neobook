@@ -2,11 +2,11 @@
 
 namespace App\Factory;
 
-use App\Entity\KeyWords;
+use App\Entity\KeyWord;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<KeyWords>
+ * @extends PersistentProxyObjectFactory<KeyWord>
  */
 final class KeyWordsFactory extends PersistentProxyObjectFactory
 {
@@ -21,15 +21,16 @@ final class KeyWordsFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return KeyWords::class;
+        return KeyWord::class;
     }
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     * @return array<mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'tag' => self::faker()->slug($nbWords = 1, $variableNbWords = true),

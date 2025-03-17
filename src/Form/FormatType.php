@@ -49,7 +49,7 @@ class FormatType extends AbstractType
                 'data' => $rateDefault,
                 'expanded' => true,
                 'choice_label' => 'taux',
-                'choice_attr' => fn($choice, $key, $value) => [
+                'choice_attr' => fn ($choice, $key, $value) => [
                     'data-taux-value' => $choice->getTaux(), // Ajouter la valeur réelle comme attribut HTML
                 ],
                 'row_attr' => [

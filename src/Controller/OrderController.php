@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Basket;
 use App\Entity\Order;
+use App\Entity\User;
 use App\Enum\BasketStatus;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
@@ -14,7 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use function PHPUnit\Framework\throwException;
 
@@ -29,11 +29,18 @@ class OrderController extends AbstractController
         ?Order $order,
         OrderStatusRepository $orderStatusRepository,
         OrderRepository $orderRepository,
+        ?User $user,
         int $id,
     ): Response {
+        $user = $this->getUser();
         $defautStatus = $orderStatusRepository->findByStatus('En attente');
-        $customerOrders = $orderRepository->findByUserId($this->getUser());
-        if (isset($customerOrders)) {
+        if ($user instanceof \App\Entity\User) {
+            $customerOrders = $orderRepository->findByUserId($user);
+        } else {
+            $customerOrders = null;
+        }
+        $newCustomer = true;
+        if ($customerOrders) {
             $newCustomer = false;
         }
         $existingOrder = $orderRepository->findByBasketId($id);

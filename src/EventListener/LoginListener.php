@@ -17,7 +17,7 @@ final readonly class LoginListener
     {
         $user = $event->getAuthenticationToken()->getUser();
 
-        if ($user) {
+        if ($user instanceof \App\Entity\User) {
             // Synchronise le panier avec l'utilisateur connecté
             $this->basketService->persistBasket($user);
         }

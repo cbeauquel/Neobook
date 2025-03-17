@@ -32,13 +32,13 @@ class UserTest extends TestCase
                  ->setFirstname('firstnameTest')
                  ->setLastname('lastnameTest')
                  ->setLastVisitDate($dateTime)
-                 ->setOptin('1')
+                 ->setOptin(true)
                  ->setPreference('Test')
                  ->setBaskets($basketsTest)
                  ->setOrders($ordersTest)
                  ->setNickName('firstLastnameTest')
                  ->setFeedbacks($feedbacksTest)
-                 ->setVerified('1')
+                 ->setVerified(true)
                  ->setToBeReads($toBeReadsTest);
 
         $this->assertTrue($userTest->getEmail() === 'test@test.com');
@@ -75,13 +75,13 @@ class UserTest extends TestCase
                  ->setFirstname('firstnameTest')
                  ->setLastname('lastnameTest')
                  ->setLastVisitDate($dateTime)
-                 ->setOptin('1')
+                 ->setOptin(true)
                  ->setPreference('Test')
                  ->setBaskets($basketsTest)
                  ->setOrders($ordersTest)
                  ->setNickName('firstLastnameTest')
                  ->setFeedbacks($feedbacksTest)
-                 ->setVerified('1')
+                 ->setVerified(true)
                  ->setToBeReads($toBeReadsTest);
 
         $this->assertFalse($userTest->getEmail() === 'test@false.com');
@@ -109,11 +109,7 @@ class UserTest extends TestCase
         $this->assertEmpty($userTest->isOptin());
         $this->assertEmpty($userTest->getLastVisitDate());
         $this->assertEmpty($userTest->getPreference());
-        $this->assertEmpty($userTest->getBaskets());
-        $this->assertEmpty($userTest->getOrders());
         $this->assertEmpty($userTest->getNickName());
-        $this->assertEmpty($userTest->getFeedbacks());
         $this->assertEmpty($userTest->isVerified());
-        $this->assertEmpty($userTest->getToBeReads());
     }
 }

@@ -9,17 +9,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Type>
+ * @extends PersistentProxyObjectFactory<User>
  */
 final class UserFactory extends PersistentProxyObjectFactory
 {
-    public function __construct(/**
+    /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
      * @todo inject services if required
      */
-    private readonly UserPasswordHasherInterface $passwordHasher)
-    {
+    public function __construct(
+        private readonly UserPasswordHasherInterface $passwordHasher
+    ) {
         parent::__construct();
     }
 
@@ -54,12 +55,12 @@ final class UserFactory extends PersistentProxyObjectFactory
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     * @return array<mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
-
-           'nickname' => self::faker()->name(),
+            'nickname' => self::faker()->name(),
             'email' => self::faker()->email(),
             'roles' => [],
             'password' => self::faker()->password(),

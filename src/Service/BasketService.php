@@ -9,6 +9,7 @@ use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class BasketService
 {
@@ -37,8 +38,9 @@ class BasketService
 
     /**
      * Ajoute un format au panier en session et synchronise avec la BDD
+     * @param array<mixed> $formats
      */
-    public function addToBasket(array $formats, ?User $customer = null)
+    public function addToBasket(array $formats, ?User $customer = null): void
     {
         $sessionBasket = $this->getSessionBasket();
 
@@ -76,7 +78,7 @@ class BasketService
     /**
      * Supprime un format du panier en session et synchronise avec la BDD
      */
-    public function removeToBasket(object $formatToRemove, ?User $customer)
+    public function removeToBasket(object $formatToRemove, ?User $customer): void
     {
         $sessionBasket = $this->getSessionBasket();
         foreach ($sessionBasket as $format) {
@@ -132,7 +134,7 @@ class BasketService
     /**
      * @return Basket retourne l'objet basket issu de la BDD sur interrogation du UserToken
      */
-    public function loadAllBaskets($userToken): ?Basket
+    public function loadAllBaskets(string $userToken): ?Basket
     {
         $oldBasket = $this->manager->getRepository(Basket::class)->findBasketByUserToken($userToken);
 
@@ -142,7 +144,7 @@ class BasketService
     /**
      * @return ArrayCollection retourne les formats d'un panier en base sous forme d'arraycollection sur interrogation de l'id du panier
      */
-    public function loadBasketFormats($bddBasketId): ArrayCollection
+    public function loadBasketFormats(int $bddBasketId): ArrayCollection
     {
         // Récupérer ou créer un panier en base
         $basketFormats = $this->manager->getRepository(Format::class)->findFormatsByBasketId($bddBasketId);
@@ -162,7 +164,7 @@ class BasketService
     /**
      * Enregistre les changements dans le panier en session
      */
-    public function saveBasket(ArrayCollection $sessionBasket)
+    public function saveBasket(ArrayCollection $sessionBasket): void
     {
         // Sauvegarde du panier mis à jour dans la session
         $this->getSession()->set('basket', $sessionBasket);
@@ -199,13 +201,9 @@ class BasketService
     /**
      * Helper pour obtenir la session depuis le RequestStack.
      */
-    private function getSession()
+    private function getSession(): SessionInterface
     {
         $session = $this->requestStack->getSession();
-        if (!$session) {
-            throw new \RuntimeException('No session available.');
-        }
-
         return $session;
     }
 }

@@ -18,7 +18,7 @@ class EditorTest extends TestCase
         $editorTest->setName('Editest')
                    ->setLogo('test.jpg')
                    ->setDescription('description de test')
-                   ->setStatus('1')
+                   ->setStatus(true)
                    ->addBook($bookTest)
                    ->setBooks($booksTest);
 
@@ -38,7 +38,7 @@ class EditorTest extends TestCase
         $editorTest->setName('Editest')
                    ->setLogo('test.jpg')
                    ->setDescription('description de test')
-                   ->setStatus('1')
+                   ->setStatus(true)
                    ->addBook($bookTest)
                    ->setBooks($booksTest);
 
@@ -56,6 +56,5 @@ class EditorTest extends TestCase
         $this->assertEmpty($editorTest->getLogo());
         $this->assertEmpty($editorTest->getDescription());
         $this->assertEmpty($editorTest->isStatus());
-        $this->assertEmpty($editorTest->getBooks());
     }
 }

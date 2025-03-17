@@ -16,11 +16,11 @@ class PayPlugService
             'apiVersion' => '2019-08-06' // Vérifie la dernière version dans la doc
         ]);
     }
-    public function createPayment(float $amount, string $customerEmail, string $firstName, string $lastName, string $returnUrl): ?Payment
+    public function createPayment(string $amount, string $customerEmail, string $firstName, string $lastName, string $returnUrl): ?Payment
     {
         try {
             $paymentData = [
-                'amount' => $amount * 100, // PayPlug attend les centimes
+                'amount' => (float)$amount * 100, // PayPlug attend les centimes
                 'currency' => 'EUR',
                 'billing' => [
                     'first_name' => $firstName,

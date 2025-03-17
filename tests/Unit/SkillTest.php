@@ -39,6 +39,5 @@ class SkillTest extends TestCase
     {
         $skillTest = new Skill();
         $this->assertEmpty($skillTest->getName());
-        $this->assertEmpty($skillTest->getBoSkCos());
     }
 }

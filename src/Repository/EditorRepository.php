@@ -19,9 +19,9 @@ class EditorRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array[] Returns an array of editors
+     * @return Pagerfanta Returns an array of editors
      */
-    public function findPaginatedEditors($page, $limit): Pagerfanta
+    public function findPaginatedEditors(int $page, int $limit): Pagerfanta
     {
         $queryBuilder = $this->createQueryBuilder('e')
         ->orderBy('e.id', 'ASC');

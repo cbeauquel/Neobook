@@ -19,7 +19,7 @@ class ToBeReadRepository extends ServiceEntityRepository
     /**
       * @return ToBeRead[] Returns an array of ToBeRead objects
       */
-    public function findByCustomerId($value): array
+    public function findByCustomerId(object $value): array
     {
         return $this->createQueryBuilder('t')
             ->innerJoin('t.book', 'b')

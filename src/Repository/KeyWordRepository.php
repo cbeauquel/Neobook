@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<KeyWords>
+ * @extends ServiceEntityRepository<KeyWord>
  */
 class KeyWordRepository extends ServiceEntityRepository
 {

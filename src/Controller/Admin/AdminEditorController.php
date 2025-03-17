@@ -44,11 +44,10 @@ class AdminEditorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $logo */
             $logo = $form->get('logo')->getData();
             // dd($logo);
             if ($logo) {
-                $originalLogoName = pathinfo($logo->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalLogoName = pathinfo((string) $logo->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeLogoName = $slugger->slug($originalLogoName);
                 $newLogoName = $safeLogoName . '-' . uniqid() . '.' . $logo->guessExtension();

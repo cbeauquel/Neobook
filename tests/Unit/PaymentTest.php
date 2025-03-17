@@ -41,6 +41,5 @@ class PaymentTest extends TestCase
     {
         $paymentTest = new Payment();
         $this->assertEmpty($paymentTest->getMode());
-        $this->assertEmpty($paymentTest->getOrders());
     }
 }

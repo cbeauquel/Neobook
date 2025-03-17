@@ -76,6 +76,7 @@ class BookRepository extends ServiceEntityRepository
  
     /**
     * @return Book[] Returns an array of Book objects
+    * @param array<mixed> $value
     */
     public function findByAuthorId(array $value): array
     {
@@ -99,8 +100,9 @@ class BookRepository extends ServiceEntityRepository
 
     /**
     * @return Book[] Returns an array of Book objects
+    * @param int $value
     */
-    public function findByEditorId($value): array
+    public function findByEditorId(int $value): array
     {
         return $this->createQueryBuilder('b')
             ->innerJoin('b.boSkCos', 'bsc')
@@ -121,7 +123,7 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Book[] Returns an array of Book objects
+     * @return Pagerfanta Returns an array of Book objects
      */
     public function findPaginatedBooks(int $page, int $limit): Pagerfanta
     {

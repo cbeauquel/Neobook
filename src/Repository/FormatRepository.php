@@ -19,8 +19,9 @@ class FormatRepository extends ServiceEntityRepository
 
     /**
      * @return Format[] Returns an array of Format objects
+     * @param array<mixed> $value
      */
-    public function findByFormatChoices($value): array
+    public function findByFormatChoices(array $value): array
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.id IN (:val)')
@@ -43,7 +44,7 @@ class FormatRepository extends ServiceEntityRepository
     /**
      * @return ArrayCollection Returns an array of Format objects
      */
-    public function findFormatsByBasketId($value): ArrayCollection
+    public function findFormatsByBasketId(int $value): ArrayCollection
     {
         $qb = $this->createQueryBuilder('f')
            ->andWhere('b.id = :val')

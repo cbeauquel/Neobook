@@ -19,7 +19,7 @@ class OrderStatusRepository extends ServiceEntityRepository
     /**
      * * @return OrderStatus Returns OrderStatus object
      */
-    public function findByStatus($value): ?OrderStatus
+    public function findByStatus(string $value): ?OrderStatus
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.status = :val')

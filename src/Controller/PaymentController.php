@@ -15,25 +15,28 @@ use Symfony\Component\Routing\Attribute\Route;
 class PaymentController extends AbstractController
 {
     #[Route('/payplug/pay/{id}', name: 'payplug_pay')]
-    public function pay(PayPlugService $payPlugService, ?Order $order, OrderStatusRepository $orderStatusRepository, EntityManagerInterface $manager): RedirectResponse
+    public function pay(PayPlugService $payPlugService, ?Order $order, OrderStatusRepository $orderStatusRepository, EntityManagerInterface $manager, ?User $user): RedirectResponse
     {
         $amount = $order->getTotalHT();
-        $email = $this->getUser()->getEmail();
-        $firstName = $this->getUser()->getFirstname();
-        $lastName = $this->getUser()->getLastname();
+        if ($user instanceof \App\Entity\User) {
+            $email = $user->getEmail();
+            $firstName = $user->getFirstname();
+            $lastName = $user->getLastname();
+        } else {
+            $email = null;
+            $firstName = null;
+            $lastName = null;
+        }
         $returnUrl = 'https://neobook.fr';
-        // dd($amount, $email);
         if ($amount <= 0 || empty($email)) {
             throw $this->createNotFoundException('Requête invalide.');
         }
         $status = $orderStatusRepository->findByStatus('Échoué');
         $payment = $payPlugService->createPayment($amount, $email, $firstName, $lastName, $returnUrl);
-        // dd($payment);
         if (!$payment || !isset($payment->hosted_payment->payment_url)) {
             $order->setStatus($status);
             $manager->persist($order);
             $manager->flush();
-            return $this->redirectToRoute('customer_account');
             throw $this->createNotFoundException('Impossible de créer le paiement.');
         }
 
