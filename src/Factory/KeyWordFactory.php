@@ -8,7 +8,7 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 /**
  * @extends PersistentProxyObjectFactory<KeyWord>
  */
-final class KeyWordsFactory extends PersistentProxyObjectFactory
+final class KeyWordFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -43,7 +43,7 @@ final class KeyWordsFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(KeyWords $keyWords): void {})
+            // ->afterInstantiate(function(KeyWord $keyWord): void {})
         ;
     }
 }

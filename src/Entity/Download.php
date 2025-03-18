@@ -34,11 +34,6 @@ class Download
     #[ORM\Column]
     private ?int $maxAttempts = null;
 
-    #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'downloads')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Order $oderDownload = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -88,18 +83,6 @@ class Download
     public function setMaxAttempts(int $maxAttempts): static
     {
         $this->maxAttempts = $maxAttempts;
-
-        return $this;
-    }
-
-    public function getOderDownload(): ?Order
-    {
-        return $this->oderDownload;
-    }
-
-    public function setOderDownload(?Order $oderDownload): static
-    {
-        $this->oderDownload = $oderDownload;
 
         return $this;
     }

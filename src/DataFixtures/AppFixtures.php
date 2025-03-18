@@ -8,7 +8,7 @@ use App\Factory\CategoryFactory;
 use App\Factory\ContributorFactory;
 use App\Factory\EditorFactory;
 use App\Factory\FormatFactory;
-use App\Factory\KeyWordsFactory;
+use App\Factory\KeyWordFactory;
 use App\Factory\OrderStatusFactory;
 use App\Factory\PaymentFactory;
 use App\Factory\SkillFactory;
@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        KeyWordsFactory::createMany(75);
+        KeyWordFactory::createMany(75);
 
         SkillFactory::createSequence([
             ['name' => 'Auteur'],
@@ -86,31 +86,37 @@ class AppFixtures extends Fixture
             throw new \Exception("Les entités Type et Tva doivent exister avant de créer des Formats.");
         }
 
-        BookFactory::createMany(36, fn () => [
-            'categories' => CategoryFactory::randomRange(0, 3),
-            'editor' => EditorFactory::random(),
-            'boSkCos' => BoSkCoFactory::new()->range(1, 4),
-            'keyWords' => KeyWordsFactory::new()->range(1, 5),
-            'formats' => FormatFactory::new()->range(1, 2),
-        ]);
+        BookFactory::createMany(36, function() {
+            return [
+                'categories' => CategoryFactory::randomRange(0, 3),
+                'editor' => EditorFactory::random(),
+                'boSkCos' => BoSkCoFactory::new()->range(1, 4),
+                'keyWords' => KeyWordFactory::new()->range(1, 5),
+                'formats' => FormatFactory::new()->range(1, 2),
+            ];
+        });
 
         $manager->flush();
 
         FormatFactory::new()
-        ->create(fn () => [
-            'type' => TypeFactory::random(),
-            'tvaRate' => TvaFactory::random(),
-            'book' => BookFactory::random(),
-        ]);
+        ->create(function() {
+            return [
+                'type' => TypeFactory::random(),
+                'tvaRate' => TvaFactory::random(),
+                'book' => BookFactory::random(),
+            ];
+        }); 
 
         $manager->flush();
 
         BoSkCoFactory::new()
-            ->create(fn () => [
+            ->create(function() {
+            return [
                 'book' => BookFactory::random(),
                 'contributor' => ContributorFactory::random(),
                 'skill' => SkillFactory::random(),
-            ]);
+            ];
+        });
 
         $manager->flush();
     }

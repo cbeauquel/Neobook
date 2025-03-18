@@ -46,7 +46,8 @@ final class BookFactory extends PersistentProxyObjectFactory
             'categories' => CategoryFactory::randomRange(1, 4),
             'editor' => EditorFactory::random(),
             'boSkCos' => BoSkCoFactory::new()->range(1, 4),
-            'keyWords' => KeyWordsFactory::new()->range(1, 5),
+            'keyWords' => KeyWordFactory::new()->range(1, 5),
+            'formats' => FormatFactory::new()->range(1, 2),
         ];
     }
 
