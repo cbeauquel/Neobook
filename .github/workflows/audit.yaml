@@ -21,7 +21,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
-          key: php8.3-composer-${{ hashFiles('**/composer.json') }}
+          key: php8.3-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             php8.3-composer-latest-
 
@@ -34,11 +34,7 @@ jobs:
           DATABASE_URL: "mysql://fake:fake@localhost/fake"
 
       - name: security audit
-        run: composer audit \
-          --abandoned="report" \
-          --format="json" \
-          --no-ansi \
-          > /tmp/security-audit.json 
+        run: composer audit --abandoned=report --format=json --no-ansi > /tmp/security-audit.json
 
       - name: upload security audit report
         uses: actions/upload-artifact@v4
