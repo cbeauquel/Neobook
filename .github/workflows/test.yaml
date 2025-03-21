@@ -13,6 +13,7 @@ jobs:
           MEILI_MASTER_KEY: '!ChangeMe!'
     env:  # Définir DATABASE_URL au niveau du job
       DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -72,6 +73,7 @@ jobs:
           APP_DEBUG: true
           XDEBUG_MODE: coverage
           DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
 
