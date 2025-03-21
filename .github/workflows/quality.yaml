@@ -30,6 +30,8 @@ jobs:
 
       - name: install deps
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
+        env:
+          DATABASE_URL: "mysql://user:pass@127.0.0.1:3306/db"
 
       - name: Quality analysis
         run: composer app:code-quality

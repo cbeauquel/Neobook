@@ -12,7 +12,7 @@ jobs:
         env:
           MYSQL_PASSWORD: ''
           MYSQL_USER: root
-          MYSQL_DATABASE: neobook
+          MYSQL_DATABASE: neobook_test
           MYSQL_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
     steps:
       - name: Checkout
@@ -50,7 +50,7 @@ jobs:
           APP_ENV: TEST
           APP_DEBUG: true
           XDEBUG_MODE: coverage
-          DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+          DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook_test?serverVersion=8.0.32&charset=utf8mb4"
 
         
     
