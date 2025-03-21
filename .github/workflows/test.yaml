@@ -47,20 +47,18 @@ jobs:
       - name: Configure MySQL
         run: |
           mysql -uroot -proot -e "CREATE DATABASE neobook;"
-          mysql -uroot -proot -e "CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';"
           mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON neobook.* TO 'root'@'localhost';"
           mysql -uroot -proot -e "FLUSH PRIVILEGES;"
         env:
-          MYSQL_ROOT_PASSWORD: root
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          
+
       - name: install deps
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            if mysqladmin ping -h 127.0.0.1 --user=root --password=root --silent; then
+            if mysqladmin ping -h 127.0.0.1 --user=root --silent; then
               echo "MySQL is up!"
               break
             fi
