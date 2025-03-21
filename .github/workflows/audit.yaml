@@ -31,11 +31,11 @@ jobs:
       - name: install deps
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
         env:
-          DATABASE_URL: "mysql://user:pass@127.0.0.1:3306/db"
+          DATABASE_URL: "mysql://fake:fake@localhost/fake"
 
       - name: security audit
         run: composer audit \
-          --abandonned="report" \
+          --abandoned="report" \
           --format="json" \
           --no-ansi \
           > /tmp/security-audit.json 
