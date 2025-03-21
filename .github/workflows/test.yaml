@@ -13,7 +13,7 @@ jobs:
           MEILI_MASTER_KEY: '!ChangeMe!'
     env:  # Définir DATABASE_URL au niveau du job
       DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_ROOT_PASSWORD: root
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,9 +48,7 @@ jobs:
         run: |
           mysql -uroot -proot -e "CREATE DATABASE neobook;"
           mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON neobook.* TO 'root'@'localhost';"
-          mysql -uroot -proot -e "FLUSH PRIVILEGES;"
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          mysql -uroot -proot -e "FLUSH PRIVILEGES;"        
 
       - name: install deps
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
@@ -58,7 +56,7 @@ jobs:
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            if mysqladmin ping -h 127.0.0.1 --user=root --silent; then
+            if mysqladmin ping -h 127.0.0.1 --user=root --password=root --silent; then
               echo "MySQL is up!"
               break
             fi
@@ -72,8 +70,7 @@ jobs:
           APP_ENV: TEST
           APP_DEBUG: true
           XDEBUG_MODE: coverage
-          DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
 
