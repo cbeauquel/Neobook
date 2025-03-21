@@ -35,7 +35,6 @@ jobs:
 
       - name: security audit
         run: composer audit \
-          --no-dev \
           --abandonned="report" \
           --format="json" \
           --no-ansi \

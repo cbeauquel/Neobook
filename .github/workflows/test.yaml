@@ -12,8 +12,9 @@ jobs:
         env:
           MYSQL_PASSWORD: ''
           MYSQL_USER: root
-          MYSQL_DATABASE: neobook_test
+          MYSQL_DATABASE: neobook
           MYSQL_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,8 +42,14 @@ jobs:
       - name: install deps
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
-      - name: Prepare the database
-        run: sudo systemctl start mysql
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h database --silent; then
+              break
+            fi
+            sleep 1
+          done
 
       - name: Tests
         run: composer test
@@ -50,7 +57,7 @@ jobs:
           APP_ENV: TEST
           APP_DEBUG: true
           XDEBUG_MODE: coverage
-          DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook_test?serverVersion=8.0.32&charset=utf8mb4"
+          DATABASE_URL: "mysql://root@database:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
 
         
     
