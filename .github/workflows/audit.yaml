@@ -29,7 +29,7 @@ jobs:
         run: composer self-update
 
       - name: install deps
-        run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
+        run: composer install --no-scripts --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: security audit
         run: composer audit \

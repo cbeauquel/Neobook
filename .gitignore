@@ -31,8 +31,3 @@
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
-
-###> github/workflows ###
-quality.yaml
-test.yaml
-###< github/workflows ###
