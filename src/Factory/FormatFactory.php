@@ -43,7 +43,7 @@ final class FormatFactory extends PersistentProxyObjectFactory
             'wordsCount' => self::faker()->randomNumber($nbDigits = 5, $strict = false),
             'type' => TypeFactory::random(),
             'tvaRate' => TvaFactory::random(),
-            'book' => BookFactory::random(),
+            // 'book' => BookFactory::random(),
         ];
     }
 

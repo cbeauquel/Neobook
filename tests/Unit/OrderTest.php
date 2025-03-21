@@ -24,7 +24,6 @@ class OrderTest extends TestCase
                   ->setStatus($orderStatusTest)
                   ->setPaymentMode($paymentModeTest)
                   ->setBasket($basketTest)
-                  ->setUserToken($basketTest)
                   ->setTotalHT('19.99')
                   ->setTotalTTC('26.99');
 
@@ -33,7 +32,6 @@ class OrderTest extends TestCase
         $this->assertTrue($orderTest->getStatus() === $orderStatusTest);
         $this->assertTrue($orderTest->getPaymentMode() === $paymentModeTest);
         $this->assertTrue($orderTest->getBasket() === $basketTest);
-        $this->assertTrue($orderTest->getUserToken() === $basketTest);
         $this->assertTrue($orderTest->getTotalHT() === '19.99');
         $this->assertTrue($orderTest->getTotalTTC() === '26.99');
     }
@@ -51,7 +49,6 @@ class OrderTest extends TestCase
                   ->setStatus($orderStatusTest)
                   ->setPaymentMode($paymentModeTest)
                   ->setBasket($basketTest)
-                  ->setUserToken($basketTest)
                   ->setTotalHT('19.99')
                   ->setTotalTTC('26.99');
 
@@ -60,7 +57,6 @@ class OrderTest extends TestCase
         $this->assertFalse($orderTest->getStatus() === new OrderStatus());
         $this->assertFalse($orderTest->getPaymentMode() === new Payment());
         $this->assertFalse($orderTest->getBasket() === new Basket());
-        $this->assertFalse($orderTest->getUserToken() === new Basket());
         $this->assertFalse($orderTest->getTotalHT() === '17.99');
         $this->assertFalse($orderTest->getTotalTTC() === '24.99');
     }
@@ -73,7 +69,6 @@ class OrderTest extends TestCase
         $this->assertEmpty($orderTest->getStatus());
         $this->assertEmpty($orderTest->getPaymentMode());
         $this->assertEmpty($orderTest->getBasket());
-        $this->assertEmpty($orderTest->getUserToken());
         $this->assertEmpty($orderTest->getTotalHT());
         $this->assertEmpty($orderTest->getTotalTTC());
     }

@@ -50,9 +50,6 @@ class Basket
     #[ORM\OneToOne(mappedBy: 'basket', cascade: ['persist', 'remove'])]
     private ?Order $orderId = null;
 
-    #[ORM\OneToOne(mappedBy: 'user_token', cascade: ['persist', 'remove'])]
-    private ?Order $user_token_id = null;
-
     public function __construct()
     {
         $this->formats = new ArrayCollection();
@@ -172,28 +169,6 @@ class Basket
         }
 
         $this->orderId = $orderId;
-
-        return $this;
-    }
-
-    public function getUserTokenId(): ?Order
-    {
-        return $this->user_token_id;
-    }
-
-    public function setUserTokenId(?Order $user_token_id): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($user_token_id === null && $this->user_token_id !== null) {
-            $this->user_token_id->setUserToken(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($user_token_id !== null && $user_token_id->getUserToken() !== $this) {
-            $user_token_id->setUserToken($this);
-        }
-
-        $this->user_token_id = $user_token_id;
 
         return $this;
     }

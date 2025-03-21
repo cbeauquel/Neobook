@@ -54,7 +54,6 @@ class OrderController extends AbstractController
             $order->setTotalTTC($totalTTC);
             $order->setStatus($defautStatus);
             $order->setBasket($basket);
-            $order->setUserToken($basket);
             $order->setNewCustomer($newCustomer);
             $manager->persist($order);
             $manager->flush();

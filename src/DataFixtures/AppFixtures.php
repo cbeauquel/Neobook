@@ -86,37 +86,11 @@ class AppFixtures extends Fixture
             throw new \Exception("Les entités Type et Tva doivent exister avant de créer des Formats.");
         }
 
-        BookFactory::createMany(36, function() {
-            return [
-                'categories' => CategoryFactory::randomRange(0, 3),
-                'editor' => EditorFactory::random(),
-                'boSkCos' => BoSkCoFactory::new()->range(1, 4),
-                'keyWords' => KeyWordFactory::new()->range(1, 5),
-                'formats' => FormatFactory::new()->range(1, 2),
-            ];
-        });
+        BookFactory::createMany(36);
 
-        $manager->flush();
+        FormatFactory::new();
 
-        FormatFactory::new()
-        ->create(function() {
-            return [
-                'type' => TypeFactory::random(),
-                'tvaRate' => TvaFactory::random(),
-                'book' => BookFactory::random(),
-            ];
-        }); 
-
-        $manager->flush();
-
-        BoSkCoFactory::new()
-            ->create(function() {
-            return [
-                'book' => BookFactory::random(),
-                'contributor' => ContributorFactory::random(),
-                'skill' => SkillFactory::random(),
-            ];
-        });
+        BoSkCoFactory::new();
 
         $manager->flush();
     }

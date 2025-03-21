@@ -49,12 +49,6 @@ class Format
     #[ORM\Column(length: 255)]
     private ?string $filePath = null;
 
-    #[Groups(['searchable', 'getBooks'])]
-    #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'formats', cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Book $book = null;
-
     #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bookExtract = null;
@@ -85,6 +79,11 @@ class Format
      */
     #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'formats', cascade: ['persist'])]
     private Collection $baskets;
+
+    #[Assert\NotBlank]
+    #[ORM\ManyToOne(inversedBy: 'formats')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Book $book = null;
 
     public function __construct()
     {
@@ -167,19 +166,6 @@ class Format
 
         return $this;
     }
-
-    public function getBook(): ?Book
-    {
-        return $this->book;
-    }
-
-    public function setBook(?Book $book): static
-    {
-        $this->book = $book;
-
-        return $this;
-    }
-
 
     public function getBookExtract(): ?string
     {
@@ -271,6 +257,18 @@ class Format
         if ($this->baskets->removeElement($basket)) {
             $basket->removeFormat($this);
         }
+
+        return $this;
+    }
+
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): static
+    {
+        $this->book = $book;
 
         return $this;
     }

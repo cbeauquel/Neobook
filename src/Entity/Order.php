@@ -44,9 +44,6 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?Basket $basket = null;
 
-    #[ORM\OneToOne(inversedBy: 'user_token_id', cascade: ['persist', 'remove'])]
-    private ?Basket $user_token = null;
-
     #[Assert\NotBlank]
     #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
     private ?string $TotalHT = null;
@@ -116,18 +113,6 @@ class Order
     public function setBasket(Basket $basket): static
     {
         $this->basket = $basket;
-
-        return $this;
-    }
-
-    public function getUserToken(): ?Basket
-    {
-        return $this->user_token;
-    }
-
-    public function setUserToken(?Basket $user_token): static
-    {
-        $this->user_token = $user_token;
 
         return $this;
     }

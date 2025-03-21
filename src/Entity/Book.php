@@ -71,14 +71,6 @@ class Book
     private Collection $categories;
 
     /**
-     * @var Collection<int, Format>
-     */
-    #[Groups(['searchable', 'getBooks'])]
-    #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
-    private Collection $formats;
-
-    /**
      * @var Collection<int, Feedback>
      */
     #[Assert\Valid]
@@ -106,14 +98,22 @@ class Book
     #[ORM\OneToMany(targetEntity: ToBeRead::class, mappedBy: 'book')]
     private Collection $toBeReads;
 
+    /**
+     * @var Collection<int, Format>
+     */
+    #[Assert\Valid]
+    #[Groups(['searchable', 'getBooks'])]
+    #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
+    private Collection $formats;
+
     public function __construct()
     {
         $this->keyWords = new ArrayCollection();
         $this->categories = new ArrayCollection();
-        $this->formats = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
         $this->boSkCos = new ArrayCollection();
         $this->toBeReads = new ArrayCollection();
+        $this->formats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -248,30 +248,6 @@ class Book
     }
 
     /**
-     * @return Collection<int, Format>
-     */
-    public function getFormats(): Collection
-    {
-        return $this->formats;
-    }
-
-    public function addFormat(Format $format): static
-    {
-        if (!$this->formats->contains($format)) {
-            $this->formats->add($format);
-        }
-
-        return $this;
-    }
-
-    public function removeFormat(Format $format): static
-    {
-        $this->formats->removeElement($format);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Feedback>
      */
     public function getFeedbacks(): Collection
@@ -367,6 +343,36 @@ class Book
             // set the owning side to null (unless already changed)
             if ($toBeRead->getBook() === $this) {
                 $toBeRead->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Format>
+     */
+    public function getFormats(): Collection
+    {
+        return $this->formats;
+    }
+
+    public function addFormat(Format $format): static
+    {
+        if (!$this->formats->contains($format)) {
+            $this->formats->add($format);
+            $format->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormat(Format $format): static
+    {
+        if ($this->formats->removeElement($format)) {
+            // set the owning side to null (unless already changed)
+            if ($format->getBook() === $this) {
+                $format->setBook(null);
             }
         }
 

@@ -33,7 +33,7 @@ final class BoSkCoFactory extends PersistentProxyObjectFactory
     protected function defaults(): array
     {
         return [
-            'book' => BookFactory::random(),
+            // 'book' => BookFactory::random(),
             'contributor' => ContributorFactory::random(),
             'skill' => SkillFactory::random(),
         ];
