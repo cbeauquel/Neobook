@@ -104,11 +104,13 @@
             "php bin/phpunit" 
         ],
         "app:code-quality":[
+            "php -v",
             "./vendor/bin/ecs check",
             "php bin/console lint:yaml config --parse-tags",
             "php bin/console lint:twig templates",
             "php bin/console lint:container",
             "./vendor/bin/phpstan analyse --memory-limit=-1",
+            "./vendor/bin/rector --version",
             "./vendor/bin/rector --dry-run"
         ],
         "auto-scripts": {
