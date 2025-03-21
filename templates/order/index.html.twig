@@ -31,18 +31,16 @@
         <tbody>
             {% for format in formatsOrder.formats %}
                 <tr>
-                {% for books in format.books %}
-                    <td>{{ books.title }}</td>
+                    <td>{{ format.book.title }}</td>
                     <td>
-                    <a href="{{path('book', {id: books.id})}}" title="voir le livre">
-                        {% if books.cover %}
-                            <img src="{{ asset('img/livres/' ~ books.cover) }}" alt="{{ books.title }}" style="max-width: 40px;">
+                    <a href="{{path('book', {id: format.book.id})}}" title="voir le livre">
+                        {% if format.book.cover %}
+                            <img src="{{ asset('img/livres/' ~ format.book.cover) }}" alt="{{ format.book.title }}" style="max-width: 40px;">
                         {% else %}
                             Pas de couverture
                         {% endif %}
                     </a>
                     </td>
-                {% endfor %}
                     <td>
                         <p>{{format.type.name}}</p>
                     </td>

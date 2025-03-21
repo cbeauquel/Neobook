@@ -81,7 +81,7 @@ class Format
     private Collection $baskets;
 
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(inversedBy: 'formats')]
+    #[ORM\ManyToOne(inversedBy: 'formats', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
 

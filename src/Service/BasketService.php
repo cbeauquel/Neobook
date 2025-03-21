@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class BasketService
 {
@@ -40,7 +41,7 @@ class BasketService
      * Ajoute un format au panier en session et synchronise avec la BDD
      * @param array<mixed> $formats
      */
-    public function addToBasket(array $formats, ?User $customer = null): void
+    public function addToBasket(array $formats, ?UserInterface $customer = null): void
     {
         $sessionBasket = $this->getSessionBasket();
 
@@ -54,7 +55,6 @@ class BasketService
         $this->saveBasket($sessionBasket);
         // Récupérer ou créer un panier en base
         $bddBasket = $this->getOrCreateBddBasket($customer);
-        // dd($customer);
         $idBasket = $bddBasket->getId();
         // Récupérer les formats en base et en session
         $bddBasketFormats = $this->loadBasketFormats($idBasket);
@@ -78,7 +78,7 @@ class BasketService
     /**
      * Supprime un format du panier en session et synchronise avec la BDD
      */
-    public function removeToBasket(object $formatToRemove, ?User $customer): void
+    public function removeToBasket(object $formatToRemove, ?UserInterface $customer): void
     {
         $sessionBasket = $this->getSessionBasket();
         foreach ($sessionBasket as $format) {
@@ -119,7 +119,7 @@ class BasketService
     /**
      * @return Basket retourne l'objet basket issu de la BDD sur interrogation de l'ID customer ou du UserToken (user non authentifié)
      */
-    public function loadBasket(?User $customer): ?Basket
+    public function loadBasket(?UserInterface $customer): ?Basket
     {
         // Récupérer un panier en base
         $session = $this->getSession();
@@ -173,7 +173,7 @@ class BasketService
     /**
      * @return Basket Récupérer un panier existant en base donnée ou en créer un nouveau.
      */
-    public function getOrCreateBddBasket(?User $customer = null): Basket
+    public function getOrCreateBddBasket(?UserInterface $customer = null): Basket
     {
         $session = $this->getSession();
         $userToken = $session->getId();
@@ -181,14 +181,14 @@ class BasketService
         // Créer un panier s'il n'existe pas
         if (!$basket) {
             $basket = new Basket();
-            if ($customer) {
+            if ($customer instanceof User) {
                 $basket->setCustomer($customer);
                 $basket->setUserToken($userToken);
             } else {
                 $basket->setUserToken($userToken);
             }
         } else {
-            if ($customer) {
+            if ($customer instanceof User) {
                 $basket->setCustomer($customer);
                 $basket->setUserToken($userToken);
             }

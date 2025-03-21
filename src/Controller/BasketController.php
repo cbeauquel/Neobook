@@ -22,42 +22,36 @@ class BasketController extends AbstractController
         EntityManagerInterface $manager,
         BreadcrumbService $breadcrumbService,
         SessionInterface $session,
-        ?User $user,
     ): Response {
         $user = $this->getUser();
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Panier', $this->generateUrl('basket_view'));
-        //  $session->clear();
+
         //récupère le panier en session.
         $userToken = $session->getId();
         $sessionBasket = $basketService->getSessionBasket();
         // récupère le panier en base
         $oldBasket = $basketService->loadAllBaskets($userToken);
-        if ($user instanceof \App\Entity\User) {
-            $bddBasket = $basketService->loadBasket($user);
-        } else {
-            $bddBasket = null;
-        }
+        $bddBasket = $basketService->loadBasket($user);
+
         // Si le panier en session est vide et que le panier en base n'est pas vide
         if ($sessionBasket->isEmpty() && $bddBasket) {
             // Si un utilisateur est connecté
-            if ($user instanceof \App\Entity\User) {
-                $idBasket = $bddBasket->getId();
-                $bddBasketFormats = $basketService->loadBasketFormats($idBasket);
-                if ($bddBasketFormats->isEmpty()) {
-                    $manager->remove($bddBasket);
-                    $manager->flush();
-                } else {
-                    // on injecte la nouvelle liste de formats dans le panier en session
-                    foreach ($bddBasketFormats as $bddBasketFormat) {
-                        $sessionBasket->add($bddBasketFormat);
-                    }
-                    $basketService->saveBasket($sessionBasket);
-                }
-            } else {
+            $idBasket = $bddBasket->getId();
+            $bddBasketFormats = $basketService->loadBasketFormats($idBasket);
+            if ($bddBasketFormats->isEmpty()) {
                 $manager->remove($bddBasket);
                 $manager->flush();
+            } else {
+                // on injecte la nouvelle liste de formats dans le panier en session
+                foreach ($bddBasketFormats as $bddBasketFormat) {
+                    $sessionBasket->add($bddBasketFormat);
+                }
+                $basketService->saveBasket($sessionBasket);
             }
+
+            $manager->remove($bddBasket);
+            $manager->flush();
         } elseif (!$oldBasket) {
             $session->remove($sessionBasket);
         }
@@ -77,7 +71,6 @@ class BasketController extends AbstractController
             }
         }
 
-        // dd($sessionBasket);
         return $this->render('basket/index.html.twig', [
             'controller_name' => 'BasketController',
             'basket' => $sessionBasket,
@@ -89,7 +82,7 @@ class BasketController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'add')]
-    public function add(BasketService $basketService, Request $request, FormatRepository $formatRepository, ?User $user): Response
+    public function add(BasketService $basketService, Request $request, FormatRepository $formatRepository): Response
     {
         $user = $this->getUser();
         // on récupère les formats à partir des données choisies par l'utilisateur
@@ -98,10 +91,7 @@ class BasketController extends AbstractController
         if (!$formats) {
             throw $this->createNotFoundException('Produit introuvable.');
         }
-        if ($user instanceof \App\Entity\User) {
-            $basketService->addToBasket($formats, $user);
-        }
-
+        $basketService->addToBasket($formats, $user);
         return $this->redirectToRoute('basket_view');
     }
 
@@ -114,9 +104,9 @@ class BasketController extends AbstractController
         if (!$formatToRemove) {
             throw $this->createNotFoundException('Produit introuvable.');
         }
-        if ($user instanceof \App\Entity\User) {
-            $basketService->removeToBasket($formatToRemove, $user);
-        }
+
+        $basketService->removeToBasket($formatToRemove, $user);
+
         // Rediriger vers la page panier (ou un autre endroit)
         return $this->redirectToRoute('basket_view');
     }
