@@ -9,8 +9,8 @@ jobs:
         image: getmeili/meilisearch:v1.0
         ports:
           - 7700:7700
-    env:
-      MEILI_MASTER_KEY: '!ChangeMe!'
+        env:
+          MEILI_MASTER_KEY: '!ChangeMe!'
 
       database:
         image: mysql:8.0.32
