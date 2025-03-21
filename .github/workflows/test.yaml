@@ -5,6 +5,13 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     services:
+      meilisearch:
+        image: getmeili/meilisearch:v1.0
+        ports:
+          - 7700:7700
+    env:
+      MEILI_MASTER_KEY: '!ChangeMe!'
+
       database:
         image: mysql:8.0.32
         ports:
@@ -72,6 +79,8 @@ jobs:
           APP_DEBUG: true
           XDEBUG_MODE: coverage
           DATABASE_URL: "mysql://root@database:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+          MEILI_HTTP_ADDR: http://meilisearch:7700
+          MEILI_MASTER_KEY: '!ChangeMe!'
 
         
     

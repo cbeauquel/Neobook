@@ -11,7 +11,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: '8.3.17'
           tools: composer:v2
           coverage: none
 
@@ -33,6 +33,9 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
         env:
           DATABASE_URL: "mysql://user:pass@127.0.0.1:3306/db"
+
+      - name: Show Composer Platform PHP Version
+        run: composer platform:show
 
       - name: Quality analysis
         run: composer app:code-quality
