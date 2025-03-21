@@ -70,8 +70,7 @@ class BookRepository extends ServiceEntityRepository
             ->orderBy('b.id', 'ASC')
             ->setMaxResults(12)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
  
     /**

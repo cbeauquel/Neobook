@@ -12,26 +12,6 @@ jobs:
         env:
           MEILI_MASTER_KEY: '!ChangeMe!'
 
-      database:
-        image: mysql:8.0.32
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-          MYSQL_DATABASE: neobook
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-      phpmyadmin:
-        image: phpmyadmin:5.2.2
-        ports:
-          - 8080:80
-        env:
-          PMA_HOST: database
-          PMA_PORT: 3306
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,6 +37,19 @@ jobs:
         run: composer self-update
         env:
           DATABASE_URL: "mysql://root@database:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+
+      - name: Install MySQL
+        run: sudo apt-get update && sudo apt-get install -y mysql-server
+
+      - name: Start MySQL
+        run: sudo service mysql start
+
+      - name: Configure MySQL
+        run: |
+          sudo mysql -e "CREATE DATABASE neobook;"
+          sudo mysql -e "CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';"
+          sudo mysql -e "GRANT ALL PRIVILEGES ON neobook.* TO 'root'@'localhost';"
+          sudo mysql -e "FLUSH PRIVILEGES;"
 
       - name: install deps
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader

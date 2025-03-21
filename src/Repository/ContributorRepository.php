@@ -34,8 +34,7 @@ class ContributorRepository extends ServiceEntityRepository
             ->orderBy('s.name', 'ASC')
             ->setMaxResults(5)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
     
     /**
@@ -47,20 +46,17 @@ class ContributorRepository extends ServiceEntityRepository
         ->join('c.boSkCos', 'bo')
         ->orderBy('c.id', 'ASC');
 
-    
         // Adapter pour Pagerfanta
         $adapter = new QueryAdapter($queryBuilder);
-    
+
         // Créer un objet Pagerfanta
         $pagerfanta = new Pagerfanta($adapter);
         $pagerfanta->setMaxPerPage($limit);
         $pagerfanta->setCurrentPage($page);
-    
+
         return $pagerfanta;
     }
- 
-   
-
+    
     //    /**
     //     * @return Contributor[] Returns an array of Contributor objects
     //     */

@@ -26,15 +26,14 @@ class EditorRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('e')
         ->orderBy('e.id', 'ASC');
 
-    
         // Adapter pour Pagerfanta
         $adapter = new QueryAdapter($queryBuilder);
-    
+
         // Créer un objet Pagerfanta
         $pagerfanta = new Pagerfanta($adapter);
         $pagerfanta->setMaxPerPage($limit);
         $pagerfanta->setCurrentPage($page);
-    
+        
         return $pagerfanta;
     }
 

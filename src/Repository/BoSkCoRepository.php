@@ -15,7 +15,7 @@ class BoSkCoRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, BoSkCo::class);
     }
- 
+        
     /**
     * @return array<int> Returns an array of Contributors id
     */

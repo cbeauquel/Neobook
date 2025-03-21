@@ -69,10 +69,8 @@ class FormatRepository extends ServiceEntityRepository
     //            ->andWhere('f.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
+    //            ->getOneOrNullResult();
     //    }
-    
     //    /**
     //     * @return Format[] Returns an array of Format objects
     //     */
