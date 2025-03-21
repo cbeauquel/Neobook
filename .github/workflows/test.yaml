@@ -11,7 +11,8 @@ jobs:
           - 7700:7700
         env:
           MEILI_MASTER_KEY: '!ChangeMe!'
-
+  env:  # Définir DATABASE_URL au niveau du job
+    DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,7 +37,7 @@ jobs:
       - name: Update composer
         run: composer self-update
         env:
-          DATABASE_URL: "mysql://root@database:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+          # DATABASE_URL: "mysql://root@database:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
 
       - name: Install MySQL
         run: sudo apt-get update && sudo apt-get install -y mysql-server
@@ -72,7 +73,7 @@ jobs:
           APP_ENV: TEST
           APP_DEBUG: true
           XDEBUG_MODE: coverage
-          DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+          #DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
 
