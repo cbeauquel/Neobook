@@ -77,11 +77,9 @@ class BasketRepository extends ServiceEntityRepository
     //         ->andWhere('b. status = :status' )
     //         ->setParameter('status', 'En cours')
     //         ->getQuery()
-    //         ->getOneOrNullResult()
-    //     ;
+    //         ->getOneOrNullResult();
     // }
- 
-    //    /**
+     //    /**
     //     * @return Basket[] Returns an array of Basket objects
     //     */
     //    public function findByExampleField($value): array

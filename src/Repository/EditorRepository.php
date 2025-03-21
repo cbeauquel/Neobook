@@ -33,7 +33,7 @@ class EditorRepository extends ServiceEntityRepository
         $pagerfanta = new Pagerfanta($adapter);
         $pagerfanta->setMaxPerPage($limit);
         $pagerfanta->setCurrentPage($page);
-        
+
         return $pagerfanta;
     }
 

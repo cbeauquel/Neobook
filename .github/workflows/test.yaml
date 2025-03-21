@@ -61,7 +61,7 @@ jobs:
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            if mysqladmin ping -h database --user=root --silent; then
+            if mysqladmin ping -h 127.0.0.1 --user=root --password=root --silent; then
               echo "MySQL is up!"
               break
             fi
@@ -75,7 +75,7 @@ jobs:
           APP_ENV: TEST
           APP_DEBUG: true
           XDEBUG_MODE: coverage
-          DATABASE_URL: "mysql://root:root@database:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
 

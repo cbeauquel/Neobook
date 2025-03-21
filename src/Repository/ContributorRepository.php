@@ -36,7 +36,7 @@ class ContributorRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    
+
     /**
      * @return Pagerfanta Returns an array of contributors
      */
@@ -56,7 +56,7 @@ class ContributorRepository extends ServiceEntityRepository
 
         return $pagerfanta;
     }
-    
+
     //    /**
     //     * @return Contributor[] Returns an array of Contributor objects
     //     */

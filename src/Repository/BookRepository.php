@@ -72,7 +72,7 @@ class BookRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
- 
+
     /**
     * @return Book[] Returns an array of Book objects
     * @param array<mixed> $value
@@ -139,7 +139,6 @@ class BookRepository extends ServiceEntityRepository
 
         return $pagerfanta;
     }
-
 
     //    /**
     //     * @return Book[] Returns an array of Book objects
