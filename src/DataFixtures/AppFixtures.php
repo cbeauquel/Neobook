@@ -88,10 +88,55 @@ class AppFixtures extends Fixture
 
         BookFactory::createMany(36);
 
+        $manager->flush();
+
         FormatFactory::new();
 
-        BoSkCoFactory::new();
+        $books = BookFactory::all();
+        $auteurSkill = SkillFactory::find(['name' => 'Auteur']);
+        $otherSkills = array_filter(
+            SkillFactory::all(),
+            fn ($s) => $s->getName() !== 'Auteur'
+        );
+        
+        // Générer les liaisons BoSkCo
+        foreach ($books as $book) {
+            $contributor = ContributorFactory::random();
+            $usedContributorIds[] = $contributor->getId();
 
+            BoSkCoFactory::createOne([
+                'book' => $book,
+                'contributor' => $contributor,
+                'skill' => $auteurSkill,
+            ]);
+        
+            // Ajout optionnel d'autres skills
+            $count = random_int(0, 3);
+            for ($i = 0; $i < $count; $i++) {
+                // Filtrer les contributeurs déjà utilisés
+                $availableContributors = array_filter(
+                    ContributorFactory::all(),
+                    fn ($c) => !in_array($c->getId(), $usedContributorIds)
+                );
+
+                // Si plus aucun contributeur dispo, on stoppe
+                if (empty($availableContributors)) {
+                    break;
+                }
+
+                // Sélection aléatoire
+                $contributor = $availableContributors[array_rand($availableContributors)];
+                $usedContributorIds[] = $contributor->getId();
+
+                $skill = $otherSkills[array_rand($otherSkills)];
+        
+                BoSkCoFactory::createOne([
+                    'book' => $book,
+                    'contributor' => $contributor,
+                    'skill' => $skill,
+                ]);
+            }
+        }
         $manager->flush();
     }
 }

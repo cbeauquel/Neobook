@@ -19,14 +19,14 @@ class BookController extends AbstractController
 {
     #[Route('/book/{id}', name: 'book', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function showBook(
-        Book $book,
         BookRepository $bookRepository,
         BoSkCoRepository $boSkCoRepository,
         Request $request,
         BreadcrumbService $breadcrumbService,
         EntityManagerInterface $entityManager,
-        int $id,
+        string $id,
     ): Response {
+        $book = $bookRepository->findOneByid($id);
         $slug = $book->getTitle();
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Livre', $this->generateUrl('book', ['id' => $id]));
@@ -57,7 +57,6 @@ class BookController extends AbstractController
                 return $this->redirectToRoute('customer_account');
             }
         }
-
         return $this->render('book/index.html.twig', [
             'controller_name' => 'BookController',
             'book' => $book,

@@ -59,7 +59,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $optIn = null;
 
-    #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $preference = null;
 

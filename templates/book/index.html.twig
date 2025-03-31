@@ -61,7 +61,7 @@
                     {% endif %}
                 <h2>Prix et formats</h2>
                 {% if date(book.parutionDate) > date("now") %}
-                    Disponibe à partir du {{book.parutionDate | date("d/m/Y")}}
+                    <p class="aparaitre">Disponibe à partir du {{book.parutionDate | date("d/m/Y")}}</p>
                 {% else %}
                     <form method="post" action="{{path('basket_add', {id: book.id})}}" class="price-format">
                             {% for format in book.formats %}

@@ -35,7 +35,7 @@ final class BoSkCoFactory extends PersistentProxyObjectFactory
         return [
             // 'book' => BookFactory::random(),
             'contributor' => ContributorFactory::random(),
-            'skill' => SkillFactory::random(),
+            'skill' => SkillFactory::first(),
         ];
     }
 

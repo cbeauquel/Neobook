@@ -20,7 +20,7 @@
     <div class="list">
         {% for book in upcoming_books %}
         <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
-        <article>
+        <article class="upcoming">
             <div class="book-content">
                 <p class="contributor-name">
                     {% for boSkCo in book.boSkCos %}
@@ -55,7 +55,7 @@
     <div class="list">
         {% for book in new_books %}
         <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
-        <article>
+        <article class="newbooks">
             <div class="book-content">
                 <p class="contributor-name">
                     {% for boSkCo in book.boSkCos %}

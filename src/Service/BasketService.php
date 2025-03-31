@@ -43,6 +43,7 @@ class BasketService
      */
     public function addToBasket(array $formats, ?UserInterface $customer = null): void
     {
+        //Récupère le panier en session
         $sessionBasket = $this->getSessionBasket();
 
         foreach ($formats as $format) {
@@ -69,7 +70,7 @@ class BasketService
 
         // on injecte la nouvelle liste de formats dans le panier en base
         $bddBasket->setFormats($bddBasketFormats);
-        // dd($bddBasket);
+
         // Sauvegarder le panier en base
         $this->manager->persist($bddBasket);
         $this->manager->flush();

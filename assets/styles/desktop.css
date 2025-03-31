@@ -655,7 +655,7 @@ H1.search-results{
 }
 
 .summary {
-    width:45%;
+    width:40%;
 }
 
 .summary-text {
@@ -663,7 +663,7 @@ H1.search-results{
 }
 
 .informations {
-    width:25%;
+    width:30%;
     text-align:center;
 }
 

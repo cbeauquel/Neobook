@@ -48,7 +48,7 @@ final class EditorFactory extends PersistentProxyObjectFactory
             'description' => self::faker()->text(200),
             'logo' => self::faker()->imageUrl(640, 480, 'business'),
             'name' => self::faker()->company(),
-            'status' => self::faker()->boolean(),
+            'status' => '1',
         ];
     }
 

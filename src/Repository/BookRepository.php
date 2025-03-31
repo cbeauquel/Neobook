@@ -22,7 +22,7 @@ class BookRepository extends ServiceEntityRepository
     /**
      * @return Book[] Returns an array of Book objects
      */
-    public function findByDate(): array
+    public function findByDate(int $nb): array
     {
         $today = new \DateTime(); // Obtenir la date du jour (sans heure si nécessaire)
         return $this->createQueryBuilder('b')
@@ -38,8 +38,8 @@ class BookRepository extends ServiceEntityRepository
             ->setParameter('skillName', 'Auteur')
             ->setParameter('today', $today)
             ->setParameter('value', '1')
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('b.parutionDate', 'DESC')
+            ->setMaxResults($nb)
             ->getQuery()
             ->getResult()
         ;
@@ -48,10 +48,10 @@ class BookRepository extends ServiceEntityRepository
     /**
      * @return Book[] Returns an array of Book objects
      */
-    public function findNew(): array
+    public function findNew(int $nb): array
     {
         $today = new \DateTime(); // Obtenir la date du jour (sans heure si nécessaire)
-        $twentyDaysAgo = new DateTimeImmutable('-20 days'); //tous les livres qui ont une date de création de moins de 20jours
+        $twentyDaysAgo = new DateTimeImmutable('-360 days'); //tous les livres qui ont une date de création de moins de 20jours
         return $this->createQueryBuilder('b')
             ->innerJoin('b.boSkCos', 'bsc')
             ->innerJoin('bsc.skill', 's')
@@ -59,8 +59,8 @@ class BookRepository extends ServiceEntityRepository
             ->addSelect('bsc')
             ->addSelect('s')
             ->addSelect('c')
-            ->andWhere('b.createdAt <= :today')
-            ->andWhere('b.createdAt >= :date')
+            ->andWhere('b.parutionDate <= :today')
+            ->andWhere('b.parutionDate >= :date')
             ->andWhere('b.status = :value')
             ->andWhere('s.name = :skillName')
             ->setParameter('skillName', 'Auteur')
@@ -68,7 +68,7 @@ class BookRepository extends ServiceEntityRepository
             ->setParameter('today', $today)
             ->setParameter('value', '1')
             ->orderBy('b.id', 'ASC')
-            ->setMaxResults(12)
+            ->setMaxResults($nb)
             ->getQuery()
             ->getResult();
     }
@@ -138,6 +138,24 @@ class BookRepository extends ServiceEntityRepository
         $pagerfanta->setCurrentPage($page);
 
         return $pagerfanta;
+    }
+
+    public function findOneByid(string $value): ?Book
+    {
+        return $this->createQueryBuilder('b')
+             ->innerJoin('b.boSkCos', 'bsc')
+             ->innerJoin('bsc.contributor', 'c')
+             ->innerJoin('bsc.skill', 's')
+             ->innerJoin('b.editor', 'e')
+             ->addSelect('bsc')
+             ->addSelect('c')
+             ->addSelect('s')
+             ->addSelect('e')
+            ->andWhere('b.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     //    /**

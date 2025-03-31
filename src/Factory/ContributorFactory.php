@@ -52,7 +52,7 @@ final class ContributorFactory extends PersistentProxyObjectFactory
             'firstname' => self::faker()->text(255),
             'lastname' => self::faker()->text(255),
             'photo' => self::faker()->text(255),
-            'status' => self::faker()->boolean(),
+            'status' => '1',
         ];
     }
 

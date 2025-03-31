@@ -35,17 +35,16 @@ final class BookFactory extends PersistentProxyObjectFactory
      */
     protected function defaults(): array
     {
-        $publishedAt = self::faker()->dateTimeBetween('-1 years', '+1years');
+        $publishedAt = self::faker()->dateTimeBetween('-1 years', '+6months');
         return [
             'cover' => self::faker()->randomElement(self::BOOK_COVER),
             'genre' => self::faker()->slug($nbWords = 1, $variableNbWords = true),
             'parutionDate' => $publishedAt,
-            'status' => self::faker()->boolean($chanceOfGettingTrue = 90),
+            'status' => '1',
             'summary' => self::faker()->text(),
             'title' => self::faker()->randomElement(self::BOOK_TITLE),
             'categories' => CategoryFactory::randomRange(1, 4),
             'editor' => EditorFactory::random(),
-            'boSkCos' => BoSkCoFactory::new()->range(1, 4),
             'keyWords' => KeyWordFactory::new()->range(1, 5),
             'formats' => FormatFactory::new()->range(1, 2),
         ];
