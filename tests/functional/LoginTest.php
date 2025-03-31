@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Auth;
+namespace App\Tests\Functional;
 
-use App\Tests\Functional\FunctionalTestCase;
+use App\Tests\FunctionalTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class LoginTest extends FunctionalTestCase

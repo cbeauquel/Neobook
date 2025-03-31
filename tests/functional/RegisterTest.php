@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Auth;
+namespace App\Tests\Functional;
 
 use App\Entity\User;
-use App\Tests\Functional\FunctionalTestCase;
+use App\Tests\FunctionalTestCase;
 use Generator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
