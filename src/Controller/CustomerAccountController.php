@@ -58,7 +58,6 @@ class CustomerAccountController extends AbstractController
         $manager->remove($toBeRead);
         $manager->flush();
 
-        $this->addFlash('success', 'Le livre a été ajouté à votre liste de lecture.');
         return $this->redirectToRoute('customer_account');
     }
 }

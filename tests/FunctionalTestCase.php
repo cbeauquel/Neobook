@@ -7,6 +7,7 @@ namespace App\Tests;
 use App\Doctrine\Repository\BookRepository;
 use App\Entity\Basket;
 use App\Entity\Book;
+use App\Entity\ToBeRead;
 use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,6 +58,16 @@ abstract class FunctionalTestCase extends WebTestCase
     protected function getBookId(string $bookId): Book
     {
         return $this->service(EntityManagerInterface::class)->getRepository(Book::class)->findOneByid($bookId);
+    }
+
+    protected function getUser(string $email): User
+    {
+        return $this->service(EntityManagerInterface::class)->getRepository(User::class)->findOneByEmail($email);
+    }
+
+    protected function getTbrId(string $id, User $user): ToBeRead
+    {
+        return $this->service(EntityManagerInterface::class)->getRepository(ToBeRead::class)->findByBookAndUserId($id, $user);
     }
 
     protected function getLastBasket(string $sessionId): ?Basket

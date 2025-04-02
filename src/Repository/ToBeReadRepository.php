@@ -32,7 +32,18 @@ class ToBeReadRepository extends ServiceEntityRepository
             ->orderBy('t.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
+            ->getResult();
+    }
+
+    public function findByBookAndUserId(string $id, object $user): ?ToBeRead
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.book = :val')
+            ->andWhere('t.customer = :user')
+            ->setParameter('val', $id)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 

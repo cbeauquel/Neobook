@@ -7,6 +7,7 @@ use App\Entity\ToBeRead;
 use App\Form\ToBeReadType;
 use App\Repository\BookRepository;
 use App\Repository\BoSkCoRepository;
+use App\Repository\ToBeReadRepository;
 use App\Service\BreadcrumbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,7 @@ class BookController extends AbstractController
         Request $request,
         BreadcrumbService $breadcrumbService,
         EntityManagerInterface $entityManager,
+        ToBeReadRepository $toBeReadRepository,
         string $id,
     ): Response {
         $book = $bookRepository->findOneByid($id);
@@ -39,8 +41,10 @@ class BookController extends AbstractController
 
         /** @var \App\Entity\User|null $user */
         $user = $this->getUser(); // Récupération de l'utilisateur connecté
+        $bookToBeRead = $toBeReadRepository->findByBookAndUserId($id, $user);
+
         $form = null;
-        if ($user) {
+        if ($user && !$bookToBeRead) {
             $toBeRead = new ToBeRead();
             $toBeRead->setStatus('à lire');
             $toBeRead->setCustomer($user);

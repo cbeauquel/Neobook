@@ -15,7 +15,6 @@ final class BookControllerTest extends FunctionalTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextSame('h1', $book->getTitle());
         $this->assertSelectorExists('.cover-big');
-        $this->assertSelectorTextSame('h1', $book->getTitle());
         $this->assertSelectorExists('div.brick > span.material-symbols-outlined');
         $this->assertSelectorTextSame('.book-skill', 'Auteur :');
         $this->assertSelectorExists('a.brick');
@@ -39,5 +38,27 @@ final class BookControllerTest extends FunctionalTestCase
             'POST'
         );
         $this->assertResponseRedirects('/account');
+        $this->get('/account');
+        $this->assertSelectorTextSame('h1', 'Compte de John');
+        $this->assertAnySelectorTextSame('h2', 'Ma PAL');
+        $book = $this->getBookId('1');
+        $this->assertSelectorExists('img.cover');
+        $this->assertSelectorTextSame('.book-title', $book->getTitle());
+    }
+
+    public function testShouldRemoveToBeRead(): void
+    {
+        $this->login();
+        $this->get('/account');
+        $this->assertAnySelectorTextSame('h2', 'Ma PAL');
+        $book = $this->getBookId('1');
+        $user = $this->getUser('beauquelc@yahoo.fr');
+        $tbr = $this->getTbrId('1', $user);
+        $this->assertSelectorExists('img.cover');
+        $this->assertSelectorTextSame('.book-title', $book->getTitle());
+        $this->get('/remove/' . $tbr->getId());
+        $this->assertResponseRedirects();
+        $this->client->followRedirect();
+        $this->assertSelectorNotExists('.book-title', $book->getTitle());
     }
 }
