@@ -11,7 +11,7 @@ final class BookControllerTest extends FunctionalTestCase
     public function testShouldShowBook(): void
     {
         $this->get('/book/1');
-        $book = $this->getBookId('1');
+        $book = $this->getBook('1');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextSame('h1', $book->getTitle());
         $this->assertSelectorExists('.cover-big');
@@ -41,7 +41,7 @@ final class BookControllerTest extends FunctionalTestCase
         $this->get('/account');
         $this->assertSelectorTextSame('h1', 'Compte de John');
         $this->assertAnySelectorTextSame('h2', 'Ma PAL');
-        $book = $this->getBookId('1');
+        $book = $this->getBook('1');
         $this->assertSelectorExists('img.cover');
         $this->assertSelectorTextSame('.book-title', $book->getTitle());
     }
@@ -51,7 +51,7 @@ final class BookControllerTest extends FunctionalTestCase
         $this->login();
         $this->get('/account');
         $this->assertAnySelectorTextSame('h2', 'Ma PAL');
-        $book = $this->getBookId('1');
+        $book = $this->getBook('1');
         $user = $this->getUser('beauquelc@yahoo.fr');
         $tbr = $this->getTbrId('1', $user);
         $this->assertSelectorExists('img.cover');

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -153,6 +154,19 @@ class BookRepository extends ServiceEntityRepository
              ->addSelect('e')
             ->andWhere('b.id = :val')
             ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findNewById(DateTime $today): ?Book
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b')
+            ->andWhere('b.parutionDate < :today')
+            ->setParameter('today', $today)
+            ->orderBy('b.id', 'ASC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;

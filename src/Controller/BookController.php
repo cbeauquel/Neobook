@@ -41,8 +41,9 @@ class BookController extends AbstractController
 
         /** @var \App\Entity\User|null $user */
         $user = $this->getUser(); // Récupération de l'utilisateur connecté
-        $bookToBeRead = $toBeReadRepository->findByBookAndUserId($id, $user);
-
+        if ($user) {
+            $bookToBeRead = $toBeReadRepository->findByBookAndUserId($id, $user);
+        }
         $form = null;
         if ($user && !$bookToBeRead) {
             $toBeRead = new ToBeRead();

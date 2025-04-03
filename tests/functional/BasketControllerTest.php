@@ -10,15 +10,18 @@ final class BasketControllerTest extends FunctionalTestCase
 {
     public function testShouldAddFormatInBasket(): void
     {
-        $this->get('/book/1');
-        $book = $this->getBookId('1');
-        $parutionDate = $book->getParutionDate();
         $today = new \DateTime();
+        $book = $this->getBookId($today);
+        $bookId = $book->getId();
+        $format = $this->getFormatId($book);
+        $formatId = $format->getId();
+        $this->get('/book/' . $bookId);
+        $parutionDate = $book->getParutionDate();
         if ($parutionDate < $today) {
             self::assertSelectorExists('input[name="format[]"]');
             $this->client->submitForm(
                 'Ajouter au panier',
-                ['format[0]' => '1'],
+                ['format[0]' => $formatId],
                 'POST'
             );
             $session = $this->client->getRequest()->getSession();
@@ -31,7 +34,7 @@ final class BasketControllerTest extends FunctionalTestCase
             self::assertResponseIsSuccessful();
 
             ///test d'affichage du livre en panier
-            self::assertSelectorExists('.format-1');
+            self::assertSelectorExists('.format-' . $formatId);
         } else {
             self::assertSelectorExists('p.aparaitre');
         }
@@ -39,24 +42,29 @@ final class BasketControllerTest extends FunctionalTestCase
 
     public function testShouldRemoveBookOfBasket(): void
     {
-        $this->get('/book/1');
+        $today = new \DateTime();
+        $book = $this->getBookId($today);
+        $bookId = $book->getId();
+        $format = $this->getFormatId($book);
+        $formatId = $format->getId();
+        $this->get('/book/' . $bookId);
         $session = $this->client->getRequest()->getSession();
         $sessionId = $session->getId();
 
         self::assertSelectorExists('input[name="format[]"]');
         $this->client->submitForm(
             'Ajouter au panier',
-            ['format[0]' => '1'],
+            ['format[0]' => $formatId],
             'POST'
         );
         $this->get('/basket/view');
-        self::assertSelectorExists('.format-1');
+        self::assertSelectorExists('.format-' . $formatId);
 
         $remove = $this->get('/basket/view')->selectButton('Supprimer')->form();
         $this->client->submit($remove);
       
         ///test d'affichage du livre en panier
-        self::assertSelectorNotExists('.format-1');
+        self::assertSelectorNotExists('.format-' . $formatId);
 
         $bddBasket = $this->getLastBasket($sessionId);
         self::assertNull($bddBasket);

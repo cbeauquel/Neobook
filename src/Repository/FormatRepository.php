@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Book;
 use App\Entity\Format;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -63,14 +64,16 @@ class FormatRepository extends ServiceEntityRepository
         return new ArrayCollection($result); // Convertir en ArrayCollection
     }
 
-    //    public function findOneBySomeField($value): ?Format
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult();
-    //    }
+    public function findOneByBookId(Book $book): ?Format
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.id = :val')
+            ->setParameter('val', $book)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Format[] Returns an array of Format objects
     //     */
