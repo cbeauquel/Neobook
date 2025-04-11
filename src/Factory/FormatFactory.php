@@ -53,11 +53,11 @@ final class FormatFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            ->afterInstantiate(function(Format $format): void {
+            ->afterInstantiate(function (Format $format): void {
                 $priceTTC = 0.0;
-                $priceHT =  self::faker()->randomFloat($nbMaxDecimals = 2, $min = 2.99, $max = 29.99);
+                $priceHT = self::faker()->randomFloat($nbMaxDecimals = 2, $min = 2.99, $max = 29.99);
                 $tvaRate = TvaFactory::random();
-                $priceTTC = ($priceHT * $tvaRate->getTaux())/100;
+                $priceTTC = ($priceHT * $tvaRate->getTaux()) / 100;
             })
         ;
     }
