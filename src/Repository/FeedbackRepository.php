@@ -89,7 +89,7 @@ class FeedbackRepository extends ServiceEntityRepository
            ->join('fo.book', 'b')
            ->where('b.id = :val')
            ->setParameter('val', $id);
-    
+
         $query = $qb->getQuery();
         $result = $query->getSingleScalarResult();
     
