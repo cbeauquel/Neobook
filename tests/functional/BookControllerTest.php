@@ -9,14 +9,12 @@ use App\Tests\FunctionalTestCase;
 final class BookControllerTest extends FunctionalTestCase
 {
     public function testShouldShowBook(): void
-    {
-        $url = self::getContainer()->getParameter('doctrine.dbal.connection.parameters.url') ?? 'non défini';
-        echo "\n[DEBUG] DATABASE_URL: " . $url . "\n";
-    
+    { 
         // ou debug direct SQL
         $conn = self::getContainer()->get('doctrine')->getConnection();
         $sqlMode = $conn->fetchOne("SELECT @@sql_mode");
         echo "\n[DEBUG] SQL_MODE: " . $sqlMode . "\n";
+        
         $this->get('/book/1');
         $book = $this->getBook('1');
         $this->assertResponseIsSuccessful();
