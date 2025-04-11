@@ -12,7 +12,6 @@ final class BookControllerTest extends FunctionalTestCase
     {
         $this->get('/book/1');
         $book = $this->getBook('1');
-        dd($book);
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextSame('h1', $book->getTitle());
         $this->assertSelectorExists('.cover-big');
