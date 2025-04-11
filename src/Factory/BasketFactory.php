@@ -42,7 +42,7 @@ final class BasketFactory extends PersistentProxyObjectFactory
                 )
             ),
             'customer' => UserFactory::random(),
-            'formats' => FormatFactory::randomRange(1, 4),
+            'formats' => FormatFactory::randomRange(1, 3),
         ];
     }
 
