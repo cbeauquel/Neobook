@@ -83,7 +83,7 @@ class FeedbackRepository extends ServiceEntityRepository
     public function findAverageStarsByBookId(string $id)
     {
         $qb = $this->createQueryBuilder('f');
-    
+
         $qb->select('AVG(f.stars) as averageStars')
            ->join('f.format', 'fo')
            ->join('fo.book', 'b')
