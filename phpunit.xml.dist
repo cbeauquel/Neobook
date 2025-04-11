@@ -14,7 +14,7 @@
         <ini name="error_reporting" value="-1" />
         <server name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
-        <server name="DATABASE_URL" value="mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&amp;charset=utf8mb4&amp;sql_mode=only_full_group_by" />
+        <server name="DATABASE_URL" value="mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&amp;charset=utf8mb4&amp;sql_mode=" />
     </php>
 
     <testsuites>
