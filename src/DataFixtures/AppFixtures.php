@@ -2,13 +2,17 @@
 
 namespace App\DataFixtures;
 
+use App\Enum\BasketStatus;
+use App\Factory\BasketFactory;
 use App\Factory\BookFactory;
 use App\Factory\BoSkCoFactory;
 use App\Factory\CategoryFactory;
 use App\Factory\ContributorFactory;
 use App\Factory\EditorFactory;
+use App\Factory\FeedbackFactory;
 use App\Factory\FormatFactory;
 use App\Factory\KeyWordFactory;
+use App\Factory\OrderFactory;
 use App\Factory\OrderStatusFactory;
 use App\Factory\PaymentFactory;
 use App\Factory\SkillFactory;
@@ -137,6 +141,23 @@ class AppFixtures extends Fixture
                 ]);
             }
         }
+
+        BasketFactory::createMany(40);
+
+        // Créer une commande pour chaque panier transformé
+        $transformedBaskets = BasketFactory::repository()->findBy(['status' => BasketStatus::TRANSFORMED]);
+
+        foreach ($transformedBaskets as $basket) {
+            OrderFactory::createOne([
+                'totalHT' => $basket->getTotalHT(),
+                'totalTTC' => $basket->getTotalTTC(),
+                'customer' => $basket->getCustomer(),
+                'basket' => $basket, // si Order a une relation vers Basket
+            ]);
+        }
+
+        FeedbackFactory::createMany(30);
+        
         $manager->flush();
     }
 }

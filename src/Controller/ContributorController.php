@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\BookWithAverageStars;
 use App\Entity\Contributor;
 use App\Repository\BookRepository;
 use App\Repository\ContributorRepository;
@@ -28,12 +29,24 @@ class ContributorController extends AbstractController
         $breadcrumbService->add(ucwords(str_replace('-', ' ', $slug)));
 
         $id = [$request->get('id')];
+        
+        // On récupère les livres avec la note moyenne
+        $bookDtos = $bookRepository->findByAuthorId($id);
+
+        $booksByAuthors = [];
+        $averageStarsMap = [];
+
+        foreach ($bookDtos as $entry) {
+            $booksByAuthors[] = $entry->book;
+            $averageStarsMap[$entry->book->getId()] = $entry->averageStars;
+        }
+        
         $uniqSkills = $contributorRepository->findSkillsByAuthorId($id);
-        $booksByAuthors = $bookRepository->findByAuthorId($id);
         return $this->render('contributor/index.html.twig', [
             'contributor' => $contributor,
             'skills' => $uniqSkills,
             'books_by_author' => $booksByAuthors,
+            'average_stars' => $averageStarsMap,
             'breadcrumbs' => $breadcrumbService->get(),
             'slug' => $slug,
         ]);

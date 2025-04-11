@@ -10,6 +10,7 @@ import './vendor/bootstrap/dist/css/bootstrap.min.css';
 import './styles/desktop.css';
 import './styles/admin.css';
 import './javascript/tva_calc_form_v2.js';
+import './javascript/feedback_form.js';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 

@@ -6,6 +6,7 @@ use App\Entity\Order;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Order>
@@ -20,7 +21,7 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * @return Bool true si au moins une order avec l'id du customer fourni
     */
-    public function findByUserId(User $customer): bool
+    public function findByUserId(User|UserInterface $customer): bool
     {
         return (bool) $this->createQueryBuilder('o')
             ->select('COUNT(o.id)')
@@ -47,7 +48,6 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
-
     /**
      * @return Order[] Returns an array of Order objects
      */
@@ -62,6 +62,27 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    // /**
+    // * @return Book[] Returns an array of Book objects
+    // */
+    // public function findBooksByCustomerId(object $customerId): array
+    // {
+    //     return $this->createQueryBuilder('o')
+    //         ->select('b.')
+    //         ->join('o.basket', 'c')
+    //         ->join('c.formats', 'f')
+    //         ->join('f.book', 'b')
+    //         ->addSelect('c')
+    //         ->addSelect('f')
+    //         ->addSelect('b')
+    //         ->andWhere('o.customer = :val')
+    //         ->setParameter('val', $customerId)
+    //         ->orderBy('o.id', 'ASC')
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
 
     //    /**
     //     * @return Order[] Returns an array of Order objects

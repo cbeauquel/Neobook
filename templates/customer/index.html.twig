@@ -10,7 +10,7 @@
             <h2>Mes commandes</h2>
             <span class="material-symbols-outlined customer-account">receipt_long</span>
             {% if my_invoices %}
-            <a href="#invoices" class="account-content end">
+            <a href="{{ path('customer_invoices') }}" class="account-content end">
                 <span class="material-symbols-outlined">preview</span>
                 <p class="mt-1">Consulter</p>
             </a>
@@ -22,8 +22,8 @@
         <article class="book-card" >
             <h2>Bibliothèque</h2>
             <span class="material-symbols-outlined customer-account">collections_bookmark</span>
-            <a href="" class="account-content">
-                <span class="material-symbols-outlined">book_4_spark</span>
+            <a href="{{ path('bookshelf') }}" class="account-content">
+                <span class="material-symbols-outlined">bookmark</span>
                 <p>Gérer</p>
             </a>
             {# <a href="{{ path('logout') }}" class="account-content end">
@@ -34,7 +34,7 @@
         <article class="book-card" >
             <h2>Commentaires et évaluations</h2>
             <span class="material-symbols-outlined customer-account">reviews</span>
-            <a href="" class="account-content">
+            <a href="{{path('my_feedbacks')}}" class="account-content">
                 <span class="material-symbols-outlined">visibility</span>
                 <p>Vos commentaires</p>
             </a>
@@ -92,39 +92,4 @@
     </div>
 </section>
 {% endif %}
-{# Mes factures #}
-{% if my_invoices %}
-    
-<section id="invoices">
-    <h2>Mes factures</h2>
-    <div class="list">
-        <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Référence</th>
-                <th>Date</th>
-                <th>Statut</th>
-                <th>Total HT</th>
-                <th>Total TTC</th>
-            </tr>
-        </thead>
-        <tbody>           
-        {% for invoice in my_invoices %}            
-            <tr>
-                <td>{{ invoice.id }}</td>
-                <td>{{ invoice.basket.userToken }}
-                <td>{{ invoice.createdAt | date("d/m/Y")}}</td>
-                <td>{{ invoice.status.status }}</td>
-                <td>{{ invoice.totalHT }}</td>
-                <td>{{ invoice.totalTTC }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>   
-
-    </div>
-</section>
-{% endif %}
-
 {% endblock %}

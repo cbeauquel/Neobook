@@ -15,18 +15,21 @@ use Symfony\Component\Routing\Attribute\Route;
 class PaymentController extends AbstractController
 {
     #[Route('/payplug/pay/{id}', name: 'payplug_pay')]
-    public function pay(PayPlugService $payPlugService, ?Order $order, OrderStatusRepository $orderStatusRepository, EntityManagerInterface $manager, ?User $user): RedirectResponse
-    {
-        $amount = $order->getTotalHT();
-        if ($user instanceof \App\Entity\User) {
-            $email = $user->getEmail();
-            $firstName = $user->getFirstname();
-            $lastName = $user->getLastname();
-        } else {
-            $email = null;
-            $firstName = null;
-            $lastName = null;
+    public function pay(
+        PayPlugService $payPlugService,
+        ?Order $order,
+        OrderStatusRepository $orderStatusRepository,
+        EntityManagerInterface $manager,
+        ?User $user
+    ): RedirectResponse {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('Utilisateur requis.');
         }
+        $amount = $order->getTotalHT();
+        $email = $user->getEmail();
+        $firstName = $user->getFirstname();
+        $lastName = $user->getLastname();
         $returnUrl = 'https://neobook.fr';
         if ($amount <= 0 || empty($email)) {
             throw $this->createNotFoundException('Requête invalide.');

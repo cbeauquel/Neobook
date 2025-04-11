@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma bibliothèque{% endblock %}
+
+{% block body %}
+{#Fil d'ariane#}
+{# <div class="breadcrumb">
+    {% include 'breadcrumb.html.twig' with { 'breadcrumbs': breadcrumbs } %}
+</div> #}
+<section>        
+    <h1>Ma bibliothèque</h1>
+    <div class="list">
+        {% for format in myFormats %}
+        <article class="book-card-landscape">
+            <div class="cover">
+                <img src="{{asset('img/livres/' ~ format.book.cover)}}" alt="{{format.book.title}}" >
+            </div>
+            <div class="mybook">
+                <p class="book-title">{{format.book.title}}</p>
+                <p class="contributor-name">
+                    {% for boSkCo in format.book.boSkCos %}
+                        {% if boSkCo.skill.name == 'Auteur' %}
+                            {{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}}<br>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+                    {% if format.feedbacks|length > 0 %}
+                        <h4>Mon avis sur le livre :</h4>
+                        <ul class="feedback">
+                            {% for feedback in format.feedbacks %}
+                                <li class="stars-display none">
+                                    {% for i in 1..5 %}
+                                        {% if i <= feedback.stars %}
+                                            <span class="star">&#9733;</span> {# Étoile pleine #}
+                                        {% else %}
+                                            <span class="star">&#9734;</span> {# Étoile vide #}
+                                        {% endif %}
+                                    {% endfor %}                             
+                                </li>
+                                <li class="none">{{ feedback.comment }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <a class="extract" href="{{ path('feedback_add', {id: format.id}) }}" title="">
+                            <span class="material-symbols-outlined">star</span>
+                            <p>&nbsp;Je donne mon avis</p>
+                        </a>
+                    {% endif %}
+
+                <div class="list m-2">
+                    <a class="extract" href="" title="">
+                        <span class="material-symbols-outlined">Download</span>
+                        <p>&nbsp;Télécharger</p>
+                    </a>
+                    <p class="book-type">
+                        <span class="material-symbols-outlined">{{format.type.typeImg}}</span> 
+                        {{format.type.name}}
+                    </p>
+                </div>
+
+            </div>
+        </article>
+        {% endfor %}
+
+    </div>
+</section>
+
+{% endblock %}

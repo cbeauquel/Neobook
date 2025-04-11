@@ -70,13 +70,6 @@ class Book
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'books')]
     private Collection $categories;
 
-    /**
-     * @var Collection<int, Feedback>
-     */
-    #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'book')]
-    private Collection $feedbacks;
-
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'books', cascade: ['persist'])]
@@ -110,7 +103,6 @@ class Book
     {
         $this->keyWords = new ArrayCollection();
         $this->categories = new ArrayCollection();
-        $this->feedbacks = new ArrayCollection();
         $this->boSkCos = new ArrayCollection();
         $this->toBeReads = new ArrayCollection();
         $this->formats = new ArrayCollection();
@@ -242,36 +234,6 @@ class Book
     {
         if ($this->categories->removeElement($category)) {
             $category->removeBook($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Feedback>
-     */
-    public function getFeedbacks(): Collection
-    {
-        return $this->feedbacks;
-    }
-
-    public function addFeedback(Feedback $feedback): static
-    {
-        if (!$this->feedbacks->contains($feedback)) {
-            $this->feedbacks->add($feedback);
-            $feedback->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFeedback(Feedback $feedback): static
-    {
-        if ($this->feedbacks->removeElement($feedback)) {
-            // set the owning side to null (unless already changed)
-            if ($feedback->getBook() === $this) {
-                $feedback->setBook(null);
-            }
         }
 
         return $this;

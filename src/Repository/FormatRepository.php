@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use App\Entity\Format;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
@@ -72,6 +73,41 @@ class FormatRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+    * @return Format[] Returns an array of Format objects
+    */
+    public function findByOrderStatus(User $customer): array
+    {
+        return $this->createQueryBuilder('f')
+            ->join('f.book', 'b')
+            ->join('f.baskets', 'c')
+            ->join('c.orderId', 'o')
+            ->join('o.status', 'os')
+            ->andWhere('os.status = :statusOrder')
+            ->andWhere('c.status = :statusBasket')
+            ->andWhere('c.customer = :val')
+            ->setParameter('val', $customer)
+            ->setParameter('statusOrder', 'Paiement accepté')
+            ->setParameter('statusBasket', 'Transformé')
+            ->orderBy('c.createdAt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    /**
+     * @return float
+     */
+    public function findAverageRatingForFormat(Format $format)
+    {
+        return $this->createQueryBuilder('f')
+            ->select('AVG(fb.stars) as averageRating')
+            ->leftJoin('f.feedbacks', 'fb')
+            ->where('f = :format')
+            ->setParameter('format', $format)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     //    /**

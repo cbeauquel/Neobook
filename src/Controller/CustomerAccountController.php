@@ -24,11 +24,10 @@ class CustomerAccountController extends AbstractController
         $booksToBeRead = $toBeReadRepository->findByCustomerId($this->getUser());
         $myInvoices = $orderRepository->findByCustomerId($this->getUser());
 
-        //  dd($myInvoices);
         return $this->render('customer/index.html.twig', [
             'controller_name' => 'CustomerAccountController',
-            'books_to_be_read' => $booksToBeRead,
             'my_invoices' => $myInvoices,
+            'books_to_be_read' => $booksToBeRead,
          ]);
     }
 

@@ -42,7 +42,23 @@ final class UserFactory extends PersistentProxyObjectFactory
                 'email' => 'beauquelc@yahoo.fr',
                 'roles' => ['ROLE_USER'],
                 'password' => 'trucmuche',
-            ]
+            ],
+            [
+                'firstname' => 'firstname2',
+                'lastname' => 'lastname2',
+                'nickname' => 'nickname2',
+                'email' => 'email2@test.fr',
+                'roles' => ['ROLE_USER'],
+                'password' => 'trucmuche',
+            ],
+            [
+                'firstname' => 'firstname3',
+                'lastname' => 'lastname3',
+                'nickname' => 'nickname3',
+                'email' => 'email3@test.fr',
+                'roles' => ['ROLE_USER'],
+                'password' => 'trucmuche',
+            ],
         ]);
     }
 

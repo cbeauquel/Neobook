@@ -20,13 +20,13 @@
         <div class="list">
             <div class="card informations">
                 <h2>Informations</h2>
-                <h3>ISBN :</h3> 
+                {# <h3>ISBN :</h3> 
                     {% for format in book.formats %}
                     <div class="brick">
                         <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
                         <p>{{format.isbn}}</p>
                     </div>                   
-                    {% endfor %}
+                    {% endfor %} #}
                 <h3>Auteurs et narrateurs </h3>
                 {% for boSkCo in book.boSkCos %}
                         <a href="{{path('contributor', {id: boSkCo.contributor.id})}}" class="brick">
@@ -65,6 +65,7 @@
                 {% else %}
                     <form method="post" action="{{path('basket_add', {id: book.id})}}" class="price-format">
                             {% for format in book.formats %}
+                            <p>ISBN : {{format.isbn}}</p>
                             <label>
                                 <input type="checkbox" id="{{format.id}}" name="format[]" value="{{format.id}}">
                                 <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
@@ -116,6 +117,32 @@
                 {% endfor %}
             </div>
         </div>
+        <div class="stars-display">
+        {% if averageMark %}     
+            <div class="banner">
+                <p>Note Moyenne :</p>
+                    {% for i in 1..5 %}
+                        {% if i <= averageMark %}
+                            <span class="star">&#9733;</span> {# Étoile pleine #}
+                        {% else %}
+                            <span class="star">&#9734;</span> {# Étoile vide #}
+                        {% endif %}
+                    {% endfor %}  
+                <p>{{ averageMark|number_format }}/5</p>
+            </div>
+            {% for comment in comments %}
+            <div class="comments">
+                <p class="nickname">{{comment.nickname.nickname}} à donné la note de </p>
+                <p ckass="mark">{{comment.stars}}/5</p>
+                <p ckass="type">pour le format {{comment.format.type.name}}</p>
+                <p class="comment">et à donner l'avis : {{comment.comment}}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+                <p>Ce livre n'a pas été encore évalué</p>
+        {% endif %}
+
+        </div>
     </div>
 </section>
 
@@ -137,13 +164,23 @@
                 <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>
-            <div class="stars">
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-            </div>
+            <div class="stars-display stars">
+                {% if average_stars[book.id] %}
+                        {% for i in 1..5 %}
+                            {% if i <= average_stars[book.id] %}
+                                <span class="star">&#9733;</span> {# Étoile pleine #}
+                            {% else %}
+                                <span class="star">&#9734;</span> {# Étoile vide #}
+                            {% endif %}
+                        {% endfor %}
+                {% else %}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                {% endif %}            
+            </div>              
             <ul class="book-prices">
             {% for format in book.formats %}
                 <li class="book-price">{{format.priceHT}}€</li>

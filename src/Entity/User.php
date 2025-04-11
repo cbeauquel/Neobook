@@ -55,7 +55,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastVisitDate = null;
 
-    #[Assert\NotBlank]
     #[ORM\Column]
     private ?bool $optIn = null;
 

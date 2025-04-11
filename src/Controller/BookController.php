@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Book;
+use App\Dto\BookWithAverageStars;
 use App\Entity\ToBeRead;
 use App\Form\ToBeReadType;
 use App\Repository\BookRepository;
 use App\Repository\BoSkCoRepository;
+use App\Repository\FeedbackRepository;
 use App\Repository\ToBeReadRepository;
 use App\Service\BreadcrumbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class BookController extends AbstractController
@@ -26,6 +26,7 @@ class BookController extends AbstractController
         BreadcrumbService $breadcrumbService,
         EntityManagerInterface $entityManager,
         ToBeReadRepository $toBeReadRepository,
+        FeedbackRepository $feedbackRepository,
         string $id,
     ): Response {
         $book = $bookRepository->findOneByid($id);
@@ -34,10 +35,19 @@ class BookController extends AbstractController
         $breadcrumbService->add('Livre', $this->generateUrl('book', ['id' => $id]));
         $breadcrumbService->add(ucwords(str_replace('-', ' ', $slug)));
 
-
         $id = $request->get('id');
         $idContributors = $boSkCoRepository->findContributorByBookId($id);
-        $booksByAuthors = $bookRepository->findByAuthorId($idContributors);
+        $averageMark = $feedbackRepository->findAverageStarsByBookId($id);
+        $comments = $feedbackRepository->findByBookId($id);
+        $booksByAuthors = [];
+        $averageStarsMap = [];
+
+        // On récupère les livres avec la note moyenne
+        $bookDtos = $bookRepository->findByAuthorId($idContributors);
+        foreach ($bookDtos as $entry) {
+            $booksByAuthors[] = $entry->book;
+            $averageStarsMap[$entry->book->getId()] = $entry->averageStars;
+        }
 
         /** @var \App\Entity\User|null $user */
         $user = $this->getUser(); // Récupération de l'utilisateur connecté
@@ -62,13 +72,17 @@ class BookController extends AbstractController
                 return $this->redirectToRoute('customer_account');
             }
         }
+
         return $this->render('book/index.html.twig', [
             'controller_name' => 'BookController',
             'book' => $book,
             'books_by_authors' => $booksByAuthors,
+            'average_stars' => $averageStarsMap,
+            'comments' => $comments,
             'breadcrumbs' => $breadcrumbService->get(),
             'slug' => $slug,
             'form' => $form,
+            'averageMark' => $averageMark,
         ]);
     }
 }

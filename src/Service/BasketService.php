@@ -41,7 +41,7 @@ class BasketService
      * Ajoute un format au panier en session et synchronise avec la BDD
      * @param array<mixed> $formats
      */
-    public function addToBasket(array $formats, ?UserInterface $customer = null): void
+    public function addToBasket(array $formats, ?User $customer = null): void
     {
         //Récupère le panier en session
         $sessionBasket = $this->getSessionBasket();
@@ -125,7 +125,6 @@ class BasketService
         // Récupérer un panier en base
         $session = $this->getSession();
         $userToken = $session->getId();
-
         $bddBasket = $this->manager->getRepository(Basket::class)->findBasketByCustomerOrUserToken($customer, $userToken);
 
         return $bddBasket;
@@ -174,7 +173,7 @@ class BasketService
     /**
      * @return Basket Récupérer un panier existant en base donnée ou en créer un nouveau.
      */
-    public function getOrCreateBddBasket(?UserInterface $customer = null): Basket
+    public function getOrCreateBddBasket(?User $customer = null): Basket
     {
         $session = $this->getSession();
         $userToken = $session->getId();
@@ -182,17 +181,11 @@ class BasketService
         // Créer un panier s'il n'existe pas
         if (!$basket) {
             $basket = new Basket();
-            if ($customer instanceof User) {
-                $basket->setCustomer($customer);
-                $basket->setUserToken($userToken);
-            } else {
-                $basket->setUserToken($userToken);
-            }
+            $basket->setCustomer($customer);
+            $basket->setUserToken($userToken);
         } else {
-            if ($customer instanceof User) {
-                $basket->setCustomer($customer);
-                $basket->setUserToken($userToken);
-            }
+            $basket->setCustomer($customer);
+            $basket->setUserToken($userToken);
         }
         $this->manager->persist($basket);
         $this->manager->flush();

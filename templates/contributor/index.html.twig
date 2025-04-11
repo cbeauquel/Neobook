@@ -50,13 +50,23 @@
                 <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>
-            <div class="stars">
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-            </div>
+            <div class="stars-display stars">
+                {% if average_stars[book.id] %}
+                        {% for i in 1..5 %}
+                            {% if i <= average_stars[book.id] %}
+                                <span class="star">&#9733;</span> {# Étoile pleine #}
+                            {% else %}
+                                <span class="star">&#9734;</span> {# Étoile vide #}
+                            {% endif %}
+                        {% endfor %}
+                {% else %}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                {% endif %}            
+            </div>              
             <ul class="book-prices">
             {% for format in book.formats %}
                 <li class="book-price">{{format.priceHT}}€</li>

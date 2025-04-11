@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Avis{% endblock %}
+
+{% block body %}
+
+<section class="list">
+
+    <div class="form-container">
+    <h1>Ajouter un Avis</h1>
+       {{ form_start(form) }}
+        <div class="form-row">
+            <div class="rating">
+                {% for choice in form.stars|reverse %}
+                    <input type="radio" 
+                        id="{{ choice.vars.id }}" 
+                        name="{{ choice.vars.full_name }}" 
+                        value="{{ choice.vars.value }}" {% if choice.vars.checked %}checked{% endif %} hidden>
+                    <label for="{{ choice.vars.id }}" class="star">&#9733;</label>
+                {% endfor %}
+            </div>
+            {{ form_row(form.comment) }}
+        </div>
+        <button type="submit" class="button button-submit">Envoyer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

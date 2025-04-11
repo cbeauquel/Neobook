@@ -6,11 +6,14 @@ use App\Entity\Traits\TimestampableTrait;
 use App\Repository\FeedbackRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: FeedbackRepository::class)]
+// #[UniqueEntity(fields: ['nickName', 'format'], message: 'Vous avez déjà déjà donné votre avis sur ce livre.')]
+
 class Feedback
 {
     use TimestampableTrait;
@@ -36,7 +39,7 @@ class Feedback
 
     #[Assert\NotBlank]
     #[ORM\ManyToOne(inversedBy: 'feedbacks')]
-    private ?Book $book = null;
+    private ?Format $format = null;
 
     public function getId(): ?int
     {
@@ -79,14 +82,14 @@ class Feedback
         return $this;
     }
 
-    public function getBook(): ?Book
+    public function getFormat(): ?Format
     {
-        return $this->book;
+        return $this->format;
     }
 
-    public function setBook(?Book $book): static
+    public function setFormat(?Format $format): static
     {
-        $this->book = $book;
+        $this->format = $format;
 
         return $this;
     }
