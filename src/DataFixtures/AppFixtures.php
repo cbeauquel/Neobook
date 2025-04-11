@@ -90,11 +90,9 @@ class AppFixtures extends Fixture
             throw new \Exception("Les entités Type et Tva doivent exister avant de créer des Formats.");
         }
 
-        BookFactory::createMany(5);
+        BookFactory::createMany(36);
 
         $manager->flush();
-
-        FormatFactory::new();
 
         $books = BookFactory::all();
         $auteurSkill = SkillFactory::find(['name' => 'Auteur']);
@@ -142,7 +140,10 @@ class AppFixtures extends Fixture
             }
         }
 
-        BasketFactory::createMany(4);
+        FormatFactory::new();
+
+
+        BasketFactory::createMany(40);
 
         // Créer une commande pour chaque panier transformé
         $transformedBaskets = BasketFactory::repository()->findBy(['status' => BasketStatus::TRANSFORMED]);
@@ -156,8 +157,9 @@ class AppFixtures extends Fixture
             ]);
         }
 
-        FeedbackFactory::createMany(1);
+        FeedbackFactory::createMany(30);
         
         $manager->flush();
     }
+
 }
