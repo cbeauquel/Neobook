@@ -62,7 +62,7 @@ final class BasketControllerTest extends FunctionalTestCase
 
         // $remove = $this->get('/basket/view')->selectButton('Supprimer')->form();
         // $this->client->submit($remove);
-      
+
         // ///test d'affichage du livre en panier
         // self::assertSelectorNotExists('.format-' . $formatId);
 
