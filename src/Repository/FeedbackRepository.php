@@ -92,7 +92,7 @@ class FeedbackRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
         $result = $query->getSingleScalarResult();
-    
+
         return $result;
     }
 
