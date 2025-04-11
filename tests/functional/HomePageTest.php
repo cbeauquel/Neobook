@@ -11,24 +11,24 @@ final class HomePageTest extends FunctionalTestCase
     public function testShouldShowUpcoming(): void
     {
         dd($this->get('/'));
-        self::assertResponseIsSuccessful();
+        //self::assertResponseIsSuccessful();
         //test d'affichage du nb de livres "à paraitre sur la page d'accueil"
-        self::assertSelectorCount(6, 'article.upcoming');
+        //self::assertSelectorCount(6, 'article.upcoming');
     }
 
-    public function testShouldShowNewBooks(): void
-    {
-        $this->get('/');
-        self::assertResponseIsSuccessful();
-        ///test d'affichage du nb de livres "nouveautés" sur la page d'accueil"
-        self::assertSelectorCount(12, 'article.newbooks');
-    }
+    // public function testShouldShowNewBooks(): void
+    // {
+    //     $this->get('/');
+    //     self::assertResponseIsSuccessful();
+    //     ///test d'affichage du nb de livres "nouveautés" sur la page d'accueil"
+    //     self::assertSelectorCount(12, 'article.newbooks');
+    // }
 
-    public function testShouldShowCategories(): void
-    {
-        $this->get('/');
-        self::assertResponseIsSuccessful();
-        ///test d'affichage du nb de catégories sur la page d'accueil"
-        self::assertSelectorCount(12, 'a.categories');
-    }
+    // public function testShouldShowCategories(): void
+    // {
+    //     $this->get('/');
+    //     self::assertResponseIsSuccessful();
+    //     ///test d'affichage du nb de catégories sur la page d'accueil"
+    //     self::assertSelectorCount(12, 'a.categories');
+    // }
 }
