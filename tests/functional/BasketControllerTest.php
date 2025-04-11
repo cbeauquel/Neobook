@@ -18,6 +18,7 @@ final class BasketControllerTest extends FunctionalTestCase
         $this->get('/book/' . $bookId);
         $parutionDate = $book->getParutionDate();
         if ($parutionDate < $today) {
+            dd($today);
             self::assertSelectorExists('input[name="format[]"]');
             $this->client->submitForm(
                 'Ajouter au panier',

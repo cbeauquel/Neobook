@@ -103,7 +103,7 @@ class BookRepository extends ServiceEntityRepository
             ->groupBy('b.id')
             ->orderBy('b.id', 'ASC')
             ->setMaxResults(12);
-            
+
         return array_map(
             fn (array $row) => new BookWithAverageStars($row[0], (float) $row['averageStars']),
             $qb->getQuery()->getResult()
@@ -133,7 +133,7 @@ class BookRepository extends ServiceEntityRepository
             ->groupBy('b.id')
             ->orderBy('b.id', 'ASC')
             ->setMaxResults(12);
-        
+
         return array_map(
             fn (array $row) => new BookWithAverageStars($row[0], (float) $row['averageStars']),
             $qb->getQuery()->getResult()
@@ -159,7 +159,7 @@ class BookRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->groupBy('b.id')
             ->orderBy('b.id', 'ASC');
-        
+
         return array_map(
             fn (array $row) => new BookWithAverageStars($row[0], (float) $row['averageStars']),
             $qb->getQuery()->getResult()
