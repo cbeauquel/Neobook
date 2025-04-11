@@ -10,13 +10,13 @@
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
-/phpunit.xml
+# /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
-/phpunit.xml
+# /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/asset-mapper ###
@@ -29,5 +29,5 @@
 ###< lexik/jwt-authentication-bundle ###
 
 ###> phpstan/phpstan ###
-phpstan.neon
+# phpstan.neon
 ###< phpstan/phpstan ###

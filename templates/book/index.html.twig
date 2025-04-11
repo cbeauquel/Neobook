@@ -58,7 +58,7 @@
                 {% else %}
                     <form method="post" action="{{path('basket_add', {id: book.id})}}" class="price-format">
                             {% for format in book.formats %}
-                            {# <p>ISBN : {{format.isbn}}</p> #}
+                            <p>ISBN : {{format.isbn}}</p>
                             <label>
                                 <input type="checkbox" id="{{format.id}}" name="format[]" value="{{format.id}}">
                                 <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
