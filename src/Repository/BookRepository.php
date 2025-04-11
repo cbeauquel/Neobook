@@ -70,7 +70,7 @@ class BookRepository extends ServiceEntityRepository
             ->setParameter('date', $twentyDaysAgo)
             ->setParameter('today', $today)
             ->setParameter('value', '1')
-            ->groupBy('b.id')
+            ->groupBy('b')
             ->orderBy('b.id', 'ASC')
             ->setMaxResults($nb);
 
@@ -98,7 +98,7 @@ class BookRepository extends ServiceEntityRepository
             ->andWhere('s.name = :skillName')
             ->setParameter('val', $value)
             ->setParameter('skillName', 'Auteur')
-            ->groupBy('b.id')
+            ->groupBy('b')
             ->orderBy('b.id', 'ASC')
             ->setMaxResults(12);
 
@@ -125,7 +125,7 @@ class BookRepository extends ServiceEntityRepository
             ->addSelect('bsc', 'c', 's', 'e')
             ->andWhere('e.id IN (:val)')
             ->setParameter('val', $value)
-            ->groupBy('b.id')
+            ->groupBy('b')
             ->orderBy('b.id', 'ASC')
             ->setMaxResults(12);
 
@@ -151,7 +151,7 @@ class BookRepository extends ServiceEntityRepository
             ->addSelect('bsc', 'c')
             ->andWhere('ct.id IN (:val)')
             ->setParameter('val', $value)
-            ->groupBy('b.id')
+            ->groupBy('b')
             ->orderBy('b.id', 'ASC');
 
         return array_map(
