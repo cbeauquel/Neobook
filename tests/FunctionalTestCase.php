@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Doctrine\Repository\BookRepository;
 use App\Entity\Basket;
 use App\Entity\Book;
 use App\Entity\Format;
