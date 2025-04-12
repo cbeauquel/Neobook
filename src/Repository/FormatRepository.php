@@ -68,7 +68,8 @@ class FormatRepository extends ServiceEntityRepository
     public function findOneByBookId(Book $book): ?Format
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.id = :val')
+            ->innerJoin('f.book', 'bo')
+            ->andWhere('bo.id = :val')
             ->setParameter('val', $book)
             ->setMaxResults(1)
             ->getQuery()

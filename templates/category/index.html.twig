@@ -10,7 +10,7 @@
 <section>        
     <h1>{{category.name}}</h1>
     <div class="list">
-        {% for book in books_by_category %}
+        {% for book in category.books %}
         <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
         <article>
             <div class="book-content">
@@ -25,9 +25,9 @@
                 <p class="book-title">{{book.title}}</p>
             </div>
             <div class="stars-display stars">
-                {% if average_stars[book.id] %}
+                {% if book.getaveragestars %}
                         {% for i in 1..5 %}
-                            {% if i <= average_stars[book.id] %}
+                            {% if i <= book.getaveragestars %}
                                 <span class="star">&#9733;</span> {# Étoile pleine #}
                             {% else %}
                                 <span class="star">&#9734;</span> {# Étoile vide #}

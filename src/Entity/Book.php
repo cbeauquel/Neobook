@@ -340,4 +340,19 @@ class Book
 
         return $this;
     }
+
+    /**
+     * Calcule la moyenne des notes sur tous les formats du livre
+     */
+    public function getAverageStars(): float
+    {
+        $feedbacks = array_merge(...array_map(
+            fn ($format) => $format->getFeedbacks()->toArray(),
+            $this->formats->toArray()
+        ));
+
+        $stars = array_map(fn ($fb) => $fb->getStars(), $feedbacks);
+
+        return count($stars) > 0 ? array_sum($stars) / count($stars) : 0.0;
+    }
 }

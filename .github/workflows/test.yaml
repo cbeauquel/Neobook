@@ -12,7 +12,7 @@ jobs:
         env:
           MEILI_MASTER_KEY: '!ChangeMe!'
     env:  # Définir DATABASE_URL au niveau du job
-      DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4&sql_mode="
+      DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
       MYSQL_ROOT_PASSWORD: root
     steps:
       - name: Checkout
@@ -70,7 +70,7 @@ jobs:
           APP_ENV: TEST
           APP_DEBUG: true
           XDEBUG_MODE: coverage
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4&sql_mode="
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
 

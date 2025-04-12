@@ -30,23 +30,12 @@ class ContributorController extends AbstractController
 
         $id = [$request->get('id')];
         
-        // On récupère les livres avec la note moyenne
-        $bookDtos = $bookRepository->findByAuthorId($id);
-
-        $booksByAuthors = [];
-        $averageStarsMap = [];
-
-        foreach ($bookDtos as $entry) {
-            $booksByAuthors[] = $entry->book;
-            $averageStarsMap[$entry->book->getId()] = $entry->averageStars;
-        }
-        
+        $booksByAuthors = $bookRepository->findByAuthorId($id);
         $uniqSkills = $contributorRepository->findSkillsByAuthorId($id);
         return $this->render('contributor/index.html.twig', [
             'contributor' => $contributor,
             'skills' => $uniqSkills,
             'books_by_author' => $booksByAuthors,
-            'average_stars' => $averageStarsMap,
             'breadcrumbs' => $breadcrumbService->get(),
             'slug' => $slug,
         ]);

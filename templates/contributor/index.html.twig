@@ -51,9 +51,9 @@
                 <p class="book-title">{{book.title}}</p>
             </div>
             <div class="stars-display stars">
-                {% if average_stars[book.id] %}
+                {% if book.getaveragestars %}
                         {% for i in 1..5 %}
-                            {% if i <= average_stars[book.id] %}
+                            {% if i <= book.getaveragestars %}
                                 <span class="star">&#9733;</span> {# Étoile pleine #}
                             {% else %}
                                 <span class="star">&#9734;</span> {# Étoile vide #}

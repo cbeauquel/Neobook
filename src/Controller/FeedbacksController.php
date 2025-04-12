@@ -43,7 +43,7 @@ final class FeedbacksController extends AbstractController
         if (!$customer instanceof User) {
             throw $this->createAccessDeniedException('Utilisateur requis.');
         }
-        $feedback ??= new Feedback();
+        $feedback = new Feedback();
         $feedback->setFormat($format);
         $feedback->setNickName($customer);
         $form = $this->createForm(FeedBackType::class, $feedback);

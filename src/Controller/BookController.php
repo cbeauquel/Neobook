@@ -39,15 +39,8 @@ class BookController extends AbstractController
         $idContributors = $boSkCoRepository->findContributorByBookId($id);
         $averageMark = $feedbackRepository->findAverageStarsByBookId($id);
         $comments = $feedbackRepository->findByBookId($id);
-        $booksByAuthors = [];
-        $averageStarsMap = [];
 
-        // On récupère les livres avec la note moyenne
-        $bookDtos = $bookRepository->findByAuthorId($idContributors);
-        foreach ($bookDtos as $entry) {
-            $booksByAuthors[] = $entry->book;
-            $averageStarsMap[$entry->book->getId()] = $entry->averageStars;
-        }
+        $booksByAuthors = $bookRepository->findByAuthorId($idContributors);
 
         /** @var \App\Entity\User|null $user */
         $user = $this->getUser(); // Récupération de l'utilisateur connecté
@@ -77,7 +70,6 @@ class BookController extends AbstractController
             'controller_name' => 'BookController',
             'book' => $book,
             'books_by_authors' => $booksByAuthors,
-            'average_stars' => $averageStarsMap,
             'comments' => $comments,
             'breadcrumbs' => $breadcrumbService->get(),
             'slug' => $slug,

@@ -22,8 +22,8 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return BookWithAverageStars[] Returns an array of Book objects
-     */
+    * @return Book[] Returns an array of Book objects
+    */
     public function findByDate(int $nb): array
     {
         $today = new \DateTime(); // Obtenir la date du jour (sans heure si nécessaire)
@@ -48,14 +48,14 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return BookWithAverageStars[] Returns an array of Book objects
-     */
+    * @return Book[] Returns an array of Book objects
+    */
     public function findNew(int $nb): array
     {
         $today = new \DateTime(); // Obtenir la date du jour (sans heure si nécessaire)
         $twentyDaysAgo = new DateTimeImmutable('-360 days'); //tous les livres qui ont une date de création de moins de 20jours
-        $qb = $this->createQueryBuilder('b')
-            ->select('DISTINCT b', 'AVG(fb.stars) as averageStars')
+        return $this->createQueryBuilder('b')
+            ->select('DISTINCT b')
             ->leftjoin('b.formats', 'f')
             ->leftjoin('f.feedbacks', 'fb')
             ->LeftJoin('b.boSkCos', 'bsc')
@@ -70,24 +70,21 @@ class BookRepository extends ServiceEntityRepository
             ->setParameter('date', $twentyDaysAgo)
             ->setParameter('today', $today)
             ->setParameter('value', '1')
-            ->groupBy('b.id')
             ->orderBy('b.id', 'ASC')
-            ->setMaxResults($nb);
-
-        return array_map(
-            fn (array $row) => new BookWithAverageStars($row[0], (float) $row['averageStars']),
-            $qb->getQuery()->getResult()
-        );
+            ->setMaxResults($nb)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /**
-    * @return BookWithAverageStars[] Returns an array of Book objects
+    * @return Book[] Returns an array of Book objects
     * @param array<mixed> $value
     */
     public function findByAuthorId(array $value): array
     {
-        $qb = $this->createQueryBuilder('b')
-            ->select('DISTINCT b', 'AVG(fb.stars) as averageStars')
+        return $this->createQueryBuilder('b')
+            ->select('DISTINCT b')
             ->leftjoin('b.boSkCos', 'bsc')
             ->leftjoin('bsc.contributor', 'c')
             ->leftjoin('bsc.skill', 's')
@@ -98,24 +95,21 @@ class BookRepository extends ServiceEntityRepository
             ->andWhere('s.name = :skillName')
             ->setParameter('val', $value)
             ->setParameter('skillName', 'Auteur')
-            ->groupBy('b.id')
             ->orderBy('b.id', 'ASC')
-            ->setMaxResults(12);
-
-        return array_map(
-            fn (array $row) => new BookWithAverageStars($row[0], (float) $row['averageStars']),
-            $qb->getQuery()->getResult()
-        );
+            ->setMaxResults(12)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /**
-    * @return BookWithAverageStars[] Returns an array of Book objects
+    * @return Book[] Returns an array of Book objects
     * @param array<int> $value
     */
     public function findByEditorId(array $value): array
     {
-        $qb = $this->createQueryBuilder('b')
-            ->select('DISTINCT b', 'AVG(fb.stars) as averageStars')
+        return $this->createQueryBuilder('b')
+            ->select('DISTINCT b')
             ->leftjoin('b.boSkCos', 'bsc')
             ->leftjoin('bsc.contributor', 'c')
             ->leftjoin('bsc.skill', 's')
@@ -125,24 +119,21 @@ class BookRepository extends ServiceEntityRepository
             ->addSelect('bsc', 'c', 's', 'e')
             ->andWhere('e.id IN (:val)')
             ->setParameter('val', $value)
-            ->groupBy('b.id')
             ->orderBy('b.id', 'ASC')
-            ->setMaxResults(12);
-
-        return array_map(
-            fn (array $row) => new BookWithAverageStars($row[0], (float) $row['averageStars']),
-            $qb->getQuery()->getResult()
-        );
+            ->setMaxResults(12)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /**
-    * @return BookWithAverageStars[] Returns an array of Book objects
+    * @return Book[] Returns an array of Book objects
     * @param array<int> $value
     */
     public function findByCategoryId(array $value): array
     {
-        $qb = $this->createQueryBuilder('b')
-            ->select('DISTINCT b', 'AVG(fb.stars) as averageStars')
+        return $this->createQueryBuilder('b')
+            ->select('DISTINCT b')
             ->leftJoin('b.boSkCos', 'bsc')
             ->leftJoin('b.categories', 'ct')
             ->leftJoin('bsc.contributor', 'c')
@@ -151,13 +142,10 @@ class BookRepository extends ServiceEntityRepository
             ->addSelect('bsc', 'c')
             ->andWhere('ct.id IN (:val)')
             ->setParameter('val', $value)
-            ->groupBy('b.id')
-            ->orderBy('b.id', 'ASC');
-
-        return array_map(
-            fn (array $row) => new BookWithAverageStars($row[0], (float) $row['averageStars']),
-            $qb->getQuery()->getResult()
-        );
+            ->orderBy('b.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /**

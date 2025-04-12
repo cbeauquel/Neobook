@@ -10,7 +10,7 @@
     <h1>Ajouter un Avis</h1>
        {{ form_start(form) }}
         <div class="form-row">
-            <div class="rating">
+            <div class="rating stars-display">
                 {% for choice in form.stars|reverse %}
                     <input type="radio" 
                         id="{{ choice.vars.id }}" 

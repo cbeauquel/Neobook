@@ -23,22 +23,11 @@ class EditorController extends AbstractController
 
         $id = [$request->get('id')];
 
-        // On récupère les livres avec la note moyenne
-        $bookDtos = $bookRepository->findByEditorId($id);
-
-        $booksByEditor = [];
-        $averageStarsMap = [];
-
-        foreach ($bookDtos as $entry) {
-            $booksByEditor[] = $entry->book;
-            $averageStarsMap[$entry->book->getId()] = $entry->averageStars;
-        }
-        
+        $booksByEditor = $bookRepository->findByEditorId($id);
         return $this->render('editor/index.html.twig', [
             'controller_name' => 'EditorController',
             'editor' => $editor,
             'books_by_editor' => $booksByEditor,
-            'average_stars' => $averageStarsMap,
             'breadcrumbs' => $breadcrumbService->get(),
             'slug' => $slug,
 

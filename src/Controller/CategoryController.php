@@ -23,22 +23,9 @@ class CategoryController extends AbstractController
 
         $id = [$request->get('id')];
 
-        // On récupère les livres avec la note moyenne
-        $bookDtos = $bookRepository->findByCategoryId($id);
-
-        $booksByCategory = [];
-        $averageStarsMap = [];
-
-        foreach ($bookDtos as $entry) {
-            $booksByCategory[] = $entry->book;
-            $averageStarsMap[$entry->book->getId()] = $entry->averageStars;
-        }
-
         return $this->render('category/index.html.twig', [
             'controller_name' => 'CategoryController',
             'category' => $category,
-            'books_by_category' => $booksByCategory,
-            'average_stars' => $averageStarsMap,
             'breadcrumbs' => $breadcrumbService->get(),
             'slug' => $slug,
         ]);
