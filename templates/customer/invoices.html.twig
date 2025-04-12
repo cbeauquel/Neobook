@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes factures{% endblock %}
+
+{% block body %}
+<section>        
+    <h1>Compte de {{app.user.firstname}}</h1>
+
+{# Mes factures #}
+{% if my_invoices %}
+    
+<section id="invoices">
+    <h2>Mes factures</h2>
+    <div class="list">
+        <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Référence</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Total HT</th>
+                <th>Total TTC</th>
+            </tr>
+        </thead>
+        <tbody>           
+        {% for invoice in my_invoices %}            
+            <tr>
+                <td>{{ invoice.id }}</td>
+                <td>{{ invoice.basket.userToken }}
+                <td>{{ invoice.createdAt | date("d/m/Y")}}</td>
+                <td>{{ invoice.status.status }}</td>
+                <td>{{ invoice.totalHT }}</td>
+                <td>{{ invoice.totalTTC }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>   
+
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

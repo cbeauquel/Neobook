@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Dto\BookWithAverageStars;
 use App\Repository\BookRepository;
-use App\Repository\BoSkCoRepository;
 use App\Repository\CategoryRepository;
 use App\Service\BreadcrumbService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +17,6 @@ class MainController extends AbstractController
     {
         $newBooks = $bookRepository->findNew(12);
         $upcomingBooks = $bookRepository->findByDate(6);
-        // dd($upcomingBooks, $newBooks);
         $categories = $categoryRepository->findall();
         return $this->render('index.html.twig', [
             'controller_name' => 'MainController',

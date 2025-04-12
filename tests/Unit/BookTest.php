@@ -39,7 +39,6 @@ class BookTest extends TestCase
                  ->addKeyWord($keyWordTest)
                  ->addCategory($categoryTest)
                  ->addFormat($formatTest)
-                 ->addFeedback($feedbackTest)
                  ->setEditor($editorTest)
                  ->addBoSkCo($boSkCoTest)
                  ->addToBeReads($toBeReadTest);
@@ -58,7 +57,6 @@ class BookTest extends TestCase
         $this->assertContains($keyWordTest, $bookTest->getKeyWords());
         $this->assertContains($categoryTest, $bookTest->getCategories());
         $this->assertContains($formatTest, $bookTest->getFormats());
-        $this->assertContains($feedbackTest, $bookTest->getFeedbacks());
         $this->assertTrue($bookTest->getEditor() === $editorTest);
         $this->assertContains($boSkCoTest, $bookTest->getBoSkCos());
         $this->assertContains($toBeReadTest, $bookTest->getToBeReads());
@@ -85,7 +83,6 @@ class BookTest extends TestCase
                  ->addKeyWord($keyWordTest)
                  ->addCategory($categoryTest)
                  ->addFormat($formatTest)
-                 ->addFeedback($feedbackTest)
                  ->setEditor($editorTest)
                  ->addBoSkCo($boSkCoTest)
                  ->addToBeReads($toBeReadTest);
@@ -101,7 +98,6 @@ class BookTest extends TestCase
         $this->assertNotContains(new KeyWord(), $bookTest->getKeyWords());
         $this->assertNotContains(new Category(), $bookTest->getCategories());
         $this->assertNotContains(new Format(), $bookTest->getFormats());
-        $this->assertNotContains(new Feedback(), $bookTest->getFeedbacks());
         $this->assertFalse($bookTest->getEditor() === new Editor());
         $this->assertNotContains(new BoSkCo(), $bookTest->getBoSkCos());
         $this->assertNotContains(new ToBeRead(), $bookTest->getToBeReads());

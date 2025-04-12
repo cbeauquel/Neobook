@@ -38,12 +38,11 @@ final class FormatFactory extends PersistentProxyObjectFactory
             'filePath' => self::faker()->text(255),
             'fileSize' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 0.1, $max = 30),
             'pagesCount' => self::faker()->randomNumber($nbDigits = 3, $strict = false),
-            'priceHT' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 2.99, $max = 29.99),
-            'priceTTC' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 2.99, $max = 29.99),
+            'priceHT' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 2.99, $max = 19.99),
+            'priceTTC' => self::faker()->randomFloat($nbMaxDecimals = 2, $min = 2.99, $max = 19.99),
             'wordsCount' => self::faker()->randomNumber($nbDigits = 5, $strict = false),
             'type' => TypeFactory::random(),
             'tvaRate' => TvaFactory::random(),
-            // 'book' => BookFactory::random(),
         ];
     }
 
@@ -54,7 +53,12 @@ final class FormatFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Format $format): void {})
+            ->afterInstantiate(function (Format $format): void {
+                $priceTTC = 0.0;
+                $priceHT = self::faker()->randomFloat($nbMaxDecimals = 2, $min = 2.99, $max = 29.99);
+                $tvaRate = TvaFactory::random();
+                $priceTTC = ($priceHT * $tvaRate->getTaux()) / 100;
+            })
         ;
     }
 }

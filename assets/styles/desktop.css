@@ -90,6 +90,13 @@ h3 {
     text-align: center;
 }
 
+h4 {
+    font-family: "Alexandria", "Oxygen", sans-serif ;
+    font-size:1em;
+    font-weight:600;
+    text-align: center;
+}
+
 button{
     margin: 0px 20px;
     color: var(--fontDark);
@@ -112,6 +119,14 @@ label{
     justify-content: space-around;
     border-bottom: solid 1px var(--backgroundItem);
     margin-bottom: 10px;
+}
+
+.hidden{
+    display:none;
+}
+
+.none{
+    list-style-type: none;
 }
 
 /**
@@ -780,6 +795,17 @@ a.pal {
     height:64px;
 }
 
+.comments{
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap:30px;
+    background: var(--background);
+    padding:0px 0px 0px 20px;
+    margin:10px 0px 0px 10px;
+    width:98.4%;
+}
+
 /*************affichage d'une fiche Contributeur********************/
 .contributor-detail{
     background: var(--backgroundItem);
@@ -818,5 +844,64 @@ a.pal {
 .basket-foot button{
     background-color: var(--linkColor);
     border:none;
+}
+
+/****************************************MA BIBLIOTHEQUE***********************************/
+.book-card-landscape {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    margin:0px 10px 15px 10px;
+    width:27%;
+    background: var(--backgroundItem);
+    border-radius:0px 0px 15px 15px;
+    padding:6px 6px 20px 6px;
+    text-decoration:none;
+    color:var(--fontLight);
+    border-top:solid 3px var(--fontLight);
+}
+
+.mybook {
+    display:flex;
+    flex-direction:column;
+    align-items: flex-start;
+    justify-content:space-between;
+    height:275px;
+    margin:0px 10px 15px 10px;
+    padding:6px 6px 10px 20px;
+}
+
+.stars-display .star {
+    color: var(--linkColor);
+    font-size: 2rem;
+    margin-right: 2px;
+}
+
+.stars-display .grey {
+    color: grey;
+
+}
+
+ul.feedback{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+/**********************************FORMULAIRE FEEDBACK*********************************/
+.rating {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    display: flex;
+    gap: 5px;
+}
+.star {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #ccc;
+}
+input:checked ~ label.star,
+label.star:hover,
+label.star:hover ~ label.star {
+    color: gold;
 }
 

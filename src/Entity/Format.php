@@ -85,9 +85,17 @@ class Format
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
 
+    /**
+     * @var Collection<int, Feedback>
+     */
+    #[Assert\Valid]
+    #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'format')]
+    private Collection $feedbacks;
+
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
+        $this->feedbacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,6 +277,36 @@ class Format
     public function setBook(?Book $book): static
     {
         $this->book = $book;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Feedback>
+     */
+    public function getFeedbacks(): Collection
+    {
+        return $this->feedbacks;
+    }
+
+    public function addFeedback(Feedback $feedback): static
+    {
+        if (!$this->feedbacks->contains($feedback)) {
+            $this->feedbacks->add($feedback);
+            $feedback->setFormat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedback(Feedback $feedback): static
+    {
+        if ($this->feedbacks->removeElement($feedback)) {
+            // set the owning side to null (unless already changed)
+            if ($feedback->getFormat() === $this) {
+                $feedback->setFormat(null);
+            }
+        }
 
         return $this;
     }

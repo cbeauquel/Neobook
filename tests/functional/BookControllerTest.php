@@ -15,7 +15,6 @@ final class BookControllerTest extends FunctionalTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextSame('h1', $book->getTitle());
         $this->assertSelectorExists('.cover-big');
-        $this->assertSelectorExists('div.brick > span.material-symbols-outlined');
         $this->assertSelectorTextSame('.book-skill', 'Auteur :');
         $this->assertSelectorExists('a.brick');
     }

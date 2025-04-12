@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\BookWithAverageStars;
 use App\Entity\Contributor;
 use App\Repository\BookRepository;
 use App\Repository\ContributorRepository;
@@ -28,8 +29,9 @@ class ContributorController extends AbstractController
         $breadcrumbService->add(ucwords(str_replace('-', ' ', $slug)));
 
         $id = [$request->get('id')];
-        $uniqSkills = $contributorRepository->findSkillsByAuthorId($id);
+        
         $booksByAuthors = $bookRepository->findByAuthorId($id);
+        $uniqSkills = $contributorRepository->findSkillsByAuthorId($id);
         return $this->render('contributor/index.html.twig', [
             'contributor' => $contributor,
             'skills' => $uniqSkills,

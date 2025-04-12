@@ -13,9 +13,9 @@ final class BasketControllerTest extends FunctionalTestCase
         $today = new \DateTime();
         $book = $this->getBookId($today);
         $bookId = $book->getId();
+        $this->get('/book/' . $bookId);
         $format = $this->getFormatId($book);
         $formatId = $format->getId();
-        $this->get('/book/' . $bookId);
         $parutionDate = $book->getParutionDate();
         if ($parutionDate < $today) {
             self::assertSelectorExists('input[name="format[]"]');
@@ -62,7 +62,7 @@ final class BasketControllerTest extends FunctionalTestCase
 
         $remove = $this->get('/basket/view')->selectButton('Supprimer')->form();
         $this->client->submit($remove);
-      
+
         ///test d'affichage du livre en panier
         self::assertSelectorNotExists('.format-' . $formatId);
 

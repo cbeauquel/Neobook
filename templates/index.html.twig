@@ -7,13 +7,13 @@
     <h1 class="signature">Librairie inclusive de livres numériques à lire et à écouter !</h1>
 </div>
 <section>
-        <div class="list">
-            {% for category in categories %}
-                <a class="categories" href="{{path('category', {id:category.id})}}" target="parent" title="">
-                    <p>{{category.name}}</p>
-                </a>
-            {% endfor %}
-        </div>
+    <div class="list">
+        {% for category in categories %}
+            <a class="categories" href="{{path('category', {id:category.id})}}" target="parent" title="">
+                <p>{{category.name}}</p>
+            </a>
+        {% endfor %}
+    </div>
 </section>
 <section>
     <h2>À paraître</h2>
@@ -31,13 +31,6 @@
                 </p>
                 <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
-            </div>
-            <div class="stars">
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
             </div>
             <ul class="book-prices">
             {% for format in book.formats %}
@@ -67,13 +60,23 @@
                 <img class="cover" src="{{asset('img/livres/' ~ book.cover)}}" alt="{{book.title}}" >
                 <p class="book-title">{{book.title}}</p>
             </div>
-            <div class="stars">
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-            </div>
+            <div class="stars-display stars">
+                {% if book.getAverageStars %}
+                        {% for i in 1..5 %}
+                            {% if i <= book.averageStars %}
+                                <span class="star">&#9733;</span> {# Étoile pleine #}
+                            {% else %}
+                                <span class="star">&#9734;</span> {# Étoile vide #}
+                            {% endif %}
+                        {% endfor %}
+                {% else %}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                    <span class="star grey">&#9734;</span> {# Étoile vide #}
+                {% endif %}            
+            </div>              
             <ul class="book-prices">
             {% for format in book.formats %}
                 <li class="book-price">{{format.priceHT}}€</li>
@@ -85,7 +88,4 @@
         {% endfor %}
     </div>
 </section>
-
-
-
 {% endblock %}

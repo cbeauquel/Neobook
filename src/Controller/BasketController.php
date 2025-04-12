@@ -23,16 +23,15 @@ class BasketController extends AbstractController
         BreadcrumbService $breadcrumbService,
         SessionInterface $session,
     ): Response {
-        $user = $this->getUser();
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Panier', $this->generateUrl('basket_view'));
-
         //récupère le panier en session.
         $userToken = $session->getId();
         $sessionBasket = $basketService->getSessionBasket();
         // récupère le panier en base
+        $customer = $this->getUser();
         $oldBasket = $basketService->loadAllBaskets($userToken);
-        $bddBasket = $basketService->loadBasket($user);
+        $bddBasket = $basketService->loadBasket($customer);
 
         // Si le panier en session est vide et que le panier en base n'est pas vide
         if ($sessionBasket->isEmpty() && $bddBasket) {
@@ -82,30 +81,35 @@ class BasketController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'add')]
-    public function add(BasketService $basketService, Request $request, FormatRepository $formatRepository): Response
-    {
-        $user = $this->getUser();
+    public function add(
+        BasketService $basketService,
+        Request $request,
+        FormatRepository $formatRepository,
+    ): Response {
+        $customer = $this->getUser();
+        if (!$customer instanceof User) {
+            $customer = null;
+        }
         // on récupère les formats à partir des données choisies par l'utilisateur
         $choiceFormats = $request->get('format', []);
         $formats = $formatRepository->findByFormatChoices($choiceFormats);
         if (!$formats) {
             throw $this->createNotFoundException('Produit introuvable.');
         }
-        $basketService->addToBasket($formats, $user);
+        $basketService->addToBasket($formats, $customer);
         return $this->redirectToRoute('basket_view');
     }
-
 
     #[Route('/remove-from-basket/{formatId}', name: 'remove', methods: ['POST'])]
     public function removeFromBasket(int $formatId, BasketService $basketService, FormatRepository $formatRepository, ?User $user): response
     {
-        $user = $this->getUser();
+        $customer = $this->getUser();
         $formatToRemove = $formatRepository->find($formatId);
         if (!$formatToRemove) {
             throw $this->createNotFoundException('Produit introuvable.');
         }
 
-        $basketService->removeToBasket($formatToRemove, $user);
+        $basketService->removeToBasket($formatToRemove, $customer);
 
         // Rediriger vers la page panier (ou un autre endroit)
         return $this->redirectToRoute('basket_view');

@@ -12,7 +12,7 @@ final class HomePageTest extends FunctionalTestCase
     {
         $this->get('/');
         self::assertResponseIsSuccessful();
-        ///test d'affichage du nb de livres "à paraitre sur la page d'accueil"
+        //test d'affichage du nb de livres "à paraitre sur la page d'accueil"
         self::assertSelectorCount(6, 'article.upcoming');
     }
 

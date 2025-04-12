@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\BookWithAverageStars;
 use App\Entity\Book;
 use DateTime;
 use DateTimeImmutable;
@@ -21,8 +22,8 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Book[] Returns an array of Book objects
-     */
+    * @return Book[] Returns an array of Book objects
+    */
     public function findByDate(int $nb): array
     {
         $today = new \DateTime(); // Obtenir la date du jour (sans heure si nécessaire)
@@ -47,19 +48,20 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Book[] Returns an array of Book objects
-     */
+    * @return Book[] Returns an array of Book objects
+    */
     public function findNew(int $nb): array
     {
         $today = new \DateTime(); // Obtenir la date du jour (sans heure si nécessaire)
         $twentyDaysAgo = new DateTimeImmutable('-360 days'); //tous les livres qui ont une date de création de moins de 20jours
         return $this->createQueryBuilder('b')
-            ->innerJoin('b.boSkCos', 'bsc')
-            ->innerJoin('bsc.skill', 's')
-            ->innerJoin('bsc.contributor', 'c')
-            ->addSelect('bsc')
-            ->addSelect('s')
-            ->addSelect('c')
+            ->select('DISTINCT b')
+            ->leftjoin('b.formats', 'f')
+            ->leftjoin('f.feedbacks', 'fb')
+            ->LeftJoin('b.boSkCos', 'bsc')
+            ->LeftJoin('bsc.skill', 's')
+            ->LeftJoin('bsc.contributor', 'c')
+            ->addSelect('bsc', 's', 'c')
             ->andWhere('b.parutionDate <= :today')
             ->andWhere('b.parutionDate >= :date')
             ->andWhere('b.status = :value')
@@ -71,7 +73,8 @@ class BookRepository extends ServiceEntityRepository
             ->orderBy('b.id', 'ASC')
             ->setMaxResults($nb)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -81,12 +84,13 @@ class BookRepository extends ServiceEntityRepository
     public function findByAuthorId(array $value): array
     {
         return $this->createQueryBuilder('b')
-            ->innerJoin('b.boSkCos', 'bsc')
-            ->innerJoin('bsc.contributor', 'c')
-            ->innerJoin('bsc.skill', 's')
-            ->addSelect('bsc')
-            ->addSelect('s')
-            ->addSelect('c')
+            ->select('DISTINCT b')
+            ->leftjoin('b.boSkCos', 'bsc')
+            ->leftjoin('bsc.contributor', 'c')
+            ->leftjoin('bsc.skill', 's')
+            ->leftjoin('b.formats', 'f')
+            ->leftjoin('f.feedbacks', 'fb')
+            ->addSelect('bsc', 's', 'c')
             ->andWhere('c.id IN (:val)')
             ->andWhere('s.name = :skillName')
             ->setParameter('val', $value)
@@ -100,23 +104,45 @@ class BookRepository extends ServiceEntityRepository
 
     /**
     * @return Book[] Returns an array of Book objects
-    * @param int $value
+    * @param array<int> $value
     */
-    public function findByEditorId(int $value): array
+    public function findByEditorId(array $value): array
     {
         return $this->createQueryBuilder('b')
-            ->innerJoin('b.boSkCos', 'bsc')
-            ->innerJoin('bsc.contributor', 'c')
-            ->innerJoin('bsc.skill', 's')
-            ->innerJoin('b.editor', 'e')
-            ->addSelect('bsc')
-            ->addSelect('c')
-            ->addSelect('s')
-            ->addSelect('e')
+            ->select('DISTINCT b')
+            ->leftjoin('b.boSkCos', 'bsc')
+            ->leftjoin('bsc.contributor', 'c')
+            ->leftjoin('bsc.skill', 's')
+            ->leftjoin('b.editor', 'e')
+            ->leftjoin('b.formats', 'f')
+            ->leftjoin('f.feedbacks', 'fb')
+            ->addSelect('bsc', 'c', 's', 'e')
             ->andWhere('e.id IN (:val)')
             ->setParameter('val', $value)
             ->orderBy('b.id', 'ASC')
             ->setMaxResults(12)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Book[] Returns an array of Book objects
+    * @param array<int> $value
+    */
+    public function findByCategoryId(array $value): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('DISTINCT b')
+            ->leftJoin('b.boSkCos', 'bsc')
+            ->leftJoin('b.categories', 'ct')
+            ->leftJoin('bsc.contributor', 'c')
+            ->leftJoin('b.formats', 'f')
+            ->leftJoin('f.feedbacks', 'fb')
+            ->addSelect('bsc', 'c')
+            ->andWhere('ct.id IN (:val)')
+            ->setParameter('val', $value)
+            ->orderBy('b.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -144,14 +170,12 @@ class BookRepository extends ServiceEntityRepository
     public function findOneByid(string $value): ?Book
     {
         return $this->createQueryBuilder('b')
-             ->innerJoin('b.boSkCos', 'bsc')
-             ->innerJoin('bsc.contributor', 'c')
-             ->innerJoin('bsc.skill', 's')
-             ->innerJoin('b.editor', 'e')
-             ->addSelect('bsc')
-             ->addSelect('c')
-             ->addSelect('s')
-             ->addSelect('e')
+            ->innerJoin('b.boSkCos', 'bsc')
+            ->innerJoin('b.formats', 'f')
+            ->innerJoin('bsc.contributor', 'c')
+            ->innerJoin('bsc.skill', 's')
+            ->innerJoin('b.editor', 'e')
+            ->addSelect('bsc', 'c', 's', 'e', 'f')
             ->andWhere('b.id = :val')
             ->setParameter('val', $value)
             ->getQuery()

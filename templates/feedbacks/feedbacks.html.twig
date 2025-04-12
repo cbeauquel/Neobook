@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Commentaires{% endblock %}
+
+{% block body %}
+<section>        
+    <h1>Commentaires de {{app.user.firstname}}</h1>
+
+{# Mes commentaires #}
+{% if my_comments %}
+    
+<section id="invoices">
+    <h2>Mes commentaires et évaluation</h2>
+    <div class="list">
+        <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Stars</th>
+                <th>Commentaire</th>
+                <th>Livre</th>
+                <th>Format</th>
+                <th>Modifier</th>
+            </tr>
+        </thead>
+        <tbody>           
+        {% for comment in my_comments %}            
+            <tr>
+                <td>{{ comment.id }}</td>
+                <td>{{ comment.stars }}
+                <td>{{ comment.comment }}</td>
+                <td>{{ comment.format.book.title }}</td>
+                <td>{{ comment.format.type.name }}</td>
+                <td><a href="{{ path('feedback_edit', { id: comment.id }) }}" class="btn btn-warning btn-sm">Modifier</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>   
+
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

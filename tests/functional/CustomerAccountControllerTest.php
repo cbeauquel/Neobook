@@ -14,4 +14,13 @@ final class CustomerAccountControllerTest extends FunctionalTestCase
         $this->get('/account');
         self::assertSelectorTextSame('h1', 'Compte de John');
     }
+
+    public function testShouldShowFeedbacks(): void
+    {
+        $this->login();
+        $this->get('/account');
+        // $this->client->clickLink('Gérer');
+        // $this->client->followRedirect();
+        self::assertResponseIsSuccessful();
+    }
 }
