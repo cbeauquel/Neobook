@@ -28,8 +28,9 @@ final class FormatFactory extends PersistentProxyObjectFactory
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     * @return array<mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'ISBN' => self::faker()->isbn13(),
@@ -42,13 +43,14 @@ final class FormatFactory extends PersistentProxyObjectFactory
             'wordsCount' => self::faker()->randomNumber($nbDigits = 5, $strict = false),
             'type' => TypeFactory::random(),
             'tvaRate' => TvaFactory::random(),
-            'book' => BookFactory::random(),
+            // 'book' => BookFactory::random(),
         ];
     }
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
      */
+    #[\Override]
     protected function initialize(): static
     {
         return $this

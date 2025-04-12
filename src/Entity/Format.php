@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 #[ORM\Entity(repositoryClass: FormatRepository::class)]
 class Format
 {
@@ -22,14 +21,9 @@ class Format
     // #[Assert\Isbn(
     //     type:Assert\Isbn::ISBN_13
     // )]
-    #[Assert\Length(min:13, max:13)]
+    #[Assert\Length(min: 13, max: 13)]
     #[ORM\Column(length: 13)]
     private ?string $ISBN = null;
-
-    #[Assert\NotBlank]
-    #[Groups(['searchable', 'getBooks'])]
-    #[ORM\Column]
-    private ?float $priceHT = null;
 
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\PositiveOrZero]
@@ -55,12 +49,6 @@ class Format
     #[ORM\Column(length: 255)]
     private ?string $filePath = null;
 
-    #[Groups(['searchable', 'getBooks'])]
-    #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'formats', cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Book $book;
-
     #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bookExtract = null;
@@ -71,10 +59,15 @@ class Format
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;
 
+    #[Assert\NotBlank]
+    #[Groups(['searchable', 'getBooks'])]
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
+    private ?string $priceHT = null;
+
     #[Groups(['getBooks'])]
     #[Assert\NotBlank]
-    #[ORM\Column]
-    private ?float $priceTTC = null;
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
+    private ?string $priceTTC = null;
 
     #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'formatTvaRate', cascade: ['persist'])]
@@ -86,6 +79,11 @@ class Format
      */
     #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'formats', cascade: ['persist'])]
     private Collection $baskets;
+
+    #[Assert\NotBlank]
+    #[ORM\ManyToOne(inversedBy: 'formats', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Book $book = null;
 
     public function __construct()
     {
@@ -105,18 +103,6 @@ class Format
     public function setISBN(string $ISBN): static
     {
         $this->ISBN = $ISBN;
-
-        return $this;
-    }
-
-    public function getPriceHT(): ?float
-    {
-        return $this->priceHT;
-    }
-
-    public function setPriceHT(float $priceHT): static
-    {
-        $this->priceHT = $priceHT;
 
         return $this;
     }
@@ -181,19 +167,6 @@ class Format
         return $this;
     }
 
-    public function getBook(): ?Book
-    {
-        return $this->book;
-    }
-
-    public function setBook(?Book $book): static
-    {
-        $this->book = $book;
-
-        return $this;
-    }
-
-
     public function getBookExtract(): ?string
     {
         return $this->bookExtract;
@@ -217,13 +190,26 @@ class Format
 
         return $this;
     }
+    
+    public function getPriceHT(): ?string
+    {
+        return $this->priceHT;
+    }
 
-    public function getPriceTTC(): ?float
+    public function setPriceHT(string $priceHT): static
+    {
+        $this->priceHT = $priceHT;
+
+        return $this;
+    }
+
+
+    public function getPriceTTC(): ?string
     {
         return $this->priceTTC;
     }
 
-    public function setPriceTTC(float $priceTTC): static
+    public function setPriceTTC(string $priceTTC): static
     {
         $this->priceTTC = $priceTTC;
 
@@ -260,6 +246,12 @@ class Format
         return $this;
     }
 
+    public function setBaskets(Collection $baskets): static
+    {
+        $this->baskets = $baskets;
+        return $this;
+    }
+
     public function removeBasket(Basket $basket): static
     {
         if ($this->baskets->removeElement($basket)) {
@@ -269,4 +261,15 @@ class Format
         return $this;
     }
 
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): static
+    {
+        $this->book = $book;
+
+        return $this;
+    }
 }

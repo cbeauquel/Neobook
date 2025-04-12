@@ -3,16 +3,16 @@
 namespace App\Form;
 
 use App\Entity\Book;
-use App\Entity\Skill;
 use App\Entity\BoSkCo;
 use App\Entity\Contributor;
+use App\Entity\Skill;
 use App\Form\BookType;
 use App\Form\ContributorType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BoSkCoType extends AbstractType
 {
@@ -24,7 +24,7 @@ class BoSkCoType extends AbstractType
             //     'choice_label' => 'id',
             // ])
 
-            ->add('contributor', EntityType::class,[
+            ->add('contributor', EntityType::class, [
                 'class' => Contributor::class,
                 'choice_label' => 'slug',
                 'attr' => [

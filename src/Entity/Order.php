@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableTrait;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Traits\TimestampableTrait;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -44,16 +44,13 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?Basket $basket = null;
 
-    #[ORM\OneToOne(inversedBy: 'user_token_id', cascade: ['persist', 'remove'])]
-    private ?Basket $user_token = null;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
+    private ?string $TotalHT = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column]
-    private ?float $TotalHT = null;
-
-    #[Assert\NotBlank]
-    #[ORM\Column]
-    private ?float $TotalTTC = null;
+    #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
+    private ?string $TotalTTC = null;
 
     public function getId(): ?int
     {
@@ -120,36 +117,24 @@ class Order
         return $this;
     }
 
-    public function getUserToken(): ?Basket
-    {
-        return $this->user_token;
-    }
-
-    public function setUserToken(?Basket $user_token): static
-    {
-        $this->user_token = $user_token;
-
-        return $this;
-    }
-
-    public function getTotalHT(): ?float
+    public function getTotalHT(): ?string
     {
         return $this->TotalHT;
     }
 
-    public function setTotalHT(float $TotalHT): static
+    public function setTotalHT(string $TotalHT): static
     {
         $this->TotalHT = $TotalHT;
 
         return $this;
     }
 
-    public function getTotalTTC(): ?float
+    public function getTotalTTC(): ?string
     {
         return $this->TotalTTC;
     }
 
-    public function setTotalTTC(float $TotalTTC): static
+    public function setTotalTTC(string $TotalTTC): static
     {
         $this->TotalTTC = $TotalTTC;
 

@@ -28,19 +28,21 @@ final class BoSkCoFactory extends PersistentProxyObjectFactory
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     * @return array<mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
-            'book' => BookFactory::random(),
+            // 'book' => BookFactory::random(),
             'contributor' => ContributorFactory::random(),
-            'skill'=> SkillFactory::random(),
+            'skill' => SkillFactory::first(),
         ];
     }
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
      */
+    #[\Override]
     protected function initialize(): static
     {
         return $this

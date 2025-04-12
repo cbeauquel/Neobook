@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 #[ORM\Entity(repositoryClass: SkillRepository::class)]
 class Skill
 {
@@ -61,6 +60,12 @@ class Skill
         return $this->boSkCos;
     }
 
+    public function setBoSkCos(Collection $boSkCos): static
+    {
+        $this->boSkCos = $boSkCos;
+        return $this;
+    }
+
     public function addBoSkCo(BoSkCo $boSkCo): static
     {
         if (!$this->boSkCos->contains($boSkCo)) {
@@ -82,5 +87,4 @@ class Skill
 
         return $this;
     }
-
 }

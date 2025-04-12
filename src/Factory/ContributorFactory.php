@@ -43,21 +43,23 @@ final class ContributorFactory extends PersistentProxyObjectFactory
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     * @return array<mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'bio' => self::faker()->text(),
             'firstname' => self::faker()->text(255),
             'lastname' => self::faker()->text(255),
             'photo' => self::faker()->text(255),
-            'status' => self::faker()->boolean(),
+            'status' => '1',
         ];
     }
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
      */
+    #[\Override]
     protected function initialize(): static
     {
         return $this->afterInstantiate(function (Contributor $contributor): void {

@@ -53,6 +53,6 @@ symfony console doctrine:database:drop --force --if-exists
  
  #### Charger les fixtures
  ```bash
- symfony console doctrine:fixtures:load -n --purge-with-truncate
+ symfony console doctrine:fixtures:load -n 
  ```
 ```

@@ -2,29 +2,27 @@
 
 namespace App\DataFixtures;
 
-
-use App\Factory\TvaFactory;
 use App\Factory\BookFactory;
-use App\Factory\TypeFactory;
-use App\Factory\UserFactory;
-use App\Factory\SkillFactory;
 use App\Factory\BoSkCoFactory;
+use App\Factory\CategoryFactory;
+use App\Factory\ContributorFactory;
 use App\Factory\EditorFactory;
 use App\Factory\FormatFactory;
-use App\Factory\CategoryFactory;
-use App\Factory\KeyWordsFactory;
-use App\Factory\ContributorFactory;
+use App\Factory\KeyWordFactory;
 use App\Factory\OrderStatusFactory;
-use Doctrine\Persistence\ObjectManager;
+use App\Factory\PaymentFactory;
+use App\Factory\SkillFactory;
+use App\Factory\TvaFactory;
+use App\Factory\TypeFactory;
+use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-
-
+use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        KeyWordsFactory::createMany(75);
+        KeyWordFactory::createMany(75);
 
         SkillFactory::createSequence([
             ['name' => 'Auteur'],
@@ -62,6 +60,12 @@ class AppFixtures extends Fixture
             ['name' => 'Sport et bien-être'],
         ]);
 
+        PaymentFactory::createSequence([
+            ['mode' => 'Carte Bancaire'],
+            ['mode' => 'Paypal'],
+            ['mode' => 'Virement'],
+        ]);
+
         OrderStatusFactory::createSequence([
             ['status' => 'En attente'],
             ['status' => 'Échoué'],
@@ -82,38 +86,57 @@ class AppFixtures extends Fixture
             throw new \Exception("Les entités Type et Tva doivent exister avant de créer des Formats.");
         }
 
-        BookFactory::createMany(36, function() {
-            return [
-                'categories' => CategoryFactory::randomRange(0, 3),
-                'editor' => EditorFactory::random(),
-                'boSkCos' => BoSkCoFactory::new()->range(1, 4),
-                'keyWords' => KeyWordsFactory::new()->range(1, 5),
-                'formats' => FormatFactory::new()->range(1, 2),
-            ];
-        });
+        BookFactory::createMany(36);
 
         $manager->flush();
 
-        FormatFactory::new()
-        ->create(function() {
-            return [
-                'type' => TypeFactory::random(),
-                'tvaRate' => TvaFactory::random(),
-                'book' => BookFactory::random(),
-            ];
-        }); 
+        FormatFactory::new();
 
-        $manager->flush();
+        $books = BookFactory::all();
+        $auteurSkill = SkillFactory::find(['name' => 'Auteur']);
+        $otherSkills = array_filter(
+            SkillFactory::all(),
+            fn ($s) => $s->getName() !== 'Auteur'
+        );
+        
+        // Générer les liaisons BoSkCo
+        foreach ($books as $book) {
+            $contributor = ContributorFactory::random();
+            $usedContributorIds[] = $contributor->getId();
 
-        BoSkCoFactory::new()
-            ->create(function() {
-            return [
-                'book' => BookFactory::random(),
-                'contributor' => ContributorFactory::random(),
-                'skill' => SkillFactory::random(),
-            ];
-        });
+            BoSkCoFactory::createOne([
+                'book' => $book,
+                'contributor' => $contributor,
+                'skill' => $auteurSkill,
+            ]);
+        
+            // Ajout optionnel d'autres skills
+            $count = random_int(0, 3);
+            for ($i = 0; $i < $count; $i++) {
+                // Filtrer les contributeurs déjà utilisés
+                $availableContributors = array_filter(
+                    ContributorFactory::all(),
+                    fn ($c) => !in_array($c->getId(), $usedContributorIds)
+                );
 
+                // Si plus aucun contributeur dispo, on stoppe
+                if (empty($availableContributors)) {
+                    break;
+                }
+
+                // Sélection aléatoire
+                $contributor = $availableContributors[array_rand($availableContributors)];
+                $usedContributorIds[] = $contributor->getId();
+
+                $skill = $otherSkills[array_rand($otherSkills)];
+        
+                BoSkCoFactory::createOne([
+                    'book' => $book,
+                    'contributor' => $contributor,
+                    'skill' => $skill,
+                ]);
+            }
+        }
         $manager->flush();
     }
-}       
+}

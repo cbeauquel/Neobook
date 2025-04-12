@@ -6,19 +6,19 @@ use App\Repository\BookRepository;
 use App\Repository\BoSkCoRepository;
 use App\Repository\CategoryRepository;
 use App\Service\BreadcrumbService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'home')]
     public function index(BookRepository $bookRepository, CategoryRepository $categoryRepository, BreadcrumbService $breadcrumbService): Response
-    {       
-        $newBooks = $bookRepository->findNew();
-        $upcomingBooks = $bookRepository->findByDate();
+    {
+        $newBooks = $bookRepository->findNew(12);
+        $upcomingBooks = $bookRepository->findByDate(6);
+        // dd($upcomingBooks, $newBooks);
         $categories = $categoryRepository->findall();
-        // dd($upcomingBooks);
         return $this->render('index.html.twig', [
             'controller_name' => 'MainController',
             'upcoming_books' => $upcomingBooks,

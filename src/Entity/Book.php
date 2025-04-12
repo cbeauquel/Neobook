@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
+use App\Entity\KeyWord;
+use App\Entity\Traits\TimestampableTrait;
 use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
-use App\Entity\Traits\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
@@ -55,11 +55,11 @@ class Book
     private ?bool $status = null;
 
     /**
-     * @var Collection<int, KeyWords>
+     * @var Collection<int, KeyWord>
      */
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToMany(targetEntity: KeyWords::class, mappedBy: 'books', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: KeyWord::class, mappedBy: 'books', cascade: ['persist'])]
     private Collection $keyWords;
 
     /**
@@ -69,14 +69,6 @@ class Book
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'books')]
     private Collection $categories;
-
-    /**
-     * @var Collection<int, Formats>
-     */
-    #[Groups(['searchable', 'getBooks'])]
-    #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
-    private Collection $formats;
 
     /**
      * @var Collection<int, Feedback>
@@ -106,14 +98,22 @@ class Book
     #[ORM\OneToMany(targetEntity: ToBeRead::class, mappedBy: 'book')]
     private Collection $toBeReads;
 
+    /**
+     * @var Collection<int, Format>
+     */
+    #[Assert\Valid]
+    #[Groups(['searchable', 'getBooks'])]
+    #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
+    private Collection $formats;
+
     public function __construct()
     {
         $this->keyWords = new ArrayCollection();
         $this->categories = new ArrayCollection();
-        $this->formats = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
         $this->boSkCos = new ArrayCollection();
         $this->toBeReads = new ArrayCollection();
+        $this->formats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,11 +181,6 @@ class Book
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
     public function isStatus(): ?bool
     {
         return $this->status;
@@ -199,14 +194,14 @@ class Book
     }
 
     /**
-     * @return Collection<int, KeyWords>
+     * @return Collection<int, KeyWord>
      */
     public function getKeyWords(): Collection
     {
         return $this->keyWords;
     }
 
-    public function addKeyWord(KeyWords $keyWord): static
+    public function addKeyWord(KeyWord $keyWord): static
     {
         if (!$this->keyWords->contains($keyWord)) {
             $this->keyWords->add($keyWord);
@@ -216,7 +211,7 @@ class Book
         return $this;
     }
 
-    public function removeKeyWord(KeyWords $keyWord): static
+    public function removeKeyWord(KeyWord $keyWord): static
     {
         if ($this->keyWords->removeElement($keyWord)) {
             $keyWord->removeBook($this);
@@ -248,42 +243,6 @@ class Book
         if ($this->categories->removeElement($category)) {
             $category->removeBook($this);
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Formats>
-     */
-    public function getFormats(): Collection
-    {
-        return $this->formats;
-    }
-
-    public function addFormat(Format $format): static
-    {
-        if (!$this->formats->contains($format)) {
-            $this->formats->add($format);
-        }
-
-        return $this;
-    }
-
-    public function removeFormat(Format $format): static
-    {
-        $this->formats->removeElement($format);
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -390,4 +349,33 @@ class Book
         return $this;
     }
 
+    /**
+     * @return Collection<int, Format>
+     */
+    public function getFormats(): Collection
+    {
+        return $this->formats;
+    }
+
+    public function addFormat(Format $format): static
+    {
+        if (!$this->formats->contains($format)) {
+            $this->formats->add($format);
+            $format->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormat(Format $format): static
+    {
+        if ($this->formats->removeElement($format)) {
+            // set the owning side to null (unless already changed)
+            if ($format->getBook() === $this) {
+                $format->setBook(null);
+            }
+        }
+
+        return $this;
+    }
 }

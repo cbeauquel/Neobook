@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
 class Type
 {
@@ -60,6 +59,12 @@ class Type
             $formatType->setType($this);
         }
 
+        return $this;
+    }
+
+    public function setFormatType(Collection $formatType): static
+    {
+        $this->formatType = $formatType;
         return $this;
     }
 

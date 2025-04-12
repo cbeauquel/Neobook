@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableTrait;
 use App\Repository\ContributorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
-use App\Entity\Traits\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContributorRepository::class)]
@@ -148,6 +147,13 @@ class Contributor
 
         return $this;
     }
+
+    public function setBoSkCos(Collection $boSkCos): static
+    {
+        $this->boSkCos = $boSkCos;
+        return $this;
+    }
+
 
     public function removeBoSkCo(BoSkCo $boSkCo): static
     {

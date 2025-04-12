@@ -2,31 +2,28 @@
 
 namespace App\Form;
 
-use App\Entity\Tva;
 use App\Entity\Book;
-use App\Entity\Type;
 use App\Entity\Format;
+use App\Entity\Tva;
+use App\Entity\Type;
 use App\Repository\TvaRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FormatType extends AbstractType
 {
-    private $manager;
-
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(private readonly EntityManagerInterface $manager)
     {
-        $this->manager = $manager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -52,11 +49,9 @@ class FormatType extends AbstractType
                 'data' => $rateDefault,
                 'expanded' => true,
                 'choice_label' => 'taux',
-                'choice_attr' => function ($choice, $key, $value) {
-                    return [
-                        'data-taux-value' => $choice->getTaux(), // Ajouter la valeur réelle comme attribut HTML
-                    ];
-                },                
+                'choice_attr' => fn ($choice, $key, $value) => [
+                    'data-taux-value' => $choice->getTaux(), // Ajouter la valeur réelle comme attribut HTML
+                ],
                 'row_attr' => [
                     'class' => 'form-radio',
                 ],
@@ -66,7 +61,7 @@ class FormatType extends AbstractType
                 ],
             ])
             ->add('duration', IntegerType::class)
-            ->add('wordsCount', IntegerType::class )
+            ->add('wordsCount', IntegerType::class)
             ->add('pagesCount', IntegerType::class)
             ->add('fileSize', NumberType::class)
             ->add('filePath', UrlType::class)

@@ -2,27 +2,26 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\BookRepository;
 use App\Entity\Contributor;
+use App\Repository\BookRepository;
 use App\Repository\ContributorRepository;
 use App\Service\BreadcrumbService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ContributorController extends AbstractController
 {
     #[Route('/contributor/{id}', name: 'contributor', requirements: ['id' => '\d+'])]
     public function showContributor(
-        Contributor $contributor, 
-        ContributorRepository $contributorRepository, 
-        BookRepository $bookRepository, 
+        Contributor $contributor,
+        ContributorRepository $contributorRepository,
+        BookRepository $bookRepository,
         Request $request,
         BreadcrumbService $breadcrumbService,
         int $id,
-        ): Response
-    {
+    ): Response {
         $slug = $contributor->getSlug();
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Contributeur', $this->generateUrl('contributor', ['id' => $id]));

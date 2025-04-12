@@ -3,10 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Editor;
-use Pagerfanta\Pagerfanta;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Pagerfanta\Pagerfanta;
 
 /**
  * @extends ServiceEntityRepository<Editor>
@@ -18,25 +18,24 @@ class EditorRepository extends ServiceEntityRepository
         parent::__construct($registry, Editor::class);
     }
 
-       /**
-        * @return array[] Returns an array of editors
-        */
-        public function findPaginatedEditors($page, $limit): Pagerfanta
-        {
-            $queryBuilder = $this->createQueryBuilder('e')
-            ->orderBy('e.id', 'ASC');
+    /**
+     * @return Pagerfanta Returns an array of editors
+     */
+    public function findPaginatedEditors(int $page, int $limit): Pagerfanta
+    {
+        $queryBuilder = $this->createQueryBuilder('e')
+        ->orderBy('e.id', 'ASC');
 
-    
-            // Adapter pour Pagerfanta
-            $adapter = new QueryAdapter($queryBuilder);
-    
-            // Créer un objet Pagerfanta
-            $pagerfanta = new Pagerfanta($adapter);
-            $pagerfanta->setMaxPerPage($limit);
-            $pagerfanta->setCurrentPage($page);
-    
-            return $pagerfanta;
-        }
+        // Adapter pour Pagerfanta
+        $adapter = new QueryAdapter($queryBuilder);
+
+        // Créer un objet Pagerfanta
+        $pagerfanta = new Pagerfanta($adapter);
+        $pagerfanta->setMaxPerPage($limit);
+        $pagerfanta->setCurrentPage($page);
+
+        return $pagerfanta;
+    }
 
     //    /**
     //     * @return Editor[] Returns an array of Editor objects

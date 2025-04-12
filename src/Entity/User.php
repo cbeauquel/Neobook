@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,9 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Entity\Traits\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -60,7 +59,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $optIn = null;
 
-    #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $preference = null;
 
@@ -205,18 +203,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getLastVisitDate(): ?\DateTimeInterface
     {
         return $this->lastVisitDate;
@@ -270,6 +256,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    
+    public function setBaskets(Collection $baskets): static
+    {
+        $this->baskets = $baskets;
+        return $this;
+    }
 
     public function removeBasket(Basket $basket): static
     {
@@ -313,6 +305,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function setFeedbacks(Collection $feedbacks): static
+    {
+        $this->feedbacks = $feedbacks;
+        return $this;
+    }
+    
     public function removeFeedback(Feedback $feedback): static
     {
         if ($this->feedbacks->removeElement($feedback)) {
@@ -354,6 +352,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+ 
+    public function setOrders(Collection $orders): static
+    {
+        $this->orders = $orders;
+        return $this;
+    }
 
     public function removeOrder(Order $order): static
     {
@@ -382,6 +386,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $toBeRead->setCustomer($this);
         }
 
+        return $this;
+    }
+
+    public function setToBeReads(Collection $toBeReads): static
+    {
+        $this->toBeReads = $toBeReads;
         return $this;
     }
 

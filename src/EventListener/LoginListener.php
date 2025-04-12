@@ -6,13 +6,10 @@ use App\Service\BasketService;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-final class LoginListener
+final readonly class LoginListener
 {
-    private $basketService;
-
-    public function __construct(BasketService $basketService)
+    public function __construct(private BasketService $basketService)
     {
-        $this->basketService = $basketService;
     }
 
     #[AsEventListener(event: 'security.interactive_login')]
@@ -20,9 +17,9 @@ final class LoginListener
     {
         $user = $event->getAuthenticationToken()->getUser();
 
-        if ($user) {
+        if ($user instanceof \App\Entity\User) {
             // Synchronise le panier avec l'utilisateur connecté
             $this->basketService->persistBasket($user);
         }
     }
-} 
+}

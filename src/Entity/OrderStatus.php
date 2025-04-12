@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 #[ORM\Entity(repositoryClass: OrderStatusRepository::class)]
 class OrderStatus
 {
@@ -65,6 +64,12 @@ class OrderStatus
             $order->setStatus($this);
         }
 
+        return $this;
+    }
+
+    public function setOrders(Collection $orders): static
+    {
+        $this->orders = $orders;
         return $this;
     }
 

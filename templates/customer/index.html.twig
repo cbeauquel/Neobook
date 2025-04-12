@@ -113,8 +113,8 @@
         {% for invoice in my_invoices %}            
             <tr>
                 <td>{{ invoice.id }}</td>
-                <td>{{ invoice.userToken.userToken }}</td>
-                <td>{{ invoice.createdAt | date("d/m/Y") }}</td>
+                <td>{{ invoice.basket.userToken }}
+                <td>{{ invoice.createdAt | date("d/m/Y")}}</td>
                 <td>{{ invoice.status.status }}</td>
                 <td>{{ invoice.totalHT }}</td>
                 <td>{{ invoice.totalTTC }}</td>

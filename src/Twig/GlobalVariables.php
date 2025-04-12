@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Twig;
 
 use App\Service\FooterService;
@@ -7,11 +8,8 @@ use Twig\Extension\GlobalsInterface;
 
 class GlobalVariables extends AbstractExtension implements GlobalsInterface
 {
-    private FooterService $footerService;
-
-    public function __construct(FooterService $footerService)
+    public function __construct(private readonly FooterService $footerService)
     {
-        $this->footerService = $footerService;
     }
 
     public function getGlobals(): array

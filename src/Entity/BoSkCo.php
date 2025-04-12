@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 #[ORM\Entity(repositoryClass: BoSkCoRepository::class)]
 class BoSkCo
 {
@@ -17,7 +16,7 @@ class BoSkCo
     private ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Groups(['getContributors','getEditors'])]
+    #[Groups(['getContributors', 'getEditors'])]
     #[ORM\ManyToOne(inversedBy: 'boSkCos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
@@ -74,5 +73,4 @@ class BoSkCo
 
         return $this;
     }
-
 }

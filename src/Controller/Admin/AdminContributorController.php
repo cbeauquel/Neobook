@@ -4,15 +4,15 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contributor;
 use App\Form\ContributorType;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ContributorRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AdminContributorController extends AbstractController
 {
@@ -30,30 +30,30 @@ class AdminContributorController extends AbstractController
     #[Route('/admin/contributor/add', name: 'admin_contributor_add')]
     #[Route('/admin/contributor/edit/{id}', name: 'admin_contributor_edit', requirements: ['id' => '\d+'])]
     public function createContributor(
-        ?Contributor $contributor, 
-        Request $request, 
+        ?Contributor $contributor,
+        Request $request,
         EntityManagerInterface $manager,
-        SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/assets/img/contributeurs')] string $photosDirectory,
-        ): Response
-    {
+        SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/assets/img/contributeurs')]
+        string $photosDirectory,
+    ): Response {
         $contributor ??= new Contributor();
         $form = $this->createForm(ContributorType::class, $contributor);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid() ){
-                /** @var UploadedFile $photo */
-                $photo = $form->get('photo')->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $photo = $form->get('photo')->getData();
 
-                if ($photo){
-                $originalPhotoName = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+            if ($photo) {
+                $originalPhotoName = pathinfo((string) $photo->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safePhotoName = $slugger->slug($originalPhotoName);
-                $newPhotoName = $safePhotoName.'-'.uniqid().'.'.$photo->guessExtension();
+                $newPhotoName = $safePhotoName . '-' . uniqid() . '.' . $photo->guessExtension();
 
                 // Move the file to the directory where $pictures are stored
                 try {
                     $photo->move($photosDirectory, $newPhotoName);
-                } catch (FileException $e) {
+                } catch (FileException) {
                     // ... handle exception if something happens during file upload
                 }
             } else {
@@ -78,11 +78,11 @@ class AdminContributorController extends AbstractController
     }
 
     #[Route('admin/contributor/remove/{id}', name: 'admin_contributor_remove', methods: ['GET', 'POST'])]
-    public function remove(?Contributor $contributor, EntityManagerInterface $manager ): Response
+    public function remove(?Contributor $contributor, EntityManagerInterface $manager): Response
     {
         $manager->remove($contributor);
         $manager->flush();
             
-            return $this->redirectToRoute('admin_book');
+        return $this->redirectToRoute('admin_book');
     }
 }

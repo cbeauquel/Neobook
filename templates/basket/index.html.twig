@@ -31,7 +31,7 @@
         </thead>
         <tbody>           
         {% for format in basket %}            
-            <tr>
+            <tr class="format-{{ format.id }}">
                 <td>{{ format.book.title }}</td>
                 <td>
                 <a href="{{path('book', {id: format.book.id})}}" title="voir le livre">
@@ -54,7 +54,7 @@
                 <td>                           
                     <form method="post" action="{{ path('basket_remove', {formatId: format.id } ) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ format.id) }}">
-                        <button class="btn btn-danger btn-sm">Supprimer</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                     </form>
                 </td>
             </tr>
