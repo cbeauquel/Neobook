@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Format;
 use App\Entity\Order;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -19,7 +20,7 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Bool true si au moins une order avec l'id du customer fourni
+     * @return bool true si au moins une order avec l'id du customer fourni
     */
     public function findByUserId(User|UserInterface $customer): bool
     {
@@ -60,6 +61,40 @@ class OrderRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    /**
+     * @return int nombre de commande validée d'un utilisateur (test bookshelf)
+    */
+    public function CountByUserIdAndByStatus(User|UserInterface $customer): int
+    {
+        return $this->createQueryBuilder('o')
+            ->select('COUNT (DISTINCT(f.id))')
+            ->leftJoin('o.status', 's')
+            ->leftJoin('o.basket', 'b')
+            ->leftJoin('b.formats', 'f')
+            ->andWhere('o.customer = :customer')
+            ->andWhere('s.status = :status')
+            ->setParameter('customer', $customer)
+            ->setParameter('status', 'Paiement accepté')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
+    }
+
+    /**
+    * @return int Returns the ID of the last order
+    */
+    public function findLastOrderId(User $user): int
+    {
+        return $this->createQueryBuilder('o')
+            ->select('MAX(o.id)')
+            ->andWhere('o.customer = :val')
+            ->setParameter('val', $user)
+            ->orderBy('o.id', 'DESC')
+            ->getQuery()
+            ->getSingleScalarResult();
         ;
     }
 

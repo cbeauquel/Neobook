@@ -90,7 +90,7 @@ class AppFixtures extends Fixture
             throw new \Exception("Les entités Type et Tva doivent exister avant de créer des Formats.");
         }
 
-        BookFactory::createMany(36);
+        BookFactory::createMany(48);
 
         $manager->flush();
 
@@ -157,7 +157,7 @@ class AppFixtures extends Fixture
             ]);
         }
 
-        FeedbackFactory::createMany(30);
+        FeedbackFactory::createMany(20);
         
         $manager->flush();
     }

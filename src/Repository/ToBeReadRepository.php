@@ -35,7 +35,7 @@ class ToBeReadRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByBookAndUserId(string $id, object $user): ?ToBeRead
+    public function findByBookAndUserId(string|int $id, object $user): ?ToBeRead
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.book = :val')

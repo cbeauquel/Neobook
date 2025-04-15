@@ -1,9 +1,9 @@
 {% extends 'Admin/adminBase.html.twig' %}
 
-{% block title %}Gestion des Catégories{% endblock %}
+{% block title %}Gestion des catégories{% endblock %}
 
 {% block body %}
-    <h1>Liste des Catégories</h1>
+    <h1>Liste des catégories</h1>
     <div>
         <a class="add" href={{path('admin_category_add')}} title="ajouter une catégorie">
             <p>Ajouter une catégorie</p> <span class="material-symbols-outlined">add_box</span>
@@ -24,10 +24,10 @@
                     <td>{{ category.name }}</td>
                     <td>
                         <a href="{{ path('category', { id: category.id }) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ path('admin_category_edit', { id: category.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{{ path('admin_category_edit', { id: category.id }) }}" class="btn btn-warning btn-sm">Modifier<span> {{category.id}}</span></a>
                         <form method="post" action="{{ path('admin_category_remove', { id: category.id }) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
-                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                            <button id="{{category.id}}" class="btn btn-danger btn-sm">Supprimer</button>
                         </form>
                     </td>
                 </tr>

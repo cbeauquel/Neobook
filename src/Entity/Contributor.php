@@ -39,7 +39,6 @@ class Contributor
     #[ORM\Column(type: Types::TEXT)]
     private ?string $bio = null;
 
-    #[Assert\NotBlank]
     #[Groups(['getContributors'])]
     #[ORM\Column(length: 255)]
     private ?string $photo = null;

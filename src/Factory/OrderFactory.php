@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Basket;
 use App\Entity\Order;
+use App\Entity\OrderStatus;
 use App\Enum\BasketStatus;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
@@ -49,8 +50,23 @@ final class OrderFactory extends PersistentProxyObjectFactory
             'TotalTTC' => $basket->getTotalTTC(),
             'basket' => $basket,
             'newCustomer' => '0',
-            'status' => OrderStatusFactory::random(),
+            'status' => self::getRandomOrderStatus(),
         ];
+    }
+
+    private static function getRandomOrderStatus(): OrderStatus
+    {
+        $rand = random_int(1, 100);
+
+        if ($rand <= 80) {
+            $status = 'Paiement accepté';
+        } elseif ($rand <= 90) {
+            $status = 'Échoué';
+        } else {
+            $status = 'En attente';
+        }
+
+        return OrderStatusFactory::findOrCreate(['status' => $status]);
     }
 
     /**

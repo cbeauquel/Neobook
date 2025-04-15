@@ -20,7 +20,6 @@ class ContributorTest extends TestCase
                         ->setPhoto('phototest.jpg')
                         ->setStatus(true)
                         ->setSlug('firstnameLastnameTest')
-                        ->addBoSkCo($boSkCoTest)
                         ->setBoSkCos($boSkCoTests);
 
         $this->assertTrue($contributorTest->getFirstname() === 'firstnameTest');
@@ -43,7 +42,6 @@ class ContributorTest extends TestCase
                         ->setPhoto('phototest.jpg')
                         ->setStatus(true)
                         ->setSlug('firstnameLastnameTest')
-                        ->addBoSkCo($boSkCoTest)
                         ->setBoSkCos($boSkCoTests);
 
         $this->assertFalse($contributorTest->getFirstname() === 'firstnameTestFalse');
@@ -64,5 +62,19 @@ class ContributorTest extends TestCase
         $this->assertEmpty($contributorTest->getPhoto());
         $this->assertEmpty($contributorTest->isStatus());
         $this->assertEmpty($contributorTest->getSlug());
+    }
+
+    public function testRemoveBoSkCo(): void
+    {
+        $boSkCoTest = new BoSkCo();
+        $contributorTest = new Contributor();
+
+        $contributorTest->addBoSkCo($boSkCoTest); // gère aussi le setContributor() normalement
+        $this->assertCount(1, $contributorTest->getBoSkCos());
+    
+        $contributorTest->removeBoSkCo($boSkCoTest);
+    
+        $this->assertCount(0, $contributorTest->getBoSkCos());
+        $this->assertNull($boSkCoTest->getContributor());
     }
 }

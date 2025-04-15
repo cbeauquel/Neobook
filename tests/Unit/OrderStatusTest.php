@@ -16,7 +16,8 @@ class OrderStatusTest extends TestCase
 
         $orderStatusTest = new OrderStatus();
         $orderStatusTest->setStatus('Paiement Accepté')
-                        ->setOrders($ordersTest);
+                        ->setOrders($ordersTest)
+                        ->addOrder($orderTest);
 
         $this->assertTrue($orderStatusTest->getStatus() === 'Paiement Accepté');
         $this->assertTrue($orderStatusTest->getOrders() === $ordersTest);
@@ -30,7 +31,9 @@ class OrderStatusTest extends TestCase
     
             $orderStatusTest = new OrderStatus();
             $orderStatusTest->setStatus('Paiement Accepté')
-                            ->setOrders($ordersTest);
+                            ->setOrders($ordersTest)
+                            ->addOrder($orderTest);
+
     
             $this->assertFalse($orderStatusTest->getStatus() === 'Paiement Non Accepté');
             $this->assertFalse($orderStatusTest->getOrders() === new ArrayCollection($elements = [$orderTest]));

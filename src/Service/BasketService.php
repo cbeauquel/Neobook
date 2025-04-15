@@ -96,7 +96,6 @@ class BasketService
             // Récupérer les formats en base et en session
             //on isole les formats du panier
             $bddBasketFormats = $this->loadBasketFormats($idBasket);
-            // dd($sessionBasket);
             // SUPPRIMER les formats qui ne sont plus dans la session
             foreach ($bddBasketFormats as $bddFormat) {
                 if (!$sessionBasket->exists(fn ($key, $item) => $item->getId() === $bddFormat->getId())) {
@@ -109,7 +108,6 @@ class BasketService
                 $this->manager->remove($bddBasket);
             } else {
                 $bddBasket->setFormats($bddBasketFormats);
-                // dd($bddBasket);
                 // Sauvegarder le panier en base
                 $this->manager->persist($bddBasket);
             }

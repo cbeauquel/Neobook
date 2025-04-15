@@ -64,6 +64,11 @@ jobs:
             sleep 2
           done
 
+      - name: Start Symfony server
+        run: |
+          ./bin/console server:stop || true
+          symfony server:start --port=8000 --daemon
+
       - name: Tests
         run: composer test
         env:
@@ -73,6 +78,7 @@ jobs:
           DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
+          PANTHER_NO_HEADLESS: 0
 
         
     

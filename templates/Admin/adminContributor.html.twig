@@ -1,9 +1,9 @@
 {% extends 'Admin/adminBase.html.twig' %}
 
-{% block title %}Gestion des Contributeurs{% endblock %}
+{% block title %}Gestion des contributeurs{% endblock %}
 
 {% block body %}
-    <h1>Liste des Contributeurs</h1>
+    <h1>Liste des contributeurs</h1>
     <div>
         <a class="add" href={{path('admin_contributor_add')}} title="ajouter un livre">
             <p>Ajouter un contributeur</p> <span class="material-symbols-outlined">add_box</span>
@@ -38,10 +38,10 @@
                     <td>{{ contributor.status }}</td>
                     <td>
                         <a href="{{ path('contributor', { id: contributor.id }) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ path('admin_contributor_edit', { id: contributor.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{{ path('admin_contributor_edit', { id: contributor.id }) }}" class="btn btn-warning btn-sm">Modifier {{ contributor.id }}</a>
                         <form method="post" action="{{ path('admin_contributor_remove', { id: contributor.id }) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contributor.id) }}">
-                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                            <button id="{{contributor.id}}" class="btn btn-danger btn-sm">Supprimer</button>
                         </form>
                     </td>
                 </tr>

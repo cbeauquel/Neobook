@@ -70,7 +70,7 @@ class AdminBookController extends AbstractController
                 // Move the file to the directory where $pictures are stored
                 try {
                     $cover->move($coversDirectory, $newCoverName);
-                } catch (FileException) {
+                } catch (FileException) {// @codeCoverageIgnore
                     // ... handle exception if something happens during file upload
                 }
             } else {

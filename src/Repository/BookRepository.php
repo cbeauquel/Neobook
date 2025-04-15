@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Dto\BookWithAverageStars;
 use App\Entity\Book;
+use App\Entity\Format;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -120,7 +121,6 @@ class BookRepository extends ServiceEntityRepository
             ->andWhere('e.id IN (:val)')
             ->setParameter('val', $value)
             ->orderBy('b.id', 'ASC')
-            ->setMaxResults(12)
             ->getQuery()
             ->getResult()
         ;
@@ -154,7 +154,7 @@ class BookRepository extends ServiceEntityRepository
     public function findPaginatedBooks(int $page, int $limit): Pagerfanta
     {
         $queryBuilder = $this->createQueryBuilder('b')
-            ->orderBy('b.id', 'ASC');
+            ->orderBy('b.id', 'DESC');
 
         // Adapter pour Pagerfanta
         $adapter = new QueryAdapter($queryBuilder);

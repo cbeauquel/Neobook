@@ -10,8 +10,10 @@ final class BookControllerTest extends FunctionalTestCase
 {
     public function testShouldShowBook(): void
     {
-        $this->get('/book/1');
-        $book = $this->getBook('1');
+        $today = new \DateTime();
+        $book = $this->getBookId($today);
+        $bookId = $book->getId();
+        $this->get('/book/' . $bookId);
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextSame('h1', $book->getTitle());
         $this->assertSelectorExists('.cover-big');
@@ -21,17 +23,21 @@ final class BookControllerTest extends FunctionalTestCase
 
     public function testShouldAddToBeRead(): void
     {
-        $this->get('/book/1');
+        $today = new \DateTime();
+        $book = $this->getBookId($today);
+        $bookId = $book->getId();
+        $user = $this->getCurrentUser();
+        $userId = $user->getId();
+        $this->get('/book/' . $bookId);
         $this->client->clickLink('bookmark_heart');
         $this->client->followRedirect();
         $this->login();
         $this->assertResponseIsSuccessful();
-
-        $this->get('/book/1');
+        $this->get('/book/' . $bookId);
         $this->client->submitForm(
             'bookmark_heart',
-            ['to_be_read[book]' => '1',
-             'to_be_read[customer]' => '2',
+            ['to_be_read[book]' => $bookId,
+             'to_be_read[customer]' => $userId,
              'to_be_read[status]' => 'à lire'
             ],
             'POST'
@@ -40,7 +46,6 @@ final class BookControllerTest extends FunctionalTestCase
         $this->get('/account');
         $this->assertSelectorTextSame('h1', 'Compte de John');
         $this->assertAnySelectorTextSame('h2', 'Ma PAL');
-        $book = $this->getBook('1');
         $this->assertSelectorExists('img.cover');
         $this->assertSelectorTextSame('.book-title', $book->getTitle());
     }
@@ -50,9 +55,11 @@ final class BookControllerTest extends FunctionalTestCase
         $this->login();
         $this->get('/account');
         $this->assertAnySelectorTextSame('h2', 'Ma PAL');
-        $book = $this->getBook('1');
-        $user = $this->getUser('beauquelc@yahoo.fr');
-        $tbr = $this->getTbrId('1', $user);
+        $today = new \DateTime();
+        $book = $this->getBookId($today);
+        $bookId = $book->getId();
+        $user = $this->getCurrentUser();
+        $tbr = $this->getTbrId($bookId, $user);
         $this->assertSelectorExists('img.cover');
         $this->assertSelectorTextSame('.book-title', $book->getTitle());
         $this->get('/remove/' . $tbr->getId());

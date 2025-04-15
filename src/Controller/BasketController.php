@@ -23,11 +23,14 @@ class BasketController extends AbstractController
         BreadcrumbService $breadcrumbService,
         SessionInterface $session,
     ): Response {
+        //Fil d'ariane
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Panier', $this->generateUrl('basket_view'));
+
         //récupère le panier en session.
         $userToken = $session->getId();
         $sessionBasket = $basketService->getSessionBasket();
+
         // récupère le panier en base
         $customer = $this->getUser();
         $oldBasket = $basketService->loadAllBaskets($userToken);
@@ -51,9 +54,10 @@ class BasketController extends AbstractController
 
             $manager->remove($bddBasket);
             $manager->flush();
-        } elseif (!$oldBasket) {
-            $session->remove($sessionBasket);
         }
+        // elseif (!$oldBasket) {
+        //     $session->remove($sessionBasket);
+        // }
         // Initialiser les totaux à 0 pour éviter les erreurs
         $totalHT = 0;
         $totalTTC = 0;
@@ -93,9 +97,9 @@ class BasketController extends AbstractController
         // on récupère les formats à partir des données choisies par l'utilisateur
         $choiceFormats = $request->get('format', []);
         $formats = $formatRepository->findByFormatChoices($choiceFormats);
-        if (!$formats) {
-            throw $this->createNotFoundException('Produit introuvable.');
-        }
+        // if (!$formats) {
+        //     throw $this->createNotFoundException('Produit introuvable.');
+        // }
         $basketService->addToBasket($formats, $customer);
         return $this->redirectToRoute('basket_view');
     }
@@ -105,9 +109,6 @@ class BasketController extends AbstractController
     {
         $customer = $this->getUser();
         $formatToRemove = $formatRepository->find($formatId);
-        if (!$formatToRemove) {
-            throw $this->createNotFoundException('Produit introuvable.');
-        }
 
         $basketService->removeToBasket($formatToRemove, $customer);
 

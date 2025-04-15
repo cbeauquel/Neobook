@@ -53,7 +53,7 @@ class AdminContributorController extends AbstractController
                 // Move the file to the directory where $pictures are stored
                 try {
                     $photo->move($photosDirectory, $newPhotoName);
-                } catch (FileException) {
+                } catch (FileException) {// @codeCoverageIgnore
                     // ... handle exception if something happens during file upload
                 }
             } else {
@@ -83,6 +83,6 @@ class AdminContributorController extends AbstractController
         $manager->remove($contributor);
         $manager->flush();
             
-        return $this->redirectToRoute('admin_book');
+        return $this->redirectToRoute('admin_contributor');
     }
 }

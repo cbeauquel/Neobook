@@ -116,4 +116,40 @@ class BookTest extends TestCase
         $this->assertEmpty($bookTest->isStatus());
         $this->assertEmpty($bookTest->getEditor());
     }
+
+    public function testGetAverageStars(): void
+    {
+        $book = new Book();
+
+        $format1 = new Format();
+        $format2 = new Format();
+
+        $feedback1 = new Feedback();
+        $feedback1->setStars(4);
+
+        $feedback2 = new Feedback();
+        $feedback2->setStars(5);
+
+        $feedback3 = new Feedback();
+        $feedback3->setStars(3);
+
+        $format1->addFeedback($feedback1);
+        $format1->addFeedback($feedback2);
+        $format2->addFeedback($feedback3);
+
+        $book->addFormat($format1);
+        $book->addFormat($format2);
+
+        $this->assertEquals(4.0, $book->getAverageStars());
+    }
+
+    public function testGetAverageStarsReturnsZeroWhenNoFeedback(): void
+    {
+        $book = new Book();
+        $format = new Format();
+
+        $book->addFormat($format);
+
+        $this->assertSame(0.0, $book->getAverageStars());
+    }
 }

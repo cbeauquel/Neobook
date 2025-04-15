@@ -29,7 +29,6 @@ class Editor
     private ?string $name = null;
 
     #[Groups(['getEditors'])]
-    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $logo = null;
 

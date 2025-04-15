@@ -24,7 +24,7 @@ class EditorRepository extends ServiceEntityRepository
     public function findPaginatedEditors(int $page, int $limit): Pagerfanta
     {
         $queryBuilder = $this->createQueryBuilder('e')
-        ->orderBy('e.id', 'ASC');
+        ->orderBy('e.id', 'DESC');
 
         // Adapter pour Pagerfanta
         $adapter = new QueryAdapter($queryBuilder);
@@ -35,6 +35,34 @@ class EditorRepository extends ServiceEntityRepository
         $pagerfanta->setCurrentPage($page);
 
         return $pagerfanta;
+    }
+
+    /**
+    * @return int return number of books for an editor
+    */
+    public function countByEditor(int $id): int
+    {
+        return $this->createQueryBuilder('e')
+            ->select('COUNT(b.id)')
+            ->join('e.books', 'b')
+            ->andWhere('e.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    /**
+    * @return string Returns the ID of the last Editor (test admineditor)
+    */
+    public function findLastEditorId(): string
+    {
+        return $this->createQueryBuilder('e')
+            ->select('MAX(e.id)')
+            ->orderBy('e.id', 'DESC')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
     }
 
     //    /**

@@ -30,7 +30,6 @@ class Book
     private ?string $title = null;
 
     #[Groups(['searchable', 'getBooks'])]
-    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
