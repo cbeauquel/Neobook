@@ -88,7 +88,7 @@ class ContributorRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
         ;
     }
-    
+
     //    /**
     //     * @return Contributor[] Returns an array of Contributor objects
     //     */

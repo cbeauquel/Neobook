@@ -96,7 +96,7 @@ class FeedbackRepository extends ServiceEntityRepository
 
         return $result;
     }
-    
+
     /**
      * @return int nombre de feedbacks d'un utilisateur (test bookshelf)
      * @param array<int> $formatsId

@@ -66,7 +66,7 @@ class BasketRepository extends ServiceEntityRepository
             ->setParameter('oldStatus', 'en cours');
         $qb->getQuery()->execute();
     }
-   
+
     /**
     * @return int Returns the ID of the last basket
     */
@@ -81,7 +81,7 @@ class BasketRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
         ;
     }
-    
+
     // /**
     //  * @return Basket
     //  */

@@ -15,7 +15,7 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
-    
+
     /**
     * @return int return number of books in category
     */
