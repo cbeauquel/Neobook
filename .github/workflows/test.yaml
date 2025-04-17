@@ -75,7 +75,21 @@ jobs:
       - name: Start Symfony server
         run: |
           ./bin/console server:stop || true
-          symfony server:start --port=8000 --daemon
+          php -S 127.0.0.1:8000 -t public > /dev/null 2>&1 &
+          
+      - name: Add Symfony CLI to PATH
+        run: echo "$HOME/.symfony/bin" >> $GITHUB_PATH
+
+      - name: Wait for Symfony Server
+        run: |
+          for i in {1..10}; do
+            if curl -s http://127.0.0.1:8000 > /dev/null; then
+              echo "Symfony server is up!"
+              break
+            fi
+            echo "Waiting for Symfony server..."
+            sleep 2
+          done
 
       - name: Tests
         run: composer test
@@ -87,6 +101,7 @@ jobs:
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
           PANTHER_NO_HEADLESS: 0
+          PANTHER_EXTERNAL_BASE_URI: http://127.0.0.1:8000
 
         
     
