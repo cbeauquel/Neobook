@@ -173,6 +173,11 @@ abstract class FunctionalTestCase extends WebTestCase
         return $this->service(EntityManagerInterface::class)->getRepository(Editor::class)->findLastEditorId();
     }
 
+    protected function getLastBookId(): string
+    {
+        return $this->service(EntityManagerInterface::class)->getRepository(Book::class)->findLastBookId();
+    }
+
     protected function getFormatTest(): Format
     {
         return $this->service(EntityManagerInterface::class)->getRepository(Format::class)->findFormatTest();

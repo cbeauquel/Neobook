@@ -4,6 +4,7 @@ namespace App\Tests\Unit;
 
 use App\Entity\Basket;
 use App\Entity\Book;
+use App\Entity\Feedback;
 use App\Entity\Format;
 use App\Entity\Tva;
 use App\Entity\Type;
@@ -105,5 +106,55 @@ class FormatTest extends TestCase
         $this->assertEmpty($formatTest->getPriceHT());
         $this->assertEmpty($formatTest->getPriceTTC());
         $this->assertEmpty($formatTest->getTvaRate());
+    }
+
+    public function testRemoveBasket(): void
+    {
+        $basketTest = new Basket();
+        $formatTest = new Format();
+
+        $formatTest->addBasket($basketTest); // gère aussi le setBasket() normalement
+        $this->assertCount(1, $basketTest->getFormats());
+    
+        $formatTest->removeBasket($basketTest);
+    
+        $this->assertCount(0, $formatTest->getBaskets());
+    }
+
+    public function testAddFeedback(): void
+    {
+        $format = new Format();
+        $feedback = new Feedback();
+
+        $this->assertCount(0, $format->getFeedbacks());
+
+        $format->addFeedback($feedback);
+
+        $this->assertCount(1, $format->getFeedbacks());
+        $this->assertTrue($format->getFeedbacks()->contains($feedback));
+        $this->assertSame($format, $feedback->getFormat());
+    }
+
+    public function testAddFeedbackTwiceDoesNotDuplicate(): void
+    {
+        $format = new Format();
+        $feedback = new Feedback();
+
+        $format->addFeedback($feedback);
+        $format->addFeedback($feedback); // tentative de doublon
+
+        $this->assertCount(1, $format->getFeedbacks());
+    }
+
+    public function testRemoveFeedback(): void
+    {
+        $format = new Format();
+        $feedback = new Feedback();
+
+        $format->addFeedback($feedback);
+        $format->removeFeedback($feedback);
+
+        $this->assertCount(0, $format->getFeedbacks());
+        $this->assertNull($feedback->getFormat());
     }
 }

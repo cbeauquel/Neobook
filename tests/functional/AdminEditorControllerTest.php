@@ -77,19 +77,21 @@ final class AdminEditorControllerTest extends FunctionalTestCase
 
     public function testShouldEditEditor(): void
     {
-        $editorId = $this->getLastEditorId();
         $this->loginAdmin();
-        $this->get('/admin/editor');
+        $crawler = $this->get('/admin/editor');
+        $editorId = $this->getLastEditorId();
         $this->assertResponseIsSuccessful();
-        $this->client->clickLink('Modifier ' . $editorId);
-        $this->client->followRedirects();
+        $this->assertSelectorTextSame('h1', 'Liste des éditeurs');
+        $link = $crawler->filter('a.upd-' . $editorId)->link();
+        $this->client->click($link);
+        $this->assertSelectorTextSame('h1', 'Ajouter un éditeur');
         $this->client->submitForm(
             'Envoyer',
             [
             'editor[name]' => 'ModifiedEditorName',
             ]
         );
-        $this->assertResponseIsSuccessful();
+        $this->get('/admin/editor');
         self::assertAnySelectorTextSame('td', 'ModifiedEditorName');
     }
     

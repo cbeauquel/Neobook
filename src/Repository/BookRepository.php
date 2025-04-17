@@ -196,6 +196,19 @@ class BookRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+    * @return string Returns the ID of the last book (greatest ID)
+    */
+    public function findLastBookId(): string
+    {
+        return $this->createQueryBuilder('bo')
+            ->select('MAX(bo.id)')
+            ->orderBy('bo.id', 'DESC')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
+    }
+
     //    /**
     //     * @return Book[] Returns an array of Book objects
     //     */

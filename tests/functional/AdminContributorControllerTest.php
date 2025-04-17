@@ -84,12 +84,13 @@ final class AdminContributorControllerTest extends FunctionalTestCase
 
     public function testShouldEditContributor(): void
     {
-        $contributorId = $this->getLastContributorId();
         $this->loginAdmin();
-        $this->get('/admin/contributor');
+        $crawler = $this->get('/admin/contributor');
+        $contributorId = $this->getLastContributorId();
         $this->assertResponseIsSuccessful();
-        $this->client->clickLink('Modifier ' . $contributorId);
-        $this->client->followRedirects();
+        $link = $crawler->filter('a.upd-' . $contributorId)->link();
+        $this->client->click($link);
+        $this->assertSelectorTextSame('h1', 'Ajouter un contributeur');
         $this->client->submitForm(
             'Envoyer',
             [
@@ -97,7 +98,7 @@ final class AdminContributorControllerTest extends FunctionalTestCase
             'contributor[firstname]' => 'ModifiedFirstname',
             ]
         );
-        $this->assertResponseIsSuccessful();
+        $this->get('/admin/contributor');
         self::assertAnySelectorTextSame('td', 'ModifiedLastName');
     }
     

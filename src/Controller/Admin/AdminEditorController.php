@@ -85,6 +85,6 @@ class AdminEditorController extends AbstractController
         $manager->remove($editor);
         $manager->flush();
             
-        return $this->redirectToRoute('admin_book');
+        return $this->redirectToRoute('admin_editor');
     }
 }

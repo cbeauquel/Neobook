@@ -47,4 +47,17 @@ class TypeTest extends TestCase
         $this->assertEmpty($typeTest->getTypeImg());
         $this->assertEmpty($typeTest->getName());
     }
+
+    public function testRemoveFormat(): void
+    {
+        $formatTest = new Format();
+        $typeTest = new Type();
+
+        $typeTest->addFormatType($formatTest); // gère aussi le setType() normalement
+        $this->assertCount(1, $typeTest->getFormatType());
+    
+        $typeTest->removeFormatType($formatTest);
+    
+        $this->assertCount(0, $typeTest->getFormatType());
+    }
 }

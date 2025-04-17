@@ -112,4 +112,157 @@ class UserTest extends TestCase
         $this->assertEmpty($userTest->getNickName());
         $this->assertEmpty($userTest->isVerified());
     }
+
+    public function testAddBasket(): void
+    {
+        $user = new User();
+        $basket = new Basket();
+
+        $this->assertCount(0, $user->getBaskets());
+
+        $user->addBasket($basket);
+
+        $this->assertCount(1, $user->getBaskets());
+        $this->assertTrue($user->getBaskets()->contains($basket));
+        $this->assertSame($user, $basket->getCustomer());
+    }
+
+    public function testAddBasketTwice(): void
+    {
+        $user = new User();
+        $basket = new Basket();
+
+        $user->addBasket($basket);
+        $user->addBasket($basket); // doublon
+
+        $this->assertCount(1, $user->getBaskets());
+    }
+
+    public function testRemoveBasket(): void
+    {
+        $user = new User();
+        $basket = new Basket();
+
+        $user->addBasket($basket);
+        $user->removeBasket($basket);
+
+        $this->assertCount(0, $user->getBaskets());
+        $this->assertNull($basket->getCustomer());
+    }
+
+    public function testSetBaskets(): void
+    {
+        $user = new User();
+        $basket1 = new Basket();
+        $basket2 = new Basket();
+
+        $collection = new ArrayCollection([$basket1, $basket2]);
+
+        $user->setBaskets($collection);
+
+        $this->assertCount(2, $user->getBaskets());
+        $this->assertSame($collection, $user->getBaskets());
+    }
+
+    public function testAddFeedback(): void
+    {
+        $user = new User();
+        $feedback = new Feedback();
+
+        $this->assertCount(0, $user->getFeedbacks());
+
+        $user->addFeedback($feedback);
+
+        $this->assertCount(1, $user->getFeedbacks());
+        $this->assertTrue($user->getFeedbacks()->contains($feedback));
+        $this->assertSame($user, $feedback->getNickName());
+    }
+
+    public function testAddFeedbackTwice(): void
+    {
+        $user = new User();
+        $feedback = new Feedback();
+
+        $user->addFeedback($feedback);
+        $user->addFeedback($feedback); // doublon
+
+        $this->assertCount(1, $user->getFeedbacks());
+    }
+
+    public function testRemoveFeedback(): void
+    {
+        $user = new User();
+        $feedback = new Feedback();
+
+        $user->addFeedback($feedback);
+        $user->removeFeedback($feedback);
+
+        $this->assertCount(0, $user->getFeedbacks());
+        $this->assertNull($feedback->getNickName());
+    }
+
+    public function testSetFeedbacks(): void
+    {
+        $user = new User();
+        $feedback1 = new Feedback();
+        $feedback2 = new Feedback();
+
+        $collection = new ArrayCollection([$feedback1, $feedback2]);
+
+        $user->setFeedbacks($collection);
+
+        $this->assertCount(2, $user->getFeedbacks());
+        $this->assertSame($collection, $user->getFeedbacks());
+    }
+
+    public function testAddToBeRead(): void
+    {
+        $user = new User();
+        $toBeRead = new ToBeRead();
+
+        $this->assertCount(0, $user->getToBeReads());
+
+        $user->addToBeRead($toBeRead);
+
+        $this->assertCount(1, $user->getToBeReads());
+        $this->assertTrue($user->getToBeReads()->contains($toBeRead));
+        $this->assertSame($user, $toBeRead->getCustomer());
+    }
+
+    public function testAddToBeReadTwice(): void
+    {
+        $user = new User();
+        $toBeRead = new ToBeRead();
+
+        $user->addToBeRead($toBeRead);
+        $user->addToBeRead($toBeRead); // doublon
+
+        $this->assertCount(1, $user->getToBeReads());
+    }
+
+    public function testRemoveToBeRead(): void
+    {
+        $user = new User();
+        $toBeRead = new ToBeRead();
+
+        $user->addToBeRead($toBeRead);
+        $user->removeToBeRead($toBeRead);
+
+        $this->assertCount(0, $user->getToBeReads());
+        $this->assertNull($toBeRead->getCustomer());
+    }
+
+    public function testSetToBeReads(): void
+    {
+        $user = new User();
+        $item1 = new ToBeRead();
+        $item2 = new ToBeRead();
+
+        $collection = new ArrayCollection([$item1, $item2]);
+
+        $user->setToBeReads($collection);
+
+        $this->assertCount(2, $user->getToBeReads());
+        $this->assertSame($collection, $user->getToBeReads());
+    }
 }

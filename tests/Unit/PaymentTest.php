@@ -42,4 +42,41 @@ class PaymentTest extends TestCase
         $paymentTest = new Payment();
         $this->assertEmpty($paymentTest->getMode());
     }
+
+    public function testAddOrder(): void
+    {
+        $payment = new Payment();
+        $order = new Order();
+
+        $this->assertCount(0, $payment->getOrders());
+
+        $payment->addOrder($order);
+
+        $this->assertCount(1, $payment->getOrders());
+        $this->assertTrue($payment->getOrders()->contains($order));
+        $this->assertSame($payment, $order->getPaymentMode());
+    }
+
+    public function testAddOrderTwice(): void
+    {
+        $payment = new Payment();
+        $order = new Order();
+
+        $payment->addOrder($order);
+        $payment->addOrder($order); // doublon
+
+        $this->assertCount(1, $payment->getOrders());
+    }
+
+    public function testRemoveOrder(): void
+    {
+        $payment = new Payment();
+        $order = new Order();
+
+        $payment->addOrder($order);
+        $payment->removeOrder($order);
+
+        $this->assertCount(0, $payment->getOrders());
+        $this->assertNull($order->getPaymentMode());
+    }
 }

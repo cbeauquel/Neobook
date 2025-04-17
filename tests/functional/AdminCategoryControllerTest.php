@@ -58,15 +58,16 @@ final class AdminCategoryControllerTest extends FunctionalTestCase
 
     public function testCategoryEditCategory(): void
     {
-        $categoryId = $this->getLastCategoryId();
         $this->loginAdmin();
-        $this->get('/admin/category');
+        $crawler = $this->get('/admin/category');
+        $categoryId = $this->getLastCategoryId();
         $this->assertResponseIsSuccessful();
-        $this->client->clickLink('Modifier ' . $categoryId);
+        $this->assertSelectorTextSame('h1', 'Liste des catégories');
+        $link = $crawler->filter('a.upd-' . $categoryId)->link();
+        $this->client->click($link);
         $this->client->submitForm('Envoyer', [
             'category[name]' => 'Catégorie modifiée'
         ]);
-        $this->client->followRedirects();
         $this->get('/admin/category');
         self::assertAnySelectorTextSame('td', 'Catégorie modifiée');
     }
@@ -77,6 +78,7 @@ final class AdminCategoryControllerTest extends FunctionalTestCase
         $this->loginAdmin();
         $this->get('/admin/category');
         $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextSame('h1', 'Liste des catégories');
         $this->client->submitForm($categoryId);
         $this->client->followRedirects();
         $this->get('/admin/category');

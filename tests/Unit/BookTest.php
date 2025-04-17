@@ -152,4 +152,58 @@ class BookTest extends TestCase
 
         $this->assertSame(0.0, $book->getAverageStars());
     }
+
+    public function testRemoveBoSkCo(): void
+    {
+        $boSkCoTest = new BoSkCo();
+        $bookTest = new Book();
+
+        $bookTest->addBoSkCo($boSkCoTest); // gère aussi le setBook() normalement
+        $this->assertCount(1, $bookTest->getBoSkCos());
+    
+        $bookTest->removeBoSkCo($boSkCoTest);
+    
+        $this->assertCount(0, $bookTest->getBoSkCos());
+        $this->assertNull($boSkCoTest->getBook());
+    }
+
+    public function testRemoveCategory(): void
+    {
+        $categoryTest = new Category();
+        $bookTest = new Book();
+
+        $bookTest->addCategory($categoryTest); // gère aussi le setBook() normalement
+        $this->assertCount(1, $bookTest->getCategories());
+    
+        $bookTest->removeCategory($categoryTest);
+    
+        $this->assertCount(0, $bookTest->getCategories());
+    }
+    
+    public function testRemoveKeyWord(): void
+    {
+        $keywordTest = new KeyWord();
+        $bookTest = new Book();
+
+        $bookTest->addKeyWord($keywordTest); // gère aussi le setBook() normalement
+        $this->assertCount(1, $bookTest->getKeyWords());
+    
+        $bookTest->removeKeyWord($keywordTest);
+    
+        $this->assertCount(0, $bookTest->getKeyWords());
+    }
+        
+    public function testRemoveToBeRead(): void
+    {
+        $tobereadTest = new ToBeRead();
+        $bookTest = new Book();
+
+        $bookTest->addToBeReads($tobereadTest); // gère aussi le setBook() normalement
+        $this->assertCount(1, $bookTest->getToBeReads());
+    
+        $bookTest->removeToBeRead($tobereadTest);
+    
+        $this->assertCount(0, $bookTest->getToBeReads());
+        $this->assertNull($tobereadTest->getBook());
+    }
 }

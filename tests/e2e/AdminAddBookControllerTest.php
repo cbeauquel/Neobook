@@ -44,7 +44,6 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $crawler->filter('input[name="book[parutionDate]"]')->sendKeys('01/01/2026');
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('input[name="book[status]"]'))->sendKeys('1');
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('select[name="book[keyWords][]'))->sendKeys('180');
-        
         // Click the 'Add Format' button via Stimulus controller
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('#book_formats > button'))->click();
         $client->waitFor('div.book-formats', 2); // la page admin book
@@ -63,9 +62,9 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $crawler->filter('input[name="book[formats][0][bookExtract]')->sendKeys('test.fr/extract.epub');
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('input[name="book[formats][0][type]"][value="1"]'))->click();
 
-        // Submit the form
         // Submit the form via native JS to ensure all bindings are respected
         $client->executeScript('document.querySelector("form[name=book]").submit()');
+
         // Wait for redirect or success message
         $crawler = $client->request('GET', '/admin/book');
         $this->assertAnySelectorTextContains('td', 'Nouveau titre de livre');

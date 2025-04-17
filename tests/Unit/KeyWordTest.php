@@ -43,4 +43,17 @@ class KeyWordTest extends TestCase
         $KeyWordTest = new KeyWord();
         $this->assertEmpty($KeyWordTest->getTag());
     }
+
+    public function testRemoveBook(): void
+    {
+        $bookTest = new Book();
+        $keywordTest = new KeyWord();
+
+        $keywordTest->addBook($bookTest); // gère aussi le setKeyWord() normalement
+        $this->assertCount(1, $keywordTest->getBooks());
+    
+        $keywordTest->removeBook($bookTest);
+    
+        $this->assertCount(0, $keywordTest->getBooks());
+    }
 }

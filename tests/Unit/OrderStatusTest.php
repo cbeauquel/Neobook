@@ -45,4 +45,41 @@ class OrderStatusTest extends TestCase
         $orderStatusTest = new OrderStatus();
         $this->assertEmpty($orderStatusTest->getStatus());
     }
+
+    public function testAddOrder(): void
+    {
+        $status = new OrderStatus();
+        $order = new Order();
+
+        $this->assertCount(0, $status->getOrders());
+
+        $status->addOrder($order);
+
+        $this->assertCount(1, $status->getOrders());
+        $this->assertTrue($status->getOrders()->contains($order));
+        $this->assertSame($status, $order->getStatus());
+    }
+
+    public function testAddOrderTwice(): void
+    {
+        $status = new OrderStatus();
+        $order = new Order();
+
+        $status->addOrder($order);
+        $status->addOrder($order); // doublon
+
+        $this->assertCount(1, $status->getOrders());
+    }
+
+    public function testRemoveOrder(): void
+    {
+        $status = new OrderStatus();
+        $order = new Order();
+
+        $status->addOrder($order);
+        $status->removeOrder($order);
+
+        $this->assertCount(0, $status->getOrders());
+        $this->assertNull($order->getStatus());
+    }
 }

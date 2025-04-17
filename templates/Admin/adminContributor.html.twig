@@ -38,7 +38,7 @@
                     <td>{{ contributor.status }}</td>
                     <td>
                         <a href="{{ path('contributor', { id: contributor.id }) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ path('admin_contributor_edit', { id: contributor.id }) }}" class="btn btn-warning btn-sm">Modifier {{ contributor.id }}</a>
+                        <a href="{{ path('admin_contributor_edit', { id: contributor.id }) }}" class="btn btn-warning btn-sm upd-{{ contributor.id }}">Modifier</a>
                         <form method="post" action="{{ path('admin_contributor_remove', { id: contributor.id }) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contributor.id) }}">
                             <button id="{{contributor.id}}" class="btn btn-danger btn-sm">Supprimer</button>
