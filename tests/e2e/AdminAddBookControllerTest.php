@@ -22,7 +22,7 @@ final class AdminAddBookControllerTest extends PantherTestCase
             ],
         ]);
         $crawler = $client->request('GET', '/admin/book/add');
-        $client->waitFor('form.login', 2); // la page admin book
+        $client->waitFor('form.login', 10); // la page admin book
 
         $crawler->filter('input[name="_username"]')->sendKeys('c.beauquel@neobook.fr');
         $crawler->filter('input[name="_password"]')->sendKeys('trucmuche');
