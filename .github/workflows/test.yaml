@@ -71,12 +71,13 @@ jobs:
         run: |
           curl -sS https://get.symfony.com/cli/installer | bash
           mv ~/.symfony*/bin/symfony /usr/local/bin/symfony
+          
+      - name: Install Chromium
+        run: sudo apt-get install -y chromium-browser
 
       - name: Start Symfony server
-        run: |
-          ./bin/console server:stop || true
-          php -S 127.0.0.1:8000 -t public > /dev/null 2>&1 &
-          
+        run: php -S 127.0.0.1:8000 -t public > /dev/null 2>&1 &
+
       - name: Add Symfony CLI to PATH
         run: echo "$HOME/.symfony/bin" >> $GITHUB_PATH
 
