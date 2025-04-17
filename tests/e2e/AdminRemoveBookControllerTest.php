@@ -15,7 +15,7 @@ final class AdminRemoveBookControllerTest extends PantherTestCase
         // Navigate to the new book form page
         $client = self::createPantherClient([
             'browser' => PantherTestCase::CHROME,
-            'external_base_uri' => 'http://localhost:8000',
+            'external_base_uri' => 'http://127.0.0.1:8000',
             'chrome_options' => [
                 '--no-sandbox',
                 '--disable-dev-shm-usage',

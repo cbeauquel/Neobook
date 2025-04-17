@@ -71,7 +71,7 @@ jobs:
         run: |
           curl -sS https://get.symfony.com/cli/installer | bash
           mv ~/.symfony*/bin/symfony /usr/local/bin/symfony
-          
+
       - name: Install Chromium
         run: sudo apt-get install -y chromium-browser
 
@@ -104,5 +104,7 @@ jobs:
           PANTHER_NO_HEADLESS: 0
           PANTHER_EXTERNAL_BASE_URI: http://127.0.0.1:8000
 
-        
-    
+      - name: Dump HTML on failure
+        if: failure()
+        run: cat /tmp/login-error.html || echo "no error file found"
+  
