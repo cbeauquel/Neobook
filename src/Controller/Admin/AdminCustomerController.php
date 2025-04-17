@@ -17,7 +17,7 @@ class AdminCustomerController extends AbstractController
     public function listAllCustomers(UserRepository $customerRepository): Response
     {
         $allCustomers = $customerRepository->findAll();
-        
+
         return $this->render('admin/adminCustomer.html.twig', [
             'controller_name' => 'AdminCustomerController',
             'all_customers' => $allCustomers,
@@ -39,7 +39,7 @@ class AdminCustomerController extends AbstractController
     //     if ($form->isSubmitted() && $form->isValid()) {
     //         $manager->persist($customer);
     //         $manager->flush();
-            
+
     //         return $this->redirectToRoute('admin_customer');
     //     }
 

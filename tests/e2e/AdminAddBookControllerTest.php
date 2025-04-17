@@ -14,7 +14,12 @@ final class AdminAddBookControllerTest extends PantherTestCase
     {
         // Navigate to the new book form page
         $client = self::createPantherClient([
-            'browser' => PantherTestCase::CHROME
+            'browser' => PantherTestCase::CHROME,
+            'chrome_options' => [
+                '--no-sandbox',
+                '--disable-dev-shm-usage',
+                '--headless', // utile même si implicite
+            ],
         ]);
         $crawler = $client->request('GET', '/admin/book/add');
         $client->waitFor('form.login', 2); // la page admin book
