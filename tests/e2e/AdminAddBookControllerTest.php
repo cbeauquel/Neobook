@@ -17,11 +17,11 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $client = self::createPantherClient([
             'browser' => PantherTestCase::CHROME,
             'external_base_uri' => 'http://127.0.0.1:8000',
-            'chrome_options' => [
-                '--no-sandbox',
-                '--disable-dev-shm-usage',
-                '--headless', // utile même si implicite
-            ],
+            // 'chrome_options' => [
+            //     '--no-sandbox',
+            //     '--disable-dev-shm-usage',
+            //     '--headless', // utile même si implicite
+            // ],
         ]);
 
         $client->getWebDriver()->manage()->window()->setSize(new WebDriverDimension(1920, 1080));
@@ -39,6 +39,11 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $client->waitForElementToContain('h1', 'Compte de Christophe');
 
         $client->request('GET', '/admin/book');
+        $screenshotPath = sprintf(
+            __DIR__ . '/../../build/artifacts/%s.png',
+            (new \ReflectionClass($this))->getShortName()
+        );
+        $client->getWebDriver()->takeScreenshot($screenshotPath);
         sleep(2); // petite pause
         $client->getWebDriver()->takeScreenshot('/tmp/test.png');
         $this->assertSelectorTextSame('h1', 'Liste des livres');

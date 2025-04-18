@@ -109,6 +109,7 @@ jobs:
         run: cat /tmp/login-error.html || echo "no error file found"
 
       - name: Dump screenshot on failure
-        run: |
-            echo "Screenshot saved at /tmp/failure.png"
-            base64 /tmp/failure.png
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: build/artifacts
