@@ -108,7 +108,8 @@ jobs:
         if: failure()
         run: cat /tmp/login-error.html || echo "no error file found"
 
-      - name: Dump screenshot on failure
+      - name: Upload screenshots if test fails
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: test-artifacts
