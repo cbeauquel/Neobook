@@ -47,7 +47,7 @@ jobs:
       - name: Configure MySQL
         run: |
           mysql -uroot -proot -e "CREATE DATABASE neobook;"
-          mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON neobook.* TO 'root'@'127.0.0.1';"
+          mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON neobook.* TO 'root'@'localhost';"
           mysql -uroot -proot -e "FLUSH PRIVILEGES;"        
 
       - name: install deps
@@ -72,9 +72,6 @@ jobs:
           curl -sS https://get.symfony.com/cli/installer | bash
           mv ~/.symfony*/bin/symfony /usr/local/bin/symfony
 
-      - name: Install Chromium
-        run: sudo apt-get install -y chromium-browser
-
       - name: Start Symfony server
         run: php -S 127.0.0.1:8000 -t public > /dev/null 2>&1 &
 
@@ -91,6 +88,9 @@ jobs:
             echo "Waiting for Symfony server..."
             sleep 2
           done
+          
+      - name: Write .env.test.local
+        run: echo 'DATABASE_URL="mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"' > .env.test.local
 
       - name: Tests
         run: composer test
