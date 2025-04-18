@@ -33,10 +33,11 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $crawler->filter('input[name="_username"]')->sendKeys('c.beauquel@neobook.fr');
         $crawler->filter('input[name="_password"]')->sendKeys('trucmuche');
         $crawler->filter('form.login')->submit();
-
+        $screenshotPath = '/tmp/failure.png';
+        $client->getWebDriver()->takeScreenshot($screenshotPath);
         $client->waitForElementToContain('h1', 'Liste des livres'); // la page admin book
         $screenshotPath = '/tmp/failure.png';
-        $client->getWebDriver()->takeScreenshot($screenshotPath);        
+        $client->getWebDriver()->takeScreenshot($screenshotPath);
         $this->assertSelectorTextSame('h1', 'Liste des livres');
         $client->waitForElementToContain('a.add', 'Ajouter un livre');
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('a.add'))->click();
