@@ -12,7 +12,7 @@ jobs:
         env:
           MEILI_MASTER_KEY: '!ChangeMe!'
     env:  # Définir DATABASE_URL au niveau du job
-      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook_test?serverVersion=8.0.32&charset=utf8mb4"
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
       MYSQL_ROOT_PASSWORD: root
     steps:
       - name: Checkout
@@ -47,10 +47,9 @@ jobs:
       - name: Configure MySQL
         run: |
           mysql -uroot -proot -e "CREATE DATABASE neobook;"
-          mysql -uroot -proot -e "CREATE DATABASE neobook_test;"
+          mysql -uroot -proot -e "CREATE IF NOT EXISTS DATABASE neobook_test;"
           mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';"
           mysql -uroot -proot -e "FLUSH PRIVILEGES;"
-      
 
       - name: install deps
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
@@ -104,7 +103,7 @@ jobs:
           APP_ENV: TEST
           APP_DEBUG: true
           XDEBUG_MODE: coverage
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook_test?serverVersion=8.0.32&charset=utf8mb4"
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
           PANTHER_NO_HEADLESS: 0

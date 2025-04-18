@@ -88,7 +88,7 @@ Les contributions doivent inclure une documentation appropriée et passer tous l
 
 ## Licence
 
-Ce projet est distribué sous la licence [à préciser].
+Ce projet est distribué sous la licence MIT.
 
 ## Contact et support
 
