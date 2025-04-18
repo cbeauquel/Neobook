@@ -109,11 +109,6 @@ jobs:
         run: cat /tmp/login-error.html || echo "no error file found"
 
       - name: Dump screenshot on failure
-        if: failure()
         run: |
-          if [ -f /tmp/failure.png ]; then
             echo "Screenshot saved at /tmp/failure.png"
             base64 /tmp/failure.png
-          else
-            echo "No screenshot found"
-          fi
