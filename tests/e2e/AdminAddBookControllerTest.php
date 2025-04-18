@@ -29,11 +29,7 @@ final class AdminAddBookControllerTest extends PantherTestCase
         }
         $client->request('GET', '/');
         $client->waitForElementToContain('h1', 'Librairie inclusive de livres numériques à lire et à écouter !'); // la page admin book
-
-        $screenshotPath = '/tmp/failure.png';
-        $client->getWebDriver()->takeScreenshot($screenshotPath);
-
-        $crawler = $client->request('GET', '/admin/book');
+        $crawler = $client->request('GET', '/admin/book/');
         try {
             $client->waitFor('form.login', 2);
         } catch (\Throwable $e) {
@@ -42,6 +38,7 @@ final class AdminAddBookControllerTest extends PantherTestCase
         }
         $crawler->filter('input[name="_username"]')->sendKeys('c.beauquel@neobook.fr');
         $crawler->filter('input[name="_password"]')->sendKeys('trucmuche');
+        $client->waitForElementToContain('form.login', 'Se connecter'); // la page admin book
         $crawler->filter('form.login')->submit();
 
         $screenshotPath = '/tmp/failure.png';
