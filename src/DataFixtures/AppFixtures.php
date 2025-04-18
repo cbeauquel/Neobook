@@ -157,7 +157,7 @@ class AppFixtures extends Fixture
             ]);
         }
 
-        FeedbackFactory::createMany(20);
+        FeedbackFactory::createMany(10);
         
         $manager->flush();
     }
