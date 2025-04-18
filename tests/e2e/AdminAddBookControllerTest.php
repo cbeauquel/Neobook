@@ -39,6 +39,8 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $client->waitForElementToContain('form.login', 'Se connecter'); // la page admin book
         $crawler->filter('form.login')->submit();
         $client->waitForElementToContain('h1', 'Compte de Christophe');
+        $screenshotPath = '/tmp/failure.png';
+        $client->getWebDriver()->takeScreenshot($screenshotPath);
 
         $client->request('GET', '/admin/book');
         $client->waitForElementToContain('h1', 'Liste des livres'); // la page admin book
