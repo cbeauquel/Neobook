@@ -89,6 +89,9 @@ jobs:
             sleep 2
           done
 
+      - name: Install Chromium
+        run: sudo apt-get install -y chromium-browser
+
       - name: Prepare Test DB (migrate + fixtures)
         run: |
           php bin/console doctrine:database:drop --force --if-exists --env=test
@@ -108,10 +111,8 @@ jobs:
           PANTHER_NO_HEADLESS: 0
           PANTHER_EXTERNAL_BASE_URI: http://127.0.0.1:8000
 
-      - name: Dump screenshots
+      - name: Dump HTML on failure
         if: failure()
-        run: |
-          ls -la var/
-          cat var/error.png || echo "No screenshot"
+        run: cat /tmp/login-error.html || echo "no error file found"
 
   
