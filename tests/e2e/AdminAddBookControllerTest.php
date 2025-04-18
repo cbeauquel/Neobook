@@ -7,9 +7,11 @@ namespace App\Tests\e2e;
 use Facebook\WebDriver\WebDriverBy;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\PantherTestCase;
+use Facebook\WebDriver\WebDriverDimension;
 
 final class AdminAddBookControllerTest extends PantherTestCase
 {
+
     public function testShouldAddNewBook(): void
     {
         // Navigate to the new book form page
@@ -22,6 +24,10 @@ final class AdminAddBookControllerTest extends PantherTestCase
                 '--headless', // utile même si implicite
             ],
         ]);
+
+        if ($client->getWebDriver()) {
+            $client->getWebDriver()->manage()->window()->setSize(new WebDriverDimension(1280, 1024));
+        }
         $crawler = $client->request('GET', '/admin/book');
         try {
             $client->waitFor('form.login', 2);
