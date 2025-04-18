@@ -88,9 +88,6 @@ jobs:
             echo "Waiting for Symfony server..."
             sleep 2
           done
-          
-      - name: Write .env.test.local
-        run: echo 'DATABASE_URL="mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"' > .env.test.local
 
       - name: Tests
         run: composer test
