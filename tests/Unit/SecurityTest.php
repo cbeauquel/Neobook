@@ -52,10 +52,10 @@ class SecurityTest extends TestCase
         /** @var VerifyEmailHelperInterface $verifyHelper */ // Déclaration du type correct
         /** @var MailerInterface $mailer */ // Déclaration du type correct
         /** @var EntityManagerInterface $entityManager */ // Déclaration du type correct
-        $emailVerifier = new EmailVerifier($verifyHelper, $mailer, $entityManager); // @phpstan-ignore varTag.nativeType, varTag.nativeType, varTag.nativeType
+        $emailVerifier = new EmailVerifier($verifyHelper, $mailer, $entityManager);// @phpstan-ignore varTag.nativeType, varTag.nativeType, varTag.nativeType
 
         $email = new TemplatedEmail();
-        
+
         /** @var User $user */ // Déclaration du type correct
         // Act
         $emailVerifier->sendEmailConfirmation('verify_route', $user, $email); // @phpstan-ignore varTag.nativeType

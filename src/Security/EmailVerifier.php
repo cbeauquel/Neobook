@@ -42,21 +42,11 @@ class EmailVerifier
      */
     public function handleEmailConfirmation(Request $request, User $user): void
     {
-        // Récupérer l'URL signée à partir de la requête
-        $signedUrl = $request->getUri(); // Ou toute autre méthode appropriée pour récupérer l'URL
-        $this->verifyEmailHelper->validateEmailConfirmation($signedUrl, (string) $user->getId(), (string) $user->getEmail());
+        $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, (string) $user->getId(), (string) $user->getEmail());
 
         $user->setVerified(true);
-    
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
-
-
-        // $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, (string) $user->getId(), (string) $user->getEmail());
-
-        // $user->setVerified(true);
-
-        // $this->entityManager->persist($user);
-        // $this->entityManager->flush();
     }
 }
