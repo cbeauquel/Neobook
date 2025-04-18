@@ -90,8 +90,8 @@ jobs:
             echo "Waiting for Symfony server..."
             sleep 2
           done
-          
-      - name: Debug: List MySQL Databases
+
+      - name: List MySQL Databases
         run: |
           mysql -uroot -proot -e "SHOW DATABASES;"
 
