@@ -22,7 +22,7 @@ final class AdminAddBookControllerTest extends PantherTestCase
                 '--headless', // utile même si implicite
             ],
         ]);
-        $crawler = $client->request('GET', '/admin/book/add');
+        $crawler = $client->request('GET', '/admin/book');
         try {
             $client->waitFor('form.login', 2);
         } catch (\Throwable $e) {
@@ -34,10 +34,13 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $crawler->filter('input[name="_password"]')->sendKeys('trucmuche');
         $crawler->filter('form.login')->submit();
 
+        $client->waitForElementToContain('a.add', 'Ajouter un livre'); 
+        $client->getWebDriver()->findElement(WebDriverBy::cssSelector('a.add'))->click();
+
         $client->waitForElementToContain('h1', 'Ajouter un livre'); // la page admin book
         $photoPath = realpath(dirname(__DIR__, 2) . '/assets/img/livres/une-fleur-pour-l-eternite.jpg');
 
-        $client->waitFor('#book_BoSkCos > button', 2); // ton bouton "Ajouter un contributeur"
+        $client->waitFor('#book_BoSkCos > button', 10); // ton bouton "Ajouter un contributeur"
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('#book_BoSkCos > button'))->click();
 
         // Fill contributor fields
@@ -56,7 +59,7 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $crawler->filter('textarea[name="book[summary]"]')->sendKeys('Description du nouveau livre qui a pour auteur Lyonel Shearer');
         $crawler->filter('input[name="book[genre]"]')->sendKeys('genre-du-nouveau-livre');
         $crawler->filter('input[name="book[parutionDate]"]')->sendKeys('01/01/2026');
-        // $client->getWebDriver()->findElement(WebDriverBy::cssSelector('input[name="book[status]"]'))->sendKeys('1');
+        $client->getWebDriver()->findElement(WebDriverBy::cssSelector('input[name="book[status]"]'))->sendKeys('1');
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('select[name="book[keyWords][]"]'))->sendKeys('180');
         // Click the 'Add Format' button via Stimulus controller
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('#book_formats > button'))->click();
