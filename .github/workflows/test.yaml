@@ -73,7 +73,7 @@ jobs:
           mv ~/.symfony*/bin/symfony /usr/local/bin/symfony
 
       - name: Start Symfony server (CLI)
-        run: symfony server:start --no-tls --port=8000 --dir=public --env=test --daemon
+        run: symfony server:start --no-tls --port=8000 --dir=public --daemon
 
       - name: Add Symfony CLI to PATH
         run: echo "$HOME/.symfony/bin" >> $GITHUB_PATH
