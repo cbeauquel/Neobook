@@ -27,9 +27,7 @@ final class AdminAddBookControllerTest extends PantherTestCase
         if ($client->getWebDriver()) {
             $client->getWebDriver()->manage()->window()->setSize(new WebDriverDimension(1920, 1080));
         }
-        $client->request('GET', '/');
-        $client->waitForElementToContain('h1', 'Librairie inclusive de livres numériques à lire et à écouter !'); // la page admin book
-        $crawler = $client->request('GET', '/admin/book/');
+        $crawler = $client->request('GET', '/account');
         try {
             $client->waitFor('form.login', 2);
         } catch (\Throwable $e) {
@@ -40,13 +38,14 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $crawler->filter('input[name="_password"]')->sendKeys('trucmuche');
         $client->waitForElementToContain('form.login', 'Se connecter'); // la page admin book
         $crawler->filter('form.login')->submit();
+        $client->waitForElementToContain('h1', 'Compte de Christophe');
 
-        $screenshotPath = '/tmp/failure.png';
-        $client->getWebDriver()->takeScreenshot($screenshotPath);
+        $client->request('GET', '/admin/book');
         $client->waitForElementToContain('h1', 'Liste des livres'); // la page admin book
         $this->assertSelectorTextSame('h1', 'Liste des livres');
         $client->waitForElementToContain('a.add', 'Ajouter un livre');
-        $client->getWebDriver()->findElement(WebDriverBy::cssSelector('a.add'))->click();
+
+        $crawler = $client->request('GET', '/admin/book/add');
 
         $client->waitForElementToContain('h1', 'Ajouter un livre'); // la page admin book
         $photoPath = realpath(dirname(__DIR__, 2) . '/assets/img/livres/une-fleur-pour-l-eternite.jpg');
