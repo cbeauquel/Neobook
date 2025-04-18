@@ -35,8 +35,10 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $crawler->filter('form.login')->submit();
 
         $client->waitForElementToContain('h1', 'Liste des livres'); // la page admin book
+        $screenshotPath = '/tmp/failure.png';
+        $client->getWebDriver()->takeScreenshot($screenshotPath);        
         $this->assertSelectorTextSame('h1', 'Liste des livres');
-        $client->waitForElementToContain('a.add', 'Ajouter un livre'); 
+        $client->waitForElementToContain('a.add', 'Ajouter un livre');
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('a.add'))->click();
 
         $client->waitForElementToContain('h1', 'Ajouter un livre'); // la page admin book
