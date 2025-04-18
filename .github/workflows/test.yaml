@@ -91,9 +91,12 @@ jobs:
             sleep 2
           done
 
-      - name: List MySQL Databases
+      - name: Prepare Test DB (migrate + fixtures)
         run: |
-          mysql -uroot -proot -e "SHOW DATABASES;"
+          php bin/console doctrine:database:drop --force --if-exists --env=test
+          php bin/console doctrine:database:create --env=test
+          php bin/console doctrine:migrations:migrate -n --env=test
+          php bin/console doctrine:fixtures:load --no-interaction --env=test
 
       - name: Tests
         run: composer test
