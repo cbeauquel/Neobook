@@ -24,9 +24,7 @@ final class AdminAddBookControllerTest extends PantherTestCase
             ],
         ]);
 
-        if ($client->getWebDriver()) {
-            $client->getWebDriver()->manage()->window()->setSize(new WebDriverDimension(1920, 1080));
-        }
+        $client->getWebDriver()->manage()->window()->setSize(new WebDriverDimension(1920, 1080));
         $crawler = $client->request('GET', '/account');
         try {
             $client->waitFor('form.login', 2);
@@ -39,11 +37,10 @@ final class AdminAddBookControllerTest extends PantherTestCase
         $client->waitForElementToContain('form.login', 'Se connecter'); // la page admin book
         $crawler->filter('form.login')->submit();
         $client->waitForElementToContain('h1', 'Compte de Christophe');
-        $screenshotPath = '/tmp/failure.png';
-        $client->getWebDriver()->takeScreenshot($screenshotPath);
 
         $client->request('GET', '/admin/book');
-        $client->waitForElementToContain('h1', 'Liste des livres'); // la page admin book
+        $screenshotPath = '/tmp/failure.png';
+        $client->getWebDriver()->takeScreenshot($screenshotPath);
         $this->assertSelectorTextSame('h1', 'Liste des livres');
         $client->waitForElementToContain('a.add', 'Ajouter un livre');
 
