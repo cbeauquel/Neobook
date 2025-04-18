@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Tests\FunctionalTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-final class RegisterTest extends FunctionalTestCase
+final class RegistrationControllerTest extends FunctionalTestCase
 {
     public function testThatRegistrationShouldSucceeded(): void
     {
@@ -70,5 +70,12 @@ final class RegisterTest extends FunctionalTestCase
             'registration_form[email]' => 'user@email.com',
             'registration_form[plainPassword]' => 'SuperPassword123!'
         ] + $overrideData;
+    }
+
+    public function testVerifyEmailRequiresAuthentication(): void
+    {
+        $this->client->request('GET', '/verify/email');
+        $this->assertResponseRedirects();
+        $this->assertStringContainsString('/login', $this->client->getResponse()->headers->get('Location'));
     }
 }

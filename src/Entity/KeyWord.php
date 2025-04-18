@@ -34,10 +34,12 @@ class KeyWord
         $this->books = new ArrayCollection();
     }
 
+    // @codeCoverageIgnoreStart
     public function getId(): ?int
     {
         return $this->id;
     }
+    // @codeCoverageIgnoreEnd
 
     public function getTag(): ?string
     {

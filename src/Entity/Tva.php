@@ -35,10 +35,12 @@ class Tva
         $this->formatTvaRate = new ArrayCollection();
     }
 
+    // @codeCoverageIgnoreStart
     public function getId(): ?int
     {
         return $this->id;
     }
+    // @codeCoverageIgnoreEnd
 
     public function getTaux(): ?float
     {

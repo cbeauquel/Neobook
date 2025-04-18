@@ -33,10 +33,12 @@ class BoSkCo
     #[ORM\JoinColumn(nullable: false)]
     private ?Skill $skill = null;
 
+    // @codeCoverageIgnoreStart
     public function getId(): ?int
     {
         return $this->id;
     }
+    // @codeCoverageIgnoreEnd
 
     public function getBook(): ?Book
     {
