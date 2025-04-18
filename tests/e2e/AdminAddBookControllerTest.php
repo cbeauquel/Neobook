@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\e2e;
 
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverDimension;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\PantherTestCase;
-use Facebook\WebDriver\WebDriverDimension;
 
 final class AdminAddBookControllerTest extends PantherTestCase
 {
-
     public function testShouldAddNewBook(): void
     {
         // Navigate to the new book form page
@@ -26,8 +25,14 @@ final class AdminAddBookControllerTest extends PantherTestCase
         ]);
 
         if ($client->getWebDriver()) {
-            $client->getWebDriver()->manage()->window()->setSize(new WebDriverDimension(1280, 1024));
+            $client->getWebDriver()->manage()->window()->setSize(new WebDriverDimension(1920, 1080));
         }
+        $client->request('GET', '/');
+        $client->waitForElementToContain('h1', 'Librairie inclusive de livres numériques à lire et à écouter !'); // la page admin book
+
+        $screenshotPath = '/tmp/failure.png';
+        $client->getWebDriver()->takeScreenshot($screenshotPath);
+
         $crawler = $client->request('GET', '/admin/book');
         try {
             $client->waitFor('form.login', 2);
@@ -35,15 +40,13 @@ final class AdminAddBookControllerTest extends PantherTestCase
             file_put_contents('/tmp/login-error.html', $client->getPageSource());
             throw $e;
         }
-
         $crawler->filter('input[name="_username"]')->sendKeys('c.beauquel@neobook.fr');
         $crawler->filter('input[name="_password"]')->sendKeys('trucmuche');
         $crawler->filter('form.login')->submit();
+
         $screenshotPath = '/tmp/failure.png';
         $client->getWebDriver()->takeScreenshot($screenshotPath);
         $client->waitForElementToContain('h1', 'Liste des livres'); // la page admin book
-        $screenshotPath = '/tmp/failure.png';
-        $client->getWebDriver()->takeScreenshot($screenshotPath);
         $this->assertSelectorTextSame('h1', 'Liste des livres');
         $client->waitForElementToContain('a.add', 'Ajouter un livre');
         $client->getWebDriver()->findElement(WebDriverBy::cssSelector('a.add'))->click();
