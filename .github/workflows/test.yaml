@@ -103,7 +103,7 @@ jobs:
           APP_ENV: TEST
           APP_DEBUG: true
           XDEBUG_MODE: coverage
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook_test?serverVersion=8.0.32&charset=utf8mb4"
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
           PANTHER_NO_HEADLESS: 0
