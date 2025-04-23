@@ -19,6 +19,7 @@ final class BasketControllerTest extends FunctionalTestCase
         $this->get('/book/' . $bookId);
         $format = $this->getFormatId($book);
         $formatId = $format->getId();
+
         $parutionDate = $book->getParutionDate();
         if ($parutionDate < $today) {
             self::assertSelectorExists('input[name="format[]"]');

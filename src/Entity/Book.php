@@ -71,7 +71,7 @@ class Book
 
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'books', cascade: ['persist'])]
+    #[ORM\ManyToOne(inversedBy: 'books', cascade: ['persist'], fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
@@ -80,7 +80,7 @@ class Book
      */
     #[Assert\Valid]
     #[Groups(['searchable', 'getBooks'])]
-    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: BoSkCo::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'], fetch: 'EAGER')]
     private Collection $boSkCos;
 
     /**
@@ -95,7 +95,7 @@ class Book
      */
     #[Assert\Valid]
     #[Groups(['searchable', 'getBooks'])]
-    #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Format::class, mappedBy: 'book', orphanRemoval: true, cascade: ['persist'], fetch: 'EAGER')]
     private Collection $formats;
 
     public function __construct()

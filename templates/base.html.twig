@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1" >
+       
+        <!-- Lazy-load Google Fonts stylesheet -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1" 
+            rel="stylesheet" 
+            media="print" 
+            onload="this.media='all'">
+        <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1" 
+                rel="stylesheet">
+        </noscript>
+
         {% block stylesheets %}
         {% endblock %}
 

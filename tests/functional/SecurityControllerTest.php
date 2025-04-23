@@ -7,7 +7,7 @@ namespace App\Tests\Functional;
 use App\Tests\FunctionalTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final class LoginTest extends FunctionalTestCase
+final class SecurityControllerTest extends FunctionalTestCase
 {
     public function testThatLoginShouldSucceeded(): void
     {

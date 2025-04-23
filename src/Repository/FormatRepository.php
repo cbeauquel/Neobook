@@ -73,6 +73,7 @@ class FormatRepository extends ServiceEntityRepository
             ->andWhere('bo.id = :val')
             ->setParameter('val', $book)
             ->setMaxResults(1)
+            ->orderBy('f.id', 'DESC')
             ->getQuery()
             ->getOneOrNullResult();
     }

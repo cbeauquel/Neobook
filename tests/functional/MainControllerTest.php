@@ -6,7 +6,7 @@ namespace App\Tests\Functional;
 
 use App\Tests\FunctionalTestCase;
 
-final class HomePageTest extends FunctionalTestCase
+final class MainControllerTest extends FunctionalTestCase
 {
     public function testShouldShowUpcoming(): void
     {
