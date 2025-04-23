@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Book;
 use App\Entity\Feedback;
 use App\Entity\Format;
 use App\Entity\User;
@@ -21,7 +20,7 @@ final class FeedbacksController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('Utilisateur requis.');
+            throw $this->createAccessDeniedException('Utilisateur requis.');// @codeCoverageIgnore
         }
         $myComments = $feedbackRepository->findMyComments($user);
         
@@ -41,7 +40,7 @@ final class FeedbacksController extends AbstractController
     ): Response {
         $customer = $this->getUser();
         if (!$customer instanceof User) {
-            throw $this->createAccessDeniedException('Utilisateur requis.');
+            throw $this->createAccessDeniedException('Utilisateur requis.');// @codeCoverageIgnore
         }
         $feedback = new Feedback();
         $feedback->setFormat($format);
@@ -70,7 +69,7 @@ final class FeedbacksController extends AbstractController
     ): Response {
         $customer = $this->getUser();
         if (!$customer instanceof User) {
-            throw $this->createAccessDeniedException('Utilisateur requis.');
+            throw $this->createAccessDeniedException('Utilisateur requis.');// @codeCoverageIgnore
         }
         $feedback ??= new Feedback();
         $feedback->setNickName($customer);

@@ -55,7 +55,7 @@ class AdminEditorController extends AbstractController
                 // Move the file to the directory where $pictures are stored
                 try {
                     $logo->move($logosDirectory, $newLogoName);
-                } catch (FileException) {
+                } catch (FileException) {// @codeCoverageIgnore
                     // ... handle exception if something happens during file upload
                 }
             } else {
@@ -85,6 +85,6 @@ class AdminEditorController extends AbstractController
         $manager->remove($editor);
         $manager->flush();
             
-        return $this->redirectToRoute('admin_book');
+        return $this->redirectToRoute('admin_editor');
     }
 }

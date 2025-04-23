@@ -12,7 +12,7 @@ jobs:
         env:
           MEILI_MASTER_KEY: '!ChangeMe!'
     env:  # Définir DATABASE_URL au niveau du job
-      DATABASE_URL: "mysql://root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
       MYSQL_ROOT_PASSWORD: root
     steps:
       - name: Checkout
@@ -47,8 +47,8 @@ jobs:
       - name: Configure MySQL
         run: |
           mysql -uroot -proot -e "CREATE DATABASE neobook;"
-          mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON neobook.* TO 'root'@'localhost';"
-          mysql -uroot -proot -e "FLUSH PRIVILEGES;"        
+          mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';"
+          mysql -uroot -proot -e "FLUSH PRIVILEGES;"
 
       - name: install deps
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
@@ -64,6 +64,34 @@ jobs:
             sleep 2
           done
 
+      - name: Give execution rights to bin/console
+        run: chmod +x bin/console
+
+      - name: Install Symfony CLI
+        run: |
+          curl -sS https://get.symfony.com/cli/installer | bash
+          mv ~/.symfony*/bin/symfony /usr/local/bin/symfony
+
+      - name: Start Symfony server (CLI)
+        run: symfony server:start --no-tls --port=8000 --dir=public --daemon
+
+      - name: Add Symfony CLI to PATH
+        run: echo "$HOME/.symfony/bin" >> $GITHUB_PATH
+
+      - name: Wait for Symfony Server
+        run: |
+          for i in {1..10}; do
+            if curl -s http://127.0.0.1:8000 > /dev/null; then
+              echo "Symfony server is up!"
+              break
+            fi
+            echo "Waiting for Symfony server..."
+            sleep 2
+          done
+
+      - name: Install Chromium
+        run: sudo apt-get install -y chromium-browser
+
       - name: Tests
         run: composer test
         env:
@@ -73,6 +101,16 @@ jobs:
           DATABASE_URL: "mysql://root:root@127.0.0.1:3306/neobook?serverVersion=8.0.32&charset=utf8mb4"
           MEILI_HTTP_ADDR: http://meilisearch:7700
           MEILI_MASTER_KEY: '!ChangeMe!'
+          PANTHER_NO_HEADLESS: 0
+          PANTHER_EXTERNAL_BASE_URI: http://127.0.0.1:8000
 
-        
-    
+      - name: Dump HTML on failure
+        if: failure()
+        run: cat /tmp/login-error.html || echo "no error file found"
+
+      - name: Upload screenshots if test fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: build/artifacts 

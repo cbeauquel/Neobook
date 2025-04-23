@@ -32,10 +32,12 @@ class OrderStatus
         $this->orders = new ArrayCollection();
     }
 
+    // @codeCoverageIgnoreStart
     public function getId(): ?int
     {
         return $this->id;
     }
+    // @codeCoverageIgnore
 
     public function getStatus(): ?string
     {

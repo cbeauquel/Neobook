@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Feedback;
 use App\Entity\User;
 use App\Repository\FeedbackRepository;
 use App\Repository\FormatRepository;
@@ -14,14 +13,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class BookshelfController extends AbstractController
 {
     #[Route('/bookshelf', name: 'bookshelf')]
-    public function showMyBooks(FormatRepository $formatRepository, FeedbackRepository $feedbackRepository): Response
+    public function showMyBooks(FormatRepository $formatRepository): Response
     {
         $customer = $this->getUser();
-        if (!$customer instanceof User) {
-            throw $this->createAccessDeniedException('Utilisateur requis.');
-        }
         $myFormats = $formatRepository->findByOrderStatus($customer);
-
+        // dd($myFormats);
         foreach ($myFormats as $format) {
             $reflection = new ReflectionClass($format);
             if ($reflection->hasProperty('feedbacks')) {

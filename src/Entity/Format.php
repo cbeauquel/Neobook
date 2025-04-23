@@ -55,7 +55,7 @@ class Format
 
     #[Groups(['searchable', 'getBooks'])]
     #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'formatType', cascade: ['persist'])]
+    #[ORM\ManyToOne(inversedBy: 'formatType', cascade: ['persist'], fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;
 
@@ -70,7 +70,7 @@ class Format
     private ?string $priceTTC = null;
 
     #[Assert\Valid]
-    #[ORM\ManyToOne(inversedBy: 'formatTvaRate', cascade: ['persist'])]
+    #[ORM\ManyToOne(inversedBy: 'formatTvaRate', cascade: ['persist'], fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tva $tvaRate = null;
 
@@ -89,7 +89,7 @@ class Format
      * @var Collection<int, Feedback>
      */
     #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'format')]
+    #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'format', fetch: 'EAGER')]
     private Collection $feedbacks;
 
     public function __construct()

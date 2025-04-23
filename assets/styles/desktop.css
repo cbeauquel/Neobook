@@ -1,102 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Oxygen:wght@300;400;700&display=swap');
-
-
-/**
- * Reset css.
- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-/**************************GENERAL***********************************/
-/**
- * Déclaration des couleurs.
- */
-:root {
-    --background : #ffffff;
-    --backgroundItem: #EEEEEE;
-    --fontLight:#000000;
-    --fontDark:#ffffff;
-    --backgroundDark: #000000;
-    --linkColor: #F35500;
-}
-
-/**
- * Valeur par défaut pour les balises.
- */
-
-
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: "Oxygen", sans-serif;
-    background-color: var(--backgroundColor);
-    width: 1900px;
-    margin:auto;
-    font-size:1.1em;
-}
-
-.right{
-    width:100%;
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-
-p{
-    margin:0px;
-}
-
-header {
-    display: flex;
-    height:80px;
-    flex-direction: row;
-    justify-content:space-between;
-    align-items: center;
-    width: 100%;
-    background-color: var(--backgroundDark); 
-    padding:10px;
-}
-
-h1 {
-    font-family: "Gentium Book Plus", "Alexandria", sans-serif ;
-    font-size:2em;
-    text-align: center;
-}
-
-section > h1 {
-    font-family: "Gentium Book Plus", "Alexandria", sans-serif ;
-    font-size:2em;
-    text-align: center;
-    border-bottom:solid 3px var(--fontLight);
-    margin-bottom:-3px;
-    width:100%;
-    padding-bottom:10px;
-}
-
-h2 {
-    font-family: "Alexandria", "Oxygen", sans-serif ;
-    font-size:1.5em;
-    text-align: center;
-    font-weight: 400;
-}
-
-h3 {
-    font-family: "Alexandria", "Oxygen", sans-serif ;
-    font-size:1.1em;
-    font-weight:600;
-    text-align: center;
-}
-
-h4 {
-    font-family: "Alexandria", "Oxygen", sans-serif ;
-    font-size:1em;
-    font-weight:600;
-    text-align: center;
-}
-
 button{
     margin: 0px 20px;
     color: var(--fontDark);
@@ -108,50 +9,6 @@ button{
     font-size: 1.2em;
     cursor: pointer;
 }
-
-a {
-    cursor:pointer;
-}
-
-label{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    border-bottom: solid 1px var(--backgroundItem);
-    margin-bottom: 10px;
-}
-
-.hidden{
-    display:none;
-}
-
-.none{
-    list-style-type: none;
-}
-
-/**
-Messages
-*/
-.alert-danger{
-    color: var(--linkColor);
-    font-weight: 700;
-    text-decoration: underline;
-}
-
-/**
-affichage en liste horizontale (flex row)
-*/
-.list{
-    display:flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-.full-width {
-    width:100%;
-}
-
 /**
 PAGE DE CONTENU
 */
@@ -176,148 +33,6 @@ PAGE DE CONTENU
     text-align:left;
 }
 
-/**
-HEADER
-*/
-.logo {
-    display:flex;
-    flex-direction:row;
-    text-decoration:none;
-    font-family: "Gentium Book Plus", sans-serif;
-    color:var(--fontDark);
-}
-
-.logo p{
-    font-size:3em;
-    padding:0px 20px;
-}
-
-.logo img {
-    height:68px;
-}
-
-/*Barre recherche*/
-.search-bar{
-    margin:40px 0;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    width:50%;
-    padding:0;
-    font-size:1.3em;
-}
-
-.search-bar form{
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding:0;
-}
-
-.search-bar label{
-    border-radius:10px 0px 0px 10px;
-    background-color: var(--background);
-    width:50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding:0px 15px;
-    height:50px;
-    font-size:1.4em;
-    margin:0;
-}
-
-
-.search-bar input{
-    font-size:1em;
-    font-weight:400;
-    width:60%;
-    height:50px;
-    border:none;
-}
-
-.search-bar #submit{
-    background-color:var(--backgroundItem);    
-    border:solid 1px var(--backgroundItem);
-    padding:7px 0px;
-    color:var(--fontLight);
-    cursor: pointer;
-    border-radius:0 10px 10px 0;
-    width:15%;
-}
-
-.search-bar button{
-    display:none;
-}
-
-/*Navigation user et panier*/
-
-header > .nav {
-    display: flex;
-    justify-content: flex-end;
-    padding:6px 30px 6px 30px;
-    color:var(--fontLight);
-    font-size: 1em;
-    color:var(--fontDark);
-}
-
-.nav a {
-    font-weight: bold;
-    color:var(--fontDark);
-    text-decoration: none;
-}
-
-.nav a:hover {
-    color:var(--linkColor);
-}
-
-.nav p {
-    font-weight: bold;
-    display : flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.nav p span {
-    font-size: 3em;
-    text-decoration: none;
-    font-weight: normal;
-    padding:0 10px;
-}
-
-/*Signature et fil d'ariane*/
-.breadcrumb {
-    padding:10px;
-    background-color:var(--backgroundItem);
-    width:100%;
-    margin-bottom:10px;
-    list-style: none;
-    display: flex;
-    gap: 5px;
-}
-
-.breadcrumb-item a {
-    text-decoration: none;
-    color: var(--fontLight);
-}
-
-.breadcrumb-item a:hover {
-    text-decoration: none;
-    color: var(--linkColor);
-}
-
-.breadcrumb-item span {
-    color:var(--fontLight);
-}
-
-h1.signature{
-    font-family: "Gentium Book Plus", sans-serif;
-    color:var(--fontLight);
-    font-size: 2em;
-    text-align:center;
-    margin:auto;
-}
 
 /**
 Barre de réassurance
@@ -339,14 +54,18 @@ Barre de réassurance
     display:flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    width:33%;
 }
 
 .reassurance p span {
     font-size: 3em;
     padding:0px 10px;
+    width:90px;
+    height:65px;
 }
 
-/**Footer*/
+/***********************Footer***************************************/
 
 footer {
     display:flex;
@@ -496,321 +215,6 @@ a.account-content:hover{
     border:none;
 }
 
-/****************************HOME PAGE****************************************/
-/**
-affichage des catégories en home
-*/
-.categories {
-    margin:10px;
-    width:15.6%;
-    background: var(--backgroundDark);
-    border-radius:10px;
-    height:30px;
-    color:var(--fontDark);
-    text-align:center;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-/**
-affichage des listes de livre
-*/
-section{
-    width:100%;
-    margin:10px 0px;
-}
-section > h2 {
-    padding-bottom:20px;
-    width:100%;
-    border-bottom:solid 3px var(--fontLight);
-    margin-bottom:-3px;
-}
-
-.book-card {
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    margin:0px 10px 15px 10px;
-    width:15%;
-    background: var(--backgroundItem);
-    border-radius:0px 0px 15px 15px;
-    padding:6px 6px 20px 6px;
-    text-decoration:none;
-    color:var(--fontLight);
-    border-top:solid 3px var(--fontLight);
-}
-.book-card article{
-    width:100%;
-}
-
-.book-content-pal {
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    gap:10px;
-    height:420px;
-}
-
-.book-content {
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    gap:10px;
-    height:380px;
-}
-
-
-.contributor-name {
-    height:2.5em;
-    text-align:center;
-    font-weight:500;
-    font-size:1.1em;
-}
-
-.book-skill{
-    min-width:28%;
-}
-
-.book-title {
-    text-align:center;
-    font-size:1.1em;
-}
-
-.stars {
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-ul.book-prices{
-    display:flex;
-    flex-direction: row;
-    justify-content:flex-start;
-    align-items: center;
-    padding:0px;
-    margin-top:20px;
-    width:100%
-}
-
-ul.book-prices li{
-    list-style-type:none;
-    width:25%;
-    font-weight: 600;
-    text-align:center;
-}
-
-ul.book-prices li.book-price{
-    font-size:1.2em;
-    padding:0px;
-}
-
-ul.book-prices li.book-type{
-    font-weight:normal;
-    padding-right: 10px;
-}
-
-ul.book-prices li.book-type span{
-    font-size:2.75em;
-}
-
-/**
-affichage d'un résultat de recherche
-*/
-H1.search-results{
-    border-bottom: 3px solid var(--fontLight);
-}
-
-/****************************FICHE LIVRE*********************************/
-
-/*container principal*/
-.book-detail {
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
-    width:100%;
-    background: var(--backgroundItem);
-    padding-bottom:10px;
-}
-
-/*colonnes*/
-.book-datas {
-    display:flex;
-    flex-direction: column;
-    width: 70%;
-}
-
-.book-datas h1 {
-    text-align:left;
-    padding-left:20px;
-}
-
-.cover-big {
-    height:770px;
-}
-
-/*colonne*/
-.card {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background: var(--background);
-}
-
-.card h2 {
-    background: var(--backgroundDark);
-    text-align:center;
-    color:var(--fontDark);
-    font-weight: normal;
-    width:100%;
-}
-
-.card p {
-    padding:10px;
-}
-
-.summary {
-    width:40%;
-}
-
-.summary-text {
-    height:590px;
-}
-
-.informations {
-    width:30%;
-    text-align:center;
-}
-
-.informations h3 {
-    padding:10px 0px 4px 0px;
-    width: 90%;
-    border-bottom:solid 3px var(--fontLight);
-    margin-bottom:6px;
-}
-
-.extract {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin:0px 20px;
-    color:var(--fontDark);
-    text-decoration: none;
-    align-items: center;
-    background-color: var(--backgroundDark);
-    padding:10px;
-    border-radius:10px;
-    width: fit-content;
-    height:fit-content;
-}
-
-.extract:hover {
-    background-color: var(--linkColor);
-}
-
-.pal{
-    font-size:3em;
-}
-
-a.pal {
-    color:var(--linkColor);
-}
-
-.to-be-read button.pal{
-    background:none;
-    color:var(--linkColor);
-    font-size:4em;
-    font-weight:400;
-    margin:0 auto;
-}
-
-.prices {
-    width:25%;
-}
-
-.prices button {
-    /* width:40%; */
-    border:none;
-    background: var(--linkColor);
-    color:var(--fontDark);
-    border-radius:10px;
-    font-weight: 600;
-    font-size:1.1em;
-    cursor: pointer;
-    margin:30px auto;
-}
-
-.price-format {
-    display:flex;
-    flex-direction:column;
-    justify-content: flex-start;    
-    padding:10px;
-    width:100%;
-}
-
-.price-format span{
-    font-size:3em;
-    color:var(--fontLight);
-}
-
-.brick-img {
-    height:64px;
-}
-
-.brick {
-    width:95%;
-    background: var(--backgroundItem);
-    color:var(--fontLight);
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    margin:2px 0px;
-    height:60px;
-}
-
-/*Bannière taille du fichier et boutons extraits*/
-.banner{
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    gap:30px;
-    justify-content: flex-start;
-    width:100%;
-    background: var(--background);
-    padding:0px 0px 0px 20px;
-    margin:10px 0px 0px 10px;
-    width:98.4%;
-}
-
-.brick-h {
-    background: var(--backgroundItem);
-    color:var(--fontLight);
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    margin:5px 0px;
-    padding:15px 10px;
-    height:64px;
-}
-
-.comments{
-    display:flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap:30px;
-    background: var(--background);
-    padding:0px 0px 0px 20px;
-    margin:10px 0px 0px 10px;
-    width:98.4%;
-}
-
-/*************affichage d'une fiche Contributeur********************/
-.contributor-detail{
-    background: var(--backgroundItem);
-}
-
 /****************************************PANIER et COMMANDE***********************************/
 .basket-container{
     display:flex;
@@ -822,7 +226,6 @@ a.pal {
 .basket-container table{
     width:70%;
 }
-
 
 .basket-tfoot{
     background-color: var(--backgroundItem);
@@ -839,6 +242,8 @@ a.pal {
 
 .basket-foot a{
     display:flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .basket-foot button{
@@ -885,6 +290,26 @@ a.pal {
 ul.feedback{
     margin-left: 0px;
     padding-left: 0px;
+}
+
+.btn-bookshelf {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    color:var(--fontDark);
+    text-decoration: none;
+    align-items: center;
+    background-color: var(--backgroundDark);
+    padding:10px;
+    border-radius:10px;
+}
+
+p.book-type{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left:45px;
 }
 
 /**********************************FORMULAIRE FEEDBACK*********************************/

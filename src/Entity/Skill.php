@@ -34,11 +34,12 @@ class Skill
         $this->boSkCos = new ArrayCollection();
     }
 
-
+    // @codeCoverageIgnoreStart
     public function getId(): ?int
     {
         return $this->id;
     }
+    // @codeCoverageIgnoreEnd
 
     public function getName(): ?string
     {

@@ -23,14 +23,14 @@
                 <h3>Auteurs et narrateurs </h3>
                 {% for boSkCo in book.boSkCos %}
                         <a href="{{path('contributor', {id: boSkCo.contributor.id})}}" class="brick">
-                            <img class="brick-img" src="{{asset('img/contributeurs/' ~ boSkCo.contributor.photo)}}">
+                            <img class="brick-img" src="{{asset('img/contributeurs/' ~ boSkCo.contributor.photo)}}" alt="photo de {{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}}">
                             <p class='book-skill'>{{boSkCo.skill.name}} :</p>
                             <p>{{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}} </p>
                         </a>          
                 {% endfor %}
                 <h3>Édité par </h3>
                 <a class="brick" href=" {{path('editor', {id: book.editor.id})}}">
-                    <img class="brick-img" src="{{asset('img/editeurs/' ~ book.editor.logo)}}">
+                    <img class="brick-img" src="{{asset('img/editeurs/' ~ book.editor.logo)}}" alt="logo de {{book.editor.name}}">
                     <p>{{book.editor.name}}</p>
                 </a>
                 <h3>Genre</h3>
@@ -41,7 +41,9 @@
             </div>
             <div class="card summary">
                 <h2>Résumé</h2>
+                <p>
                 {{book.summary | raw }}
+                </p>
             </div>
             <div class="card prices">
                 <h2>Ajouter à ma PAL</h2>
@@ -131,8 +133,6 @@
                 <p class="comment">et à donner l'avis : {{comment.comment}}</p>
             </div>
             {% endfor %}
-            {% else %}
-                <p>Ce livre n'a pas été encore évalué</p>
         {% endif %}
 
         </div>

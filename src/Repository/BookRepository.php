@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Dto\BookWithAverageStars;
 use App\Entity\Book;
+use App\Entity\Format;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -56,11 +57,11 @@ class BookRepository extends ServiceEntityRepository
         $twentyDaysAgo = new DateTimeImmutable('-360 days'); //tous les livres qui ont une date de création de moins de 20jours
         return $this->createQueryBuilder('b')
             ->select('DISTINCT b')
-            ->leftjoin('b.formats', 'f')
+            ->innerjoin('b.formats', 'f')
             ->leftjoin('f.feedbacks', 'fb')
-            ->LeftJoin('b.boSkCos', 'bsc')
-            ->LeftJoin('bsc.skill', 's')
-            ->LeftJoin('bsc.contributor', 'c')
+            ->InnerJoin('b.boSkCos', 'bsc')
+            ->InnerJoin('bsc.skill', 's')
+            ->InnerJoin('bsc.contributor', 'c')
             ->addSelect('bsc', 's', 'c')
             ->andWhere('b.parutionDate <= :today')
             ->andWhere('b.parutionDate >= :date')
@@ -85,10 +86,10 @@ class BookRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->select('DISTINCT b')
-            ->leftjoin('b.boSkCos', 'bsc')
-            ->leftjoin('bsc.contributor', 'c')
-            ->leftjoin('bsc.skill', 's')
-            ->leftjoin('b.formats', 'f')
+            ->innerjoin('b.boSkCos', 'bsc')
+            ->innerjoin('bsc.contributor', 'c')
+            ->innerjoin('bsc.skill', 's')
+            ->innerjoin('b.formats', 'f')
             ->leftjoin('f.feedbacks', 'fb')
             ->addSelect('bsc', 's', 'c')
             ->andWhere('c.id IN (:val)')
@@ -110,17 +111,16 @@ class BookRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->select('DISTINCT b')
-            ->leftjoin('b.boSkCos', 'bsc')
-            ->leftjoin('bsc.contributor', 'c')
-            ->leftjoin('bsc.skill', 's')
-            ->leftjoin('b.editor', 'e')
-            ->leftjoin('b.formats', 'f')
+            ->innerjoin('b.boSkCos', 'bsc')
+            ->innerjoin('bsc.contributor', 'c')
+            ->innerjoin('bsc.skill', 's')
+            ->innerjoin('b.editor', 'e')
+            ->innerjoin('b.formats', 'f')
             ->leftjoin('f.feedbacks', 'fb')
             ->addSelect('bsc', 'c', 's', 'e')
             ->andWhere('e.id IN (:val)')
             ->setParameter('val', $value)
             ->orderBy('b.id', 'ASC')
-            ->setMaxResults(12)
             ->getQuery()
             ->getResult()
         ;
@@ -134,11 +134,11 @@ class BookRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->select('DISTINCT b')
-            ->leftJoin('b.boSkCos', 'bsc')
-            ->leftJoin('b.categories', 'ct')
-            ->leftJoin('bsc.contributor', 'c')
-            ->leftJoin('b.formats', 'f')
-            ->leftJoin('f.feedbacks', 'fb')
+            ->innerJoin('b.boSkCos', 'bsc')
+            ->innerJoin('b.categories', 'ct')
+            ->innerJoin('bsc.contributor', 'c')
+            ->innerJoin('b.formats', 'f')
+            ->innerJoin('f.feedbacks', 'fb')
             ->addSelect('bsc', 'c')
             ->andWhere('ct.id IN (:val)')
             ->setParameter('val', $value)
@@ -154,7 +154,7 @@ class BookRepository extends ServiceEntityRepository
     public function findPaginatedBooks(int $page, int $limit): Pagerfanta
     {
         $queryBuilder = $this->createQueryBuilder('b')
-            ->orderBy('b.id', 'ASC');
+            ->orderBy('b.id', 'DESC');
 
         // Adapter pour Pagerfanta
         $adapter = new QueryAdapter($queryBuilder);
@@ -193,6 +193,19 @@ class BookRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+    * @return string Returns the ID of the last book (greatest ID)
+    */
+    public function findLastBookId(): string
+    {
+        return $this->createQueryBuilder('bo')
+            ->select('MAX(bo.id)')
+            ->orderBy('bo.id', 'DESC')
+            ->getQuery()
+            ->getSingleScalarResult();
         ;
     }
 

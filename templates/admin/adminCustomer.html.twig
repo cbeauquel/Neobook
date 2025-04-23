@@ -1,0 +1,46 @@
+{% extends 'admin/adminBase.html.twig' %}
+
+{% block title %}Gestion des Clients{% endblock %}
+
+{% block body %}
+    <h1>Liste des clients</h1>
+    <div>
+        {# <a class="add" href="{{path('admin_customer_add')}}" title="ajouter un livre">
+            <p>Ajouter un client</p> <span class="material-symbols-outlined">add_box</span>
+        </a> #}
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Lastname</th>
+                <th>Firstname</th>
+                <th>E-mail</th>
+                <th>Opt-in</th>
+                <th>Date d'inscription</th>
+                <th>Dernière visite</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in all_customers %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.firstname }}</td>
+                    <td>{{ customer.lastname }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.optIn }}</td>
+                    <td>{{ customer.createdAt | date("d/m/Y") }}</td>
+                    <td>{{ customer.lastVisitDate | date("d/m/Y") }}</td>
+                    <td>
+                        <a href="{{ path('customer_account', { id: customer.id }) }}" class="btn btn-info btn-sm">Voir</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucun contributeur trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

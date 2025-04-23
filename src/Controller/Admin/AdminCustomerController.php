@@ -17,45 +17,36 @@ class AdminCustomerController extends AbstractController
     public function listAllCustomers(UserRepository $customerRepository): Response
     {
         $allCustomers = $customerRepository->findAll();
-        
+
         return $this->render('admin/adminCustomer.html.twig', [
             'controller_name' => 'AdminCustomerController',
             'all_customers' => $allCustomers,
         ]);
     }
 
-    #[Route('/admin/customer/add', name: 'admin_customer_add')]
-    #[Route('/admin/customer/edit/{id}', name: 'admin_customer_edit', requirements: ['id' => '\d+'])]
-    public function createCustomer(
-        ?User $customer,
-        Request $request,
-        EntityManagerInterface $manager,
-    ): Response {
-        $customer ??= new User();
+    // #[Route('/admin/customer/add', name: 'admin_customer_add')]
+    // #[Route('/admin/customer/edit/{id}', name: 'admin_customer_edit', requirements: ['id' => '\d+'])]
+    // public function createCustomer(
+    //     ?User $customer,
+    //     Request $request,
+    //     EntityManagerInterface $manager,
+    // ): Response {
+    //     $customer ??= new User();
 
-        $form = $this->createForm(CustomerType::class, $customer);
-        $form->handleRequest($request);
+    //     $form = $this->createForm(CustomerType::class, $customer);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($customer);
-            $manager->flush();
-            
-            return $this->redirectToRoute('admin_customer');
-        }
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $manager->persist($customer);
+    //         $manager->flush();
 
-        return $this->render('admin/adminCustomer.html.twig', [
-            'controller_name' => 'AdminCustomerController',
-            'form' => $form,
-            'customer' => $customer,
-        ]);
-    }
+    //         return $this->redirectToRoute('admin_customer');
+    //     }
 
-    #[Route('admin/customer/remove/{id}', name: 'admin_customer_remove', methods: ['GET', 'POST'])]
-    public function remove(?User $customer, EntityManagerInterface $manager): Response
-    {
-        $manager->remove($customer);
-        $manager->flush();
-            
-        return $this->redirectToRoute('admin_book');
-    }
+    //     return $this->render('admin/adminCustomer.html.twig', [
+    //         'controller_name' => 'AdminCustomerController',
+    //         'form' => $form,
+    //         'customer' => $customer,
+    //     ]);
+    // }
 }

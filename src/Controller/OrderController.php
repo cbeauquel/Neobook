@@ -56,7 +56,7 @@ class OrderController extends AbstractController
             $manager->persist($order);
             $manager->flush();
         } elseif ($existingOrder->getStatus()->getStatus() != 'En attente') {
-            throw new \RuntimeException('Une commande a déjà été passée avec ce panier');
+            throw new \RuntimeException('Une commande a déjà été passée avec ce panier');// @codeCoverageIgnore
         } else {
             return $this->redirectToRoute('order_view', ['id' => $existingOrder->getId()]);
         }

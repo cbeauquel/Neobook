@@ -60,6 +60,6 @@ class AdminCategoryController extends AbstractController
         $manager->remove($category);
         $manager->flush();
             
-        return $this->redirectToRoute('admin_book');
+        return $this->redirectToRoute('admin_category');
     }
 }

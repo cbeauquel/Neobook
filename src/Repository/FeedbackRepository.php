@@ -8,6 +8,7 @@ use App\Entity\Format;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Feedback>
@@ -94,6 +95,51 @@ class FeedbackRepository extends ServiceEntityRepository
         $result = $query->getSingleScalarResult();
 
         return $result;
+    }
+
+    /**
+     * @return int nombre de feedbacks d'un utilisateur (test bookshelf)
+     * @param array<int> $formatsId
+    */
+    public function countByUserId(User|UserInterface $customer, array $formatsId): int
+    {
+        return $this->createQueryBuilder('f')
+            ->select('COUNT(f.id)')
+            ->andWhere('f.nickName = :customer')
+            ->andWhere('f.format IN (:formats)')
+            ->setParameter('customer', $customer)
+            ->setParameter('formats', $formatsId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return int nombre de feedbacks saisis pour un utilisateur (test feedbacks)
+    */
+    public function countByUser(User $customer): int
+    {
+        return $this->createQueryBuilder('fb')
+            ->select('COUNT(fb.id)')
+            ->andWhere('fb.nickName = :customer')
+            ->setParameter('customer', $customer)
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
+    }
+
+    /**
+    * @return int Returns the ID of the last feedback
+    */
+    public function findLastFeedbackId(User $user): int
+    {
+        return $this->createQueryBuilder('fb')
+            ->select('MAX(fb.id)')
+            ->andWhere('fb.nickName = :val')
+            ->setParameter('val', $user)
+            ->orderBy('fb.id', 'DESC')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
     }
 
     //    /**

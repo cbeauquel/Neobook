@@ -19,7 +19,6 @@ class EditorTest extends TestCase
                    ->setLogo('test.jpg')
                    ->setDescription('description de test')
                    ->setStatus(true)
-                   ->addBook($bookTest)
                    ->setBooks($booksTest);
 
         $this->assertTrue($editorTest->getName() === 'Editest');
@@ -39,7 +38,6 @@ class EditorTest extends TestCase
                    ->setLogo('test.jpg')
                    ->setDescription('description de test')
                    ->setStatus(true)
-                   ->addBook($bookTest)
                    ->setBooks($booksTest);
 
         $this->assertFalse($editorTest->getName() === 'EditestFalse');
@@ -56,5 +54,19 @@ class EditorTest extends TestCase
         $this->assertEmpty($editorTest->getLogo());
         $this->assertEmpty($editorTest->getDescription());
         $this->assertEmpty($editorTest->isStatus());
+    }
+
+    public function testRemoveBook(): void
+    {
+        $bookTest = new Book();
+        $editorTest = new Editor();
+
+        $editorTest->addBook($bookTest); // gère aussi le setEditor() normalement
+        $this->assertCount(1, $editorTest->getBooks());
+    
+        $editorTest->removeBook($bookTest);
+    
+        $this->assertCount(0, $editorTest->getBooks());
+        $this->assertNull($bookTest->getEditor());
     }
 }

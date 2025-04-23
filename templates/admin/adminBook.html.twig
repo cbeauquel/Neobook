@@ -1,0 +1,70 @@
+{% extends 'admin/adminBase.html.twig' %}
+
+{% block title %}Gestion des livres{% endblock %}
+
+{% block body %}
+    <h1>Liste des livres</h1>
+    <div>
+        <a class="add" href={{path('admin_book_add')}} title="ajouter un livre">
+            <p>Ajouter un livre</p> <span class="material-symbols-outlined">add_box</span>
+        </a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Couverture</th>
+                {# <th>Résumé</th> #}
+                <th>Contributeurs</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in all_books %}
+                <tr>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>
+                        {% if book.cover %}
+                            <img src="{{ asset('img/livres/' ~ book.cover) }}" alt="{{ book.title }}" style="max-width: 40px;">
+                        {% else %}
+                            Pas de couverture
+                        {% endif %}
+                    </td>
+                    {# <td>{{ book.summary|length > 50 ? book.summary[:50] ~ '...' : book.summary }}</td> #}
+                     <td>
+                        {% for boSkCo in book.boSkCos %}
+                            {% if boSkCo.skill.name == 'Auteur' %}
+                                {{boSkCo.contributor.firstname}} {{boSkCo.contributor.lastname}}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for format in book.formats %}
+                            {{format.type.name}}  
+                        {% endfor %}
+    
+                    </td>
+                    <td>{{ book.status }}</td>
+                    <td>
+                        <a href="{{ path('book', { id: book.id }) }}" class="btn btn-info btn-sm">Voir</a>
+                        <a href="{{ path('admin_book_edit', { id: book.id }) }}" class="btn btn-warning btn-sm upd-{{ book.id }}">Modifier</a>
+                        <form method="post" action="{{ path('admin_book_remove', { id: book.id }) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
+                            <button id="{{book.id}}" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucun livre trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {# Affichage des liens de pagination #}
+    {{ pagerfanta(all_books, 'twitter_bootstrap5') }}
+{% endblock %}

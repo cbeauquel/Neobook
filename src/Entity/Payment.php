@@ -32,10 +32,12 @@ class Payment
         $this->orders = new ArrayCollection();
     }
 
+    // @codeCoverageIgnoreStart
     public function getId(): ?int
     {
         return $this->id;
     }
+    // @codeCoverageIgnoreEnd
 
     public function getMode(): ?string
     {

@@ -44,7 +44,7 @@ class ContributorRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('c')
         ->join('c.boSkCos', 'bo')
-        ->orderBy('c.id', 'ASC');
+        ->orderBy('c.id', 'DESC');
 
         // Adapter pour Pagerfanta
         $adapter = new QueryAdapter($queryBuilder);
@@ -55,6 +55,38 @@ class ContributorRepository extends ServiceEntityRepository
         $pagerfanta->setCurrentPage($page);
 
         return $pagerfanta;
+    }
+
+    /**
+    * @return int return number of books for a contributor
+    */
+    public function countByContributor(int $id): int
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(b.id)')
+            ->join('c.boSkCos', 'bo')
+            ->join('bo.book', 'b')
+            ->join('bo.skill', 's')
+            ->andWhere('c.id = :val')
+            ->andWhere('s.name = :skill')
+            ->setParameter('val', $id)
+            ->setParameter('skill', 'Auteur')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    /**
+    * @return string Returns the ID of the last Category (test adminCategory)
+    */
+    public function findLastContributorId(): string
+    {
+        return $this->createQueryBuilder('co')
+            ->select('MAX(co.id)')
+            ->orderBy('co.id', 'DESC')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
     }
 
     //    /**

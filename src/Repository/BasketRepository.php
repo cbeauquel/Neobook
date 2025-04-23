@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Basket;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -64,6 +65,21 @@ class BasketRepository extends ServiceEntityRepository
             ->setParameter('newStatus', 'abandonné')
             ->setParameter('oldStatus', 'en cours');
         $qb->getQuery()->execute();
+    }
+
+    /**
+    * @return int Returns the ID of the last basket
+    */
+    public function findLastBasketId(User $user): int
+    {
+        return $this->createQueryBuilder('b')
+            ->select('MAX(b.id)')
+            ->andWhere('b.customer = :val')
+            ->setParameter('val', $user)
+            ->orderBy('b.id', 'DESC')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
     }
 
     // /**

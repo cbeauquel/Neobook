@@ -8,6 +8,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Format>
@@ -72,6 +73,7 @@ class FormatRepository extends ServiceEntityRepository
             ->andWhere('bo.id = :val')
             ->setParameter('val', $book)
             ->setMaxResults(1)
+            ->orderBy('f.id', 'DESC')
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -79,19 +81,18 @@ class FormatRepository extends ServiceEntityRepository
     /**
     * @return Format[] Returns an array of Format objects
     */
-    public function findByOrderStatus(User $customer): array
+    public function findByOrderStatus(User|UserInterface $customer): array
     {
         return $this->createQueryBuilder('f')
-            ->join('f.book', 'b')
-            ->join('f.baskets', 'c')
-            ->join('c.orderId', 'o')
-            ->join('o.status', 'os')
+            ->leftJoin('f.baskets', 'c')
+            ->leftJoin('f.book', 'b')
+            ->leftJoin('c.orderId', 'o')
+            ->leftJoin('o.status', 'os')
+            ->addSelect('b', 'c', 'o', 'os')
             ->andWhere('os.status = :statusOrder')
-            ->andWhere('c.status = :statusBasket')
             ->andWhere('c.customer = :val')
             ->setParameter('val', $customer)
             ->setParameter('statusOrder', 'Paiement accepté')
-            ->setParameter('statusBasket', 'Transformé')
             ->orderBy('c.createdAt', 'ASC')
             ->getQuery()
             ->getResult()
@@ -110,6 +111,39 @@ class FormatRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findFormatTest(): ?Format
+    {
+        $today = new \DateTime(); // Obtenir la date du jour (sans heure si nécessaire)
+        return $this->createQueryBuilder('f')
+            ->join('f.book', 'b')
+            ->andWhere('b.parutionDate < :today')
+            ->andWhere('b.status = :value')
+            ->setParameter('value', '1')
+            ->setParameter('today', $today)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findFormatForFeedbackTest(User $user): int
+    {
+        return $this->createQueryBuilder('fo')
+            ->select('MAX(fo.id)')
+            ->leftJoin('fo.baskets', 'bk')
+            ->leftJoin('fo.feedbacks', 'fb')
+            ->leftJoin('bk.orderId', 'o')
+            ->leftJoin('o.status', 'os')
+            ->andWhere('o.customer = :val')
+            ->setParameter('val', $user)
+            ->andWhere('os.status = :accept')
+            ->setParameter('accept', 'Paiement accepté')
+            ->andWhere('fb.id IS NULL')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 
     //    /**
     //     * @return Format[] Returns an array of Format objects

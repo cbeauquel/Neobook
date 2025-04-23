@@ -1,0 +1,16 @@
+config:
+  target: "https://127.0.0.1:8000"
+  tls:
+    rejectUnauthorized: false
+  phases:
+    - duration: 60        # test pendant 60 secondes
+      arrivalRate: 10     # 10 utilisateurs/secondes
+
+scenarios:
+  - flow:
+      - get:
+          url: "/"
+      - get:
+          url: "/category/4"
+      - get:
+          url: "/book/42"

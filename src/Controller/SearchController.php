@@ -26,7 +26,6 @@ class SearchController extends AbstractController
             $index = $meilisearchClient->index('app_dev_books'); // Nom de l'index
             $results = $index->search($query)->getHits();
         }
-        // dd($results);
         // Retourne la vue avec le formulaire et les résultats
         return $this->render('search/search.html.twig', [
             'books' => $results,

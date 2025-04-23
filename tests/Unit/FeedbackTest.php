@@ -48,7 +48,6 @@ class FeedbackTest extends TestCase
         $this->assertFalse($feedbackTest->getCreatedAt() === new DateTime());
         $this->assertFalse($feedbackTest->getUpdatedAt() === new DateTime());
     }
-
     
     public function testIsEmpty(): void
     {

@@ -42,4 +42,17 @@ class TvaTest extends TestCase
         $tvaTest = new Tva();
         $this->assertEmpty($tvaTest->getTaux());
     }
+
+    public function testRemoveFormat(): void
+    {
+        $formatTest = new Format();
+        $tvaTest = new Tva();
+
+        $tvaTest->addFormat($formatTest); // gère aussi le setTva() normalement
+        $this->assertCount(1, $tvaTest->getFormatTvaRate());
+    
+        $tvaTest->removeFormat($formatTest);
+    
+        $this->assertCount(0, $tvaTest->getFormatTvaRate());
+    }
 }
