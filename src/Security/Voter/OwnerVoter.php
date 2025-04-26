@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\Feedback;
+use App\Entity\Format;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -22,9 +23,9 @@ class OwnerVoter extends Voter
         if (!$user instanceof User) {
             return false;
         }
-
+        
         // On vérifie dynamiquement que le sujet a un propriétaire
-        if ($subject instanceof Feedback && method_exists($subject, 'getNickName')) {
+        if ($subject instanceof Feedback) {
             return $subject->getNickName()?->getId() === $user->getId();
         }
         

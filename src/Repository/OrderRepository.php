@@ -84,7 +84,7 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return int Returns the ID of the last order
+    * @return int Returns the ID of the last order (test order)
     */
     public function findLastOrderId(User $user): int
     {

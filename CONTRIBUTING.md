@@ -20,31 +20,32 @@ Pour contribuer à ce projet, vous aurez besoin des éléments suivants :
 
 Suivez ces étapes pour installer et configurer le projet localement :
 
-1. **Supprimer la base de données existante :**
-   ```bash
-   symfony console doctrine:database:drop --force --if-exists
-   ```
-
-2. **Créer la base de données :**
-   ```bash
-   symfony console doctrine:database:create
-   ```
-
-3. **Exécuter les migrations :**
-   ```bash
-   symfony console doctrine:migrations:migrate -n
-   ```
-
-4. **Charger les fixtures :**
-   ```bash
-   symfony console doctrine:fixtures:load -n
-   ```
-
-5. **Lancer Docker pour Meilisearch :**
+1. **Lancer Docker pour Meilisearch :**
    Si vous utilisez Docker Compose pour Meilisearch (moteur de recherche), exécutez la commande suivante :
    ```bash
    docker compose up -d
    ```
+
+2. **Supprimer la base de données existante :**
+   ```bash
+   symfony console doctrine:database:drop --force --if-exists
+   ```
+
+3. **Créer la base de données :**
+   ```bash
+   symfony console doctrine:database:create
+   ```
+
+4. **Exécuter les migrations :**
+   ```bash
+   symfony console doctrine:migrations:migrate -n
+   ```
+
+5. **Charger les fixtures :**
+   ```bash
+   symfony console doctrine:fixtures:load -n
+   ```
+
 
 ## Lignes directrices de codage
 
