@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Format;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -32,6 +33,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    public function findFormatOrdered(Format $format, User $customer): ?User
+    {
+        return $this->createQueryBuilder('us')
+            ->innerJoin('us.baskets', 'ba')
+            ->innerJoin('ba.formats', 'fo')
+            ->innerJoin('ba.orderId', 'o')
+            ->addSelect('ba, fo, o')
+            ->andWhere('ba.status = :tranformed')
+            ->andWhere('o.status = :accept')
+            ->andWhere('fo.id = :val')
+            ->andWhere('us.id = :user')
+            ->setParameter('tranformed', 'Transformé')
+            ->setParameter('accept', '3')
+            ->setParameter('val', $format)
+            ->setParameter('user', $customer)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 
     //    /**
     //     * @return User[] Returns an array of User objects

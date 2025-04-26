@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Form\CustomerType;
 use App\Repository\OrderRepository;
 use App\Repository\ToBeReadRepository;
-use App\Service\BreadcrumbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +34,7 @@ class CustomerAccountController extends AbstractController
     #[Route('/edit/{id}', name: 'customer_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function edit(?User $customer, Request $request, EntityManagerInterface $manager): Response
     {
+        $this->denyAccessUnlessGranted('OWNER_ACCESS', $customer);
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 

@@ -7,11 +7,14 @@ use App\Entity\Format;
 use App\Entity\User;
 use App\Form\FeedBackType;
 use App\Repository\FeedbackRepository;
+use App\Repository\FormatRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class FeedbacksController extends AbstractController
 {
@@ -29,23 +32,26 @@ final class FeedbacksController extends AbstractController
             'my_comments' => $myComments,
         ]);
     }
-    
-    #[Route('/feedbacks/add/{id}', name: 'feedback_add')]
 
+    #[Route('/feedbacks/add/{id}', name: 'feedback_add')]
     public function createFeedback(
         ?Feedback $feedback,
         Request $request,
         EntityManagerInterface $manager,
-        Format $format
+        Format $format,
+        UserRepository $userRepository
     ): Response {
         $customer = $this->getUser();
         if (!$customer instanceof User) {
             throw $this->createAccessDeniedException('Utilisateur requis.');// @codeCoverageIgnore
         }
         $feedback = new Feedback();
+        $feedbackUser = $userRepository->findFormatOrdered($format, $customer);
+        $this->denyAccessUnlessGranted('OWNER_ACCESS', $feedbackUser);
         $feedback->setFormat($format);
         $feedback->setNickName($customer);
         $form = $this->createForm(FeedBackType::class, $feedback);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,11 +78,13 @@ final class FeedbacksController extends AbstractController
             throw $this->createAccessDeniedException('Utilisateur requis.');// @codeCoverageIgnore
         }
         $feedback ??= new Feedback();
+        $this->denyAccessUnlessGranted('OWNER_ACCESS', $feedback);
+
         $feedback->setNickName($customer);
 
         $form = $this->createForm(FeedBackType::class, $feedback);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($feedback);
             $manager->flush();
