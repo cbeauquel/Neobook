@@ -29,14 +29,18 @@ class PayPlugService
                 ],
                 'shipping' => ['delivery_type' => 'DIGITAL_GOODS'],
                 'hosted_payment' => ['return_url' => $returnUrl],
-                'notification_url' => 'https://ton-site.com/webhook/payplug'
+                'notification_url' => 'http://neobookdev.local/webhook/payplug'
             ];
-            //  dd($paymentData);
             $payment = Payment::create($paymentData);
-    
             return $payment;
         } catch (\Exception) {
             return null;
         }
+    }
+
+    public function retrievePayment(string $paymentId): ?Payment
+    {
+        $payment = Payment::retrieve($paymentId);
+        return $payment;
     }
 }

@@ -98,13 +98,13 @@
             <div class="list">
                 {% for format in book.formats %}
                     {% if format.type.name == 'eBook' %}
-                    <a class="extract" href="" title="">
+                    <a class="extract" href="{{asset('files/extracts/' ~ format.bookExtract)}}" title="{{book.title}}">
                         <p>Lire un extrait:&nbsp;</p>
                         <span class="material-symbols-outlined"> {{format.type.typeImg}}</span>
                     </a>
                     {% endif %}
                     {% if format.type.name == 'Audio' %}
-                    <a class="extract" href="" title="">
+                    <a class="extract" href="{{asset('files/extracts/' ~ format.bookExtract)}}" title="{{book.title}}">
                         <p>Écouter un extrait:&nbsp;</p>
                         <span class="material-symbols-outlined"> {{format.type.typeImg}}</span>
                     </a>
@@ -144,7 +144,7 @@
     <h2>Des mêmes auteurs :</h2>
     <div class="list">
         {% for book in books_by_authors %}
-        <a class="book-card" href="{{path('book', {id: book.id})}}" title="">
+        <a class="book-card" href="{{path('book', {id: book.id})}}" title="{{book.title}}">
         <article>
             <div class="book-content">
                 <p class="contributor-name">

@@ -12,9 +12,6 @@
     <div class="contributor-detail">
             <h1>Ma commande</h1>
     </div>
-    <div class="order-foot">
-        <a class="extract" href="{{path('order_abort', {id: order.id})}}">Annuler la commande</a>
-    </div>
 
     {% if formatsOrder %}
     <div class="basket-container">
@@ -64,9 +61,34 @@
     {% else %}
         <p class="center">Votre panier est vide</p>
     {% endif %}
-    <div class="order-foot">
-        <a class="extract" href="{{path('payplug_pay', {id: order.id})}}">Je paye et télécharge mon livre</a>
-    </div>
+    {% if order.status.status == 'En attente' %}
+        <div class="order-foot">
+            <a class="extract" href="{{path('payplug_pay', {id: order.id})}}">Je paye et télécharge</a>
+        </div>
+        &nbsp;
+        <div class="order-foot">
+            <a class="extract" href="{{path('order_abort', {id: order.id})}}">Annuler la commande</a>
+        </div>
+    {% elseif order.status.status == 'Échoué' %}
+        <div class="order-foot">
+            <a class="extract" href="{{path('payplug_pay', {id: order.id})}}">Réessayer</a>
+        </div>
+        &nbsp;
+        <div class="order-foot">
+            <a class="extract" href="{{path('customer_invoices', {id: order.id})}}">Retour</a>
+        </div>
+    {% else %}
+        <div class="order-foot">
+            <a class="extract" href="{{path('bookshelf')}}">Télécharger le livre</a>
+        </div>    
+        &nbsp;
+        <div class="order-foot">
+            <a class="extract" href="{{path('customer_invoices', {id: order.id})}}">Retour</a>
+        </div>
+    {% endif %}
+
+
+
 
 </section>
 

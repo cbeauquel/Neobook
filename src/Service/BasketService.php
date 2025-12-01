@@ -39,7 +39,7 @@ class BasketService
 
     /**
      * Ajoute un format au panier en session et synchronise avec la BDD
-     * @param array<mixed> $formats
+     * @param array<Format> $formats
      */
     public function addToBasket(array $formats, ?User $customer = null): void
     {
@@ -54,12 +54,16 @@ class BasketService
             }
         }
         $this->saveBasket($sessionBasket);
+
         // Récupérer ou créer un panier en base
         $bddBasket = $this->getOrCreateBddBasket($customer);
         $idBasket = $bddBasket->getId();
+
         // Récupérer les formats en base et en session
         $bddBasketFormats = $this->loadBasketFormats($idBasket);
+
         // Pour chaque format du panier en session on vérifie s'il existe dans le panier en base. Sinon on l'ajoute au panier en base
+        /** @var Format $sessionFormat */
         foreach ($sessionBasket as $sessionFormat) {
             // Vérifier si le produit est déjà dans le panier
             $exists = $bddBasketFormats->exists(fn ($key, $item) => $item->getId() === $sessionFormat->getId());
@@ -82,6 +86,8 @@ class BasketService
     public function removeToBasket(object $formatToRemove, ?UserInterface $customer): void
     {
         $sessionBasket = $this->getSessionBasket();
+        //** @var Format $formatToRemove */
+        /** @var Format $format */
         foreach ($sessionBasket as $format) {
             if ($format->getId() === $formatToRemove->getId()) {
                 $sessionBasket->removeElement($format);
@@ -97,6 +103,7 @@ class BasketService
             //on isole les formats du panier
             $bddBasketFormats = $this->loadBasketFormats($idBasket);
             // SUPPRIMER les formats qui ne sont plus dans la session
+            /** @var Format $bddFormat */
             foreach ($bddBasketFormats as $bddFormat) {
                 if (!$sessionBasket->exists(fn ($key, $item) => $item->getId() === $bddFormat->getId())) {
                     $bddBasketFormats->removeElement($bddFormat);
@@ -116,7 +123,7 @@ class BasketService
     }
 
     /**
-     * @return Basket retourne l'objet basket issu de la BDD sur interrogation de l'ID customer ou du UserToken (user non authentifié)
+     * @return Basket|null retourne l'objet basket issu de la BDD sur interrogation de l'ID customer ou du UserToken (user non authentifié)
      */
     public function loadBasket(?UserInterface $customer): ?Basket
     {

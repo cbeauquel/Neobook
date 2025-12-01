@@ -13,7 +13,7 @@
         {% for format in myFormats %}
         <article class="book-card-landscape">
             <div class="cover">
-                <img src="{{asset('img/livres/' ~ format.book.cover)}}" alt="{{format.book.title}}" >
+                <img class="cover" src="{{asset('img/livres/' ~ format.book.cover)}}" alt="{{format.book.title}}" >
             </div>
             <div class="mybook">
                 <p class="book-title">{{format.book.title}}</p>
@@ -46,12 +46,17 @@
                             <p>&nbsp;Je donne mon avis</p>
                         </a>
                     {% endif %}
-
+                    {% if format.downloadLinks|length > 0 %}
+                    {% for downloadLink in format.downloadLinks %}
+                        {% if downloadLink.isActive %}
+                            <a class="btn-bookshelf" href="download/{{ downloadLink.token }}" title="downloadLinks">
+                                <span class="material-symbols-outlined">Download</span>
+                                <p>&nbsp;Télécharger ({{downloadLink.downloadCount}}/5)</p>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                 {% endif %}
                 <div class="list">
-                    <a class="btn-bookshelf" href="" title="">
-                        <span class="material-symbols-outlined">Download</span>
-                        <p>&nbsp;Télécharger</p>
-                    </a>
                     <p class="book-type">
                         <span class="material-symbols-outlined">{{format.type.typeImg}}</span> 
                         {{format.type.name}}

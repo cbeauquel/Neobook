@@ -8,6 +8,7 @@ use App\Entity\Contributor;
 use App\Entity\Format;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use App\Repository\FormatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -48,8 +49,13 @@ class AdminBookController extends AbstractController
         Request $request,
         EntityManagerInterface $manager,
         SluggerInterface $slugger,
+        FormatRepository $formatRepository,
         #[Autowire('%kernel.project_dir%/assets/img/livres')]
         string $coversDirectory,
+        #[Autowire('%kernel.project_dir%/assets/files/formats')]
+        string $filesDirectory,
+        #[Autowire('%kernel.project_dir%/assets/files/extracts')]
+        string $extractsDirectory,
     ): Response {
         $isWebTestCase = $request->headers->get('X-TEST-TYPE') === 'webTestCase';
         $book ??= new Book();
@@ -87,12 +93,58 @@ class AdminBookController extends AbstractController
             // instead of its contents
             $book->setCover($newCoverName);
 
+            // store format file in the repository
+            // récupération du formulaire imbriqué
+            $formatsCollection = $form->get('formats');
+            foreach ($formatsCollection as $index => $formatForm) {
+                $format = $formatForm->getData(); // C'est l'objet Format lié au formulaire
+                $filePath = $formatForm->get('filePath')->getData();
+                $extractPath = $formatForm->get('bookExtract')->getData();
+                $isbn = $formatForm->get('ISBN')->getData();
+                //récupération de la valeur du champ filePath
+                if ($filePath) {
+                    // this is needed to safely include the file name as part of the URL
+                    $newFileName = $isbn . '.' . $filePath->getClientOriginalExtension();
+                    // Move the file to the directory where $files are stored
+                    try {
+                        $filePath->move($filesDirectory, $newFileName);
+                    } catch (FileException) {// @codeCoverageIgnore
+                        // ... handle exception if something happens during file upload
+                    }
+                } else {// @codeCoverageIgnore
+                    $format = $formatRepository->findOneByIsbn($isbn);
+                    $newFileName = $format->getFilePath();// @codeCoverageIgnore
+                }
+
+                // updates the 'filepath' property to store the file name
+                // instead of its contents
+                $format->setFilePath($newFileName);
+
+                // store extract file in the repository
+                if ($extractPath) {
+                    // this is needed to safely include the file name as part of the URL
+                    $newExtractName = $isbn . 'extract' . '.' . $extractPath->getClientOriginalExtension();
+
+                    // Move the file to the directory where $files are stored
+                    try {
+                        $extractPath->move($extractsDirectory, $newExtractName);
+                    } catch (FileException) {// @codeCoverageIgnore
+                        // ... handle exception if something happens during file upload
+                    }
+                } else {// @codeCoverageIgnore
+                    $format = $formatRepository->findOneByIsbn($isbn);
+                    $newExtractName = $format->getBookExtract();// @codeCoverageIgnore
+                }
+                    
+                // updates the 'CoverName' property to store the IMG file name
+                // instead of its contents
+                $format->setBookExtract($newExtractName);
+            }
             $manager->persist($book);
             $manager->flush();
             
             return $this->redirectToRoute('admin_book');
         }
-
         return $this->render('admin/addBookForm.html.twig', [
             'controller_name' => 'AdminBookController',
             'form' => $form,

@@ -62,8 +62,8 @@ class BasketRepository extends ServiceEntityRepository
             ->setParameter('customer', $customer)
             ->set('b.status', ':newStatus')
             ->andWhere('b.status = :oldStatus')
-            ->setParameter('newStatus', 'abandonné')
-            ->setParameter('oldStatus', 'en cours');
+            ->setParameter('newStatus', 'Abandonné')
+            ->setParameter('oldStatus', 'En cours');
         $qb->getQuery()->execute();
     }
 

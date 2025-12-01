@@ -488,17 +488,15 @@ H1.search-results{
 }
 
 .extract {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display:block;
     margin:0px 20px;
     color:var(--fontDark);
     text-decoration: none;
-    align-items: center;
     background-color: var(--backgroundDark);
     padding:10px;
     border-radius:10px;
     width: 200px;
+    text-align: center;
     height:fit-content;
 }
 

@@ -90,6 +90,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     /**
+     * @var Collection<int, DownloadLink>
+     */
+    #[ORM\OneToMany(targetEntity: DownloadLink::class, mappedBy: 'customer')]
+    private Collection $downloadLinks;
+
+    /**
      * @var Collection<int, ToBeRead>
      */
     #[ORM\OneToMany(targetEntity: ToBeRead::class, mappedBy: 'customer')]
@@ -101,6 +107,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->orders = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
         $this->toBeReads = new ArrayCollection();
+        $this->downloadLinks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -403,6 +410,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DownloadLink>
+     */
+    public function getDownloadLinks(): Collection
+    {
+        return $this->downloadLinks;
+    }
+
+    public function addDownloadLink(DownloadLink $downloadLink): static
+    {
+        if (!$this->downloadLinks->contains($downloadLink)) {
+            $this->downloadLinks->add($downloadLink);
+            $downloadLink->setCustomer($this);
+        }
+        return $this;
+    }
+
+    public function removeDownloadLink(DownloadLink $downloadLink): static
+    {
+        if ($this->downloadLinks->removeElement($downloadLink)) {
+            if ($downloadLink->getCustomer() === $this) {
+                $downloadLink->setCustomer(null);
+            }
+        }
         return $this;
     }
 }

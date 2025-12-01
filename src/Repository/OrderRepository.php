@@ -58,9 +58,22 @@ class OrderRepository extends ServiceEntityRepository
             ->andWhere('o.customer = :val')
             ->setParameter('val', $value)
             ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    
+    /**
+     * @return Order
+     */
+    public function findByPaymentId(string $value): Order
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.paymentID = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 

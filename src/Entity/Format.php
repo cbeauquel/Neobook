@@ -45,11 +45,9 @@ class Format
     #[ORM\Column]
     private ?float $fileSize = null;
 
-    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $filePath = null;
 
-    #[Assert\NotBlank]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bookExtract = null;
 
@@ -92,10 +90,17 @@ class Format
     #[ORM\OneToMany(targetEntity: Feedback::class, mappedBy: 'format', fetch: 'EAGER')]
     private Collection $feedbacks;
 
+    /**
+     * @var Collection<int, DownloadLink>
+     */
+    #[ORM\OneToMany(targetEntity: DownloadLink::class, mappedBy: 'format')]
+    private Collection $downloadLinks;
+
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
+        $this->downloadLinks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -308,6 +313,33 @@ class Format
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DownloadLink>
+     */
+    public function getDownloadLinks(): Collection
+    {
+        return $this->downloadLinks;
+    }
+
+    public function addDownloadLink(DownloadLink $downloadLink): static
+    {
+        if (!$this->downloadLinks->contains($downloadLink)) {
+            $this->downloadLinks->add($downloadLink);
+            $downloadLink->setFormat($this);
+        }
+        return $this;
+    }
+
+    public function removeDownloadLink(DownloadLink $downloadLink): static
+    {
+        if ($this->downloadLinks->removeElement($downloadLink)) {
+            if ($downloadLink->getFormat() === $this) {
+                $downloadLink->setFormat(null);
+            }
+        }
         return $this;
     }
 }

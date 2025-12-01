@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class FormatType extends AbstractType
 {
@@ -64,8 +65,75 @@ class FormatType extends AbstractType
             ->add('wordsCount', IntegerType::class)
             ->add('pagesCount', IntegerType::class)
             ->add('fileSize', NumberType::class)
-            ->add('filePath', UrlType::class)
-            ->add('bookExtract', UrlType::class)
+            ->add('filePath', FileType::class, [
+                'label' => 'Fichier du format',
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+    
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+    
+                // unmapped fields can't define their validation using attributes
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '64M',
+                        'mimeTypes' => [
+                            // EPUB - tous les types MIME possibles
+                            'application/epub+zip',
+                            'application/x-epub+zip',
+                            'application/epub',
+                            'application/EPUB',
+                            'application/zip', // EPUB peut être détecté comme ZIP
+                            // PDF
+                            'application/pdf',
+                            // Audio MP3
+                            'audio/mpeg',
+                            'audio/mp3',
+                            // Alternative MIME types parfois utilisés
+                            'application/x-epub+zip',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid file',
+                    ])
+                ],
+                'attr' => [
+                'accept' => '.epub,.pdf,.mp3',
+                'class' => 'form-control-file',
+                ]
+            ])
+            ->add('bookExtract', FileType::class, [
+                'label' => 'Fichier de l\'extrait',
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+    
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+    
+                // unmapped fields can't define their validation using attributes
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '64M',
+                        'mimeTypes' => [
+                            // EPUB - tous les types MIME possibles
+                            'application/epub+zip',
+                            'application/x-epub+zip',
+                            'application/epub',
+                            'application/zip', // EPUB peut être détecté comme ZIP
+                            // PDF
+                            'application/pdf',
+                            // Audio MP3
+                            'audio/mpeg',
+                            'audio/mp3',
+                            // Alternative MIME types parfois utilisés
+                            'application/x-epub+zip',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid file',
+                    ])
+                ],
+            ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'expanded' => true,

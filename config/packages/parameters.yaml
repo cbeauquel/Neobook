@@ -1,0 +1,9 @@
+parameters:
+    # Configuration des téléchargements
+    app.download.max_downloads_default: 5
+    app.download.expiry_days_default: 30
+    app.download.cleanup_days: 90  # Suppression des anciens liens inactifs
+
+    # Chemins des fichiers
+    app.uploads.books_directory: '%kernel.project_dir%/assets/files/formats'
+    app.uploads.covers_directory: '%kernel.project_dir%/assets/img/livres'

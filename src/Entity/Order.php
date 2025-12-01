@@ -52,6 +52,20 @@ class Order
     #[ORM\Column(type: 'decimal', precision: 4, scale: 2)]
     private ?string $TotalTTC = null;
 
+    /**
+     * @var Collection<int, DownloadLink>
+     */
+    #[ORM\OneToMany(targetEntity: DownloadLink::class, mappedBy: 'order')]
+    private Collection $downloadLinks;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $paymentID = null;
+
+    public function __construct()
+    {
+        $this->downloadLinks = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +151,44 @@ class Order
     public function setTotalTTC(string $TotalTTC): static
     {
         $this->TotalTTC = $TotalTTC;
+
+        return $this;
+    }
+    /**
+     * @return Collection<int, DownloadLink>
+     */
+    public function getDownloadLinks(): Collection
+    {
+        return $this->downloadLinks;
+    }
+
+    public function addDownloadLink(DownloadLink $downloadLink): static
+    {
+        if (!$this->downloadLinks->contains($downloadLink)) {
+            $this->downloadLinks->add($downloadLink);
+            $downloadLink->setOrder($this);
+        }
+        return $this;
+    }
+
+    public function removeDownloadLink(DownloadLink $downloadLink): static
+    {
+        if ($this->downloadLinks->removeElement($downloadLink)) {
+            if ($downloadLink->getOrder() === $this) {
+                $downloadLink->setOrder(null);
+            }
+        }
+        return $this;
+    }
+
+    public function getPaymentID(): ?string
+    {
+        return $this->paymentID;
+    }
+
+    public function setPaymentID(?string $paymentID): static
+    {
+        $this->paymentID = $paymentID;
 
         return $this;
     }

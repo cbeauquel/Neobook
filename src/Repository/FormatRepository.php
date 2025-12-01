@@ -66,6 +66,26 @@ class FormatRepository extends ServiceEntityRepository
         return new ArrayCollection($result); // Convertir en ArrayCollection
     }
 
+    /**
+     * @return ArrayCollection Returns an array of Format objects
+     */
+    public function findFormatsByOrderId(int $value): ArrayCollection
+    {
+        $qb = $this->createQueryBuilder('f')
+           ->andWhere('o.id = :val')
+           ->join('f.baskets', 'b')
+           ->join('b.orderId', 'o')
+           ->setParameter('val', $value)
+           ->setMaxResults(10)
+           ->getQuery();
+
+        $result = $qb->getResult(); // Retourne un tableau d'objets Format
+
+        return new ArrayCollection($result); // Convertir en ArrayCollection
+    }
+
+
+
     public function findOneByBookId(Book $book): ?Format
     {
         return $this->createQueryBuilder('f')
@@ -74,6 +94,16 @@ class FormatRepository extends ServiceEntityRepository
             ->setParameter('val', $book)
             ->setMaxResults(1)
             ->orderBy('f.id', 'DESC')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findOneByIsbn(string $isbn): ?Format
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.ISBN = :val')
+            ->setParameter('val', $isbn)
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
     }

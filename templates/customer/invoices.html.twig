@@ -21,6 +21,7 @@
                 <th>Statut</th>
                 <th>Total HT</th>
                 <th>Total TTC</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>           
@@ -32,6 +33,7 @@
                 <td>{{ invoice.status.status }}</td>
                 <td>{{ invoice.totalHT }}</td>
                 <td>{{ invoice.totalTTC }}</td>
+                <td><a href="{{ path('order_view', { id: invoice.id }) }}" class="btn btn-info btn-sm">Voir</a></td>
             </tr>
         {% endfor %}
         </tbody>

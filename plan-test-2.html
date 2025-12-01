@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plan de Test - Panier Neobook</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React / ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Lucide (version non-React) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50">
+  <div id="root"></div>
+
+  <script>
+    const { useState } = React;
+
+    const Icon = ({ name, className }) => {
+      React.useEffect(() => {
+        lucide.createIcons();
+      });
+      return React.createElement('i', { 'data-lucide': name, className });
+    };
+
+    const TestPlanApp = () => {
+      const [tests, setTests] = useState([
+    // Section 1: Utilisateur Non Connecté
+    { id: 'TC001', section: '1. Utilisateur Non Connecté', category: '1.1 Ajout au panier', title: 'Ajouter un format EPUB seul au panier', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC002', section: '1. Utilisateur Non Connecté', category: '1.1 Ajout au panier', title: 'Ajouter un format MP3 seul au panier', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC003', section: '1. Utilisateur Non Connecté', category: '1.1 Ajout au panier', title: 'Ajouter les 2 formats (EPUB + MP3) d\'un même livre', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC004', section: '1. Utilisateur Non Connecté', category: '1.1 Ajout au panier', title: 'Ajouter plusieurs livres différents (3-4 livres)', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC005', section: '1. Utilisateur Non Connecté', category: '1.1 Ajout au panier', title: 'Ajouter le même format deux fois', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    
+    { id: 'TC006', section: '1. Utilisateur Non Connecté', category: '1.2 Visualisation', title: 'Consulter le panier avec 1 livre', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC007', section: '1. Utilisateur Non Connecté', category: '1.2 Visualisation', title: 'Consulter un panier vide', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC008', section: '1. Utilisateur Non Connecté', category: '1.2 Visualisation', title: 'Consulter le panier avec plusieurs livres', priority: 'Haute', status: 'Non testé', notes: '' },
+    
+    { id: 'TC009', section: '1. Utilisateur Non Connecté', category: '1.3 Modification', title: 'Supprimer un format du panier', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC010', section: '1. Utilisateur Non Connecté', category: '1.3 Modification', title: 'Supprimer le dernier format du panier', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC011', section: '1. Utilisateur Non Connecté', category: '1.3 Modification', title: 'Vider complètement le panier', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    
+    { id: 'TC012', section: '1. Utilisateur Non Connecté', category: '1.4 Persistance', title: 'Ajouter un livre, fermer le navigateur, rouvrir', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC013', section: '1. Utilisateur Non Connecté', category: '1.4 Persistance', title: 'Ajouter un livre, vider le cache, revenir', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC014', section: '1. Utilisateur Non Connecté', category: '1.4 Persistance', title: 'Panier sur Chrome, ouvrir sur Firefox', priority: 'Basse', status: 'Non testé', notes: '' },
+    
+    // Section 2: Transition Visiteur ? Client
+    { id: 'TC015', section: '2. Transition Visiteur ? Client', category: '2.1 Connexion', title: 'Ajouter 2 livres en visiteur, se connecter', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC016', section: '2. Transition Visiteur ? Client', category: '2.1 Connexion', title: 'Panier visiteur + panier client existant, se connecter', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC017', section: '2. Transition Visiteur ? Client', category: '2.1 Connexion', title: 'Panier visiteur vide, se connecter avec panier client', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC018', section: '2. Transition Visiteur ? Client', category: '2.2 Inscription', title: 'Ajouter des livres, créer un compte', priority: 'Haute', status: 'Non testé', notes: '' },
+    
+    // Section 3: Utilisateur Connecté
+    { id: 'TC019', section: '3. Utilisateur Connecté', category: '3.1 Gestion panier', title: 'Se connecter, ajouter un livre au panier', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC020', section: '3. Utilisateur Connecté', category: '3.1 Gestion panier', title: 'Panier actif, se déconnecter puis se reconnecter', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC021', section: '3. Utilisateur Connecté', category: '3.1 Gestion panier', title: 'Se connecter sur 2 navigateurs différents', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC022', section: '3. Utilisateur Connecté', category: '3.2 Modification', title: 'Ajouter/supprimer des livres en étant connecté', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC023', section: '3. Utilisateur Connecté', category: '3.2 Modification', title: 'Modifier le panier, se déconnecter rapidement', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    
+    // Section 4: Processus de Commande
+    { id: 'TC024', section: '4. Processus de Commande', category: '4.1 Passage commande', title: 'Panier ? Paiement CB ? Validation', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC025', section: '4. Processus de Commande', category: '4.1 Passage commande', title: 'Panier ? Paiement PayPal ? Validation', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC026', section: '4. Processus de Commande', category: '4.1 Passage commande', title: 'Commencer le paiement, abandonner', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC027', section: '4. Processus de Commande', category: '4.1 Passage commande', title: 'Paiement échoué', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC028', section: '4. Processus de Commande', category: '4.2 Après commande', title: 'Après validation, vérifier panier non modifiable', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC029', section: '4. Processus de Commande', category: '4.2 Après commande', title: 'Après commande, ajouter un nouveau livre', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC030', section: '4. Processus de Commande', category: '4.2 Après commande', title: 'Commander, se déconnecter, se reconnecter', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    
+    // Section 5: Calculs et Prix
+    { id: 'TC031', section: '5. Calculs et Prix', category: '5.1 Calculs', title: 'Ajouter un livre EPUB, vérifier calcul HT/TTC', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC032', section: '5. Calculs et Prix', category: '5.1 Calculs', title: 'Ajouter 2 formats avec TVA différentes', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC033', section: '5. Calculs et Prix', category: '5.1 Calculs', title: 'Ajouter/supprimer, vérifier recalcul auto', priority: 'Haute', status: 'Non testé', notes: '' },
+    
+    // Section 6: Limites et Erreurs
+    { id: 'TC034', section: '6. Limites et Erreurs', category: '6.1 Cas limites', title: 'Ajouter 20+ livres au panier', priority: 'Basse', status: 'Non testé', notes: '' },
+    { id: 'TC035', section: '6. Limites et Erreurs', category: '6.1 Cas limites', title: 'Panier avec montant très élevé (100+ livres)', priority: 'Basse', status: 'Non testé', notes: '' },
+    { id: 'TC036', section: '6. Limites et Erreurs', category: '6.1 Cas limites', title: 'Format supprimé du catalogue mais dans panier', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC037', section: '6. Limites et Erreurs', category: '6.2 Cas d\'erreur', title: 'Tentative ajout format inexistant', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC038', section: '6. Limites et Erreurs', category: '6.2 Cas d\'erreur', title: 'Manipulation URL pour accéder panier autre user', priority: 'Haute', status: 'Non testé', notes: '' },
+    { id: 'TC039', section: '6. Limites et Erreurs', category: '6.2 Cas d\'erreur', title: 'Perte connexion réseau pendant modification', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    
+    // Section 7: PAL vs Panier
+    { id: 'TC040', section: '7. PAL vs Panier', category: '7.1 Interaction', title: 'Livre dans PAL, ajouter au panier', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC041', section: '7. PAL vs Panier', category: '7.1 Interaction', title: 'Acheter un livre de la PAL', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC042', section: '7. PAL vs Panier', category: '7.1 Interaction', title: 'Livre acheté, essayer de l\'ajouter au panier', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    
+    // Section 8: Accessibilité
+    { id: 'TC043', section: '8. Accessibilité', category: '8.1 Navigation', title: 'Navigation au clavier uniquement', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC044', section: '8. Accessibilité', category: '8.1 Navigation', title: 'Utilisation avec lecteur d\'écran', priority: 'Moyenne', status: 'Non testé', notes: '' },
+    { id: 'TC045', section: '8. Accessibilité', category: '8.1 Navigation', title: 'Affichage sur liseuse (Lot 2)', priority: 'Basse', status: 'Non testé', notes: '' },
+    { id: 'TC046', section: '8. Accessibilité', category: '8.1 Navigation', title: 'Affichage sur smartphone (Lot 2)', priority: 'Moyenne', status: 'Non testé', notes: '' },
+      ]);
+
+      const [filter, setFilter] = useState('Tous');
+
+      const updateTestStatus = (id, newStatus) => {
+        setTests(tests.map(t => t.id === id ? { ...t, status: newStatus } : t));
+      };
+
+      const updateTestNotes = (id, n) => {
+        setTests(tests.map(t => t.id === id ? { ...t, notes: n } : t));
+      };
+
+      const exportToCSV = () => {
+        const headers = ['ID','Section','Catégorie','Titre','Priorité','Statut','Notes'];
+        const csv = [headers.join(',') , ...tests.map(t => [t.id, t.section, t.category, t.title, t.priority, t.status, t.notes].join(','))].join('\n');
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'plan_test.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
+      const sections = ['Tous', ...new Set(tests.map(t => t.section))];
+      const filtered = filter === 'Tous' ? tests : tests.filter(t => t.section === filter);
+
+      return (
+        React.createElement('div', { className: 'max-w-5xl mx-auto p-6' },
+          React.createElement('div', { className: 'bg-white p-6 rounded-lg shadow mb-6' },
+            React.createElement('div', { className: 'flex justify-between items-center' },
+              React.createElement('h1', { className: 'text-2xl font-bold' }, 'Plan de Test - Panier Neobook'),
+              React.createElement('button', { onClick: exportToCSV, className: 'bg-green-600 text-white px-4 py-2 rounded' }, 'Exporter CSV')
+            ),
+          ),
+
+          React.createElement('div', { className:'flex gap-2 mb-4 flex-wrap' },
+            sections.map(s => (
+              React.createElement('button', {
+                key: s,
+                onClick: () => setFilter(s),
+                className: (filter === s ? 'bg-blue-600 text-white' : 'bg-gray-200') + ' px-3 py-1 rounded'
+              }, s)
+            ))
+          ),
+
+          React.createElement('table', { className:'w-full bg-white shadow rounded' },
+            React.createElement('thead', { className:'bg-gray-50' },
+              React.createElement('tr', null,
+                ['ID','Catégorie','Titre','Priorité','Statut','Notes'].map(h => React.createElement('th',{className:'p-2 text-left text-sm'},h))
+              )
+            ),
+            React.createElement('tbody', null,
+              filtered.map(test => (
+                React.createElement('tr', { key:test.id, className:'border-t' },
+                  React.createElement('td',{className:'p-2'}, test.id),
+                  React.createElement('td',{className:'p-2'}, test.category),
+                  React.createElement('td',{className:'p-2'}, test.title),
+                  React.createElement('td',{className:'p-2'}, test.priority),
+                  React.createElement('td',{className:'p-2'},
+                    React.createElement('select',{value:test.status, onChange:e=>updateTestStatus(test.id,e.target.value),className:'border px-2 py-1 rounded'},
+                      ['Non testé','En cours','Pass','Fail'].map(v=>React.createElement('option',{key:v},v))
+                    )
+                  ),
+                  React.createElement('td',{className:'p-2'},
+                    React.createElement('input',{value:test.notes,onChange:e=>updateTestNotes(test.id,e.target.value),className:'border px-2 py-1 rounded w-full'})
+                  )
+                )
+              ))
+            )
+          )
+        )
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(TestPlanApp));
+  </script>
+</body>
+</html>

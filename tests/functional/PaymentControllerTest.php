@@ -17,11 +17,12 @@ final class PaymentControllerTest extends FunctionalTestCase
             public function __construct()
             {
                 $this->hosted_payment = (object)[
-                    'payment_url' => 'https://fake.payplug.com/payment/12345'
+                    'payment_url' => 'https://fake.payplug.com/payment/pay_test_123',
                 ];
             }
         };
-            
+        /** @phpstan-ignore-next-line */
+        $payment->id = 'pay_test_123';
         $mockPayPlug = $this->createMock(PayPlugService::class);
         $mockPayPlug
             ->method('createPayment')
@@ -31,9 +32,10 @@ final class PaymentControllerTest extends FunctionalTestCase
         $this->login();
         $user = $this->getCurrentUser();
         $orderId = $this->getLastOrderId($user);
+       
         $this->get('/payplug/pay/' . $orderId);
         // ✅ Vérifie la redirection
-        $this->assertResponseRedirects('https://fake.payplug.com/payment/12345');
+        $this->assertResponseRedirects('https://fake.payplug.com/payment/pay_test_123');
     }
 
     public function testShouldFailedToRedirectToPayment(): void
@@ -47,7 +49,8 @@ final class PaymentControllerTest extends FunctionalTestCase
                 ];
             }
         };
-            
+        /** @phpstan-ignore-next-line */
+        $payment->id = 'pay_test_123';
         $mockPayPlug = $this->createMock(PayPlugService::class);
         $mockPayPlug
             ->method('createPayment')

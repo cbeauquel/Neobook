@@ -6,3 +6,11 @@ controllers:
     
 api_login_check:
     path: /api/login_check
+
+# Sécurisation de la route de téléchargement
+download_secure:
+    path: /download/{token}
+    controller: App\Controller\DownloadController::download
+    methods: [GET]
+    requirements:
+        token: '[a-f0-9]{64}'  # Token hexadécimal de 64 caractères

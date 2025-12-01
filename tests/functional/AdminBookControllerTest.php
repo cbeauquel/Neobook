@@ -34,13 +34,30 @@ final class AdminBookControllerTest extends FunctionalTestCase
         $this->loginAdmin();
 
         $photoPath = realpath(dirname(__DIR__, 2) . '/assets/img/livres/une-fleur-pour-l-eternite.jpg');
-        $uploadedFile = new UploadedFile(
+        $uploadedPhoto = new UploadedFile(
             $photoPath,
             'une-fleur-pour-l-eternite.jpg',
             'image/jpeg',
             null,
             true // true pour "test mode" : fichier réel déjà présent, pas déplacé
         );
+        $filePath = realpath(dirname(__DIR__, 2) . '/assets/files/formats/9782384872619.epub');
+        $uploadedFile = new UploadedFile(
+            $filePath,
+            '9782384872619.epub',
+            'archive/epub',
+            null,
+            true // true pour "test mode" : fichier réel déjà présent, pas déplacé
+        );
+        $extractsPath = realpath(dirname(__DIR__, 2) . '/assets/files/extracts/9782384872619extract.epub');
+        $uploadedExtract = new UploadedFile(
+            $extractsPath,
+            '9782384872619extract.epub',
+            'archive/epub',
+            null,
+            true // true pour "test mode" : fichier réel déjà présent, pas déplacé
+        );
+
 
         $this->get('/admin/book');
         $this->assertResponseIsSuccessful();
@@ -58,13 +75,13 @@ final class AdminBookControllerTest extends FunctionalTestCase
             'book[editor]' => '1',
             'book[categories]' => ['1'],
             'book[title]' => 'Nouveau titre de livre',
-            'book[cover]' => $uploadedFile,
+            'book[cover]' => $uploadedPhoto,
             'book[summary]' => 'Description du nouveau livre qui a pour auteur Lyonel Shearer',
             'book[genre]' => 'genre-du-nouveau-livre',
             'book[parutionDate]' => '2026-01-01',
             'book[status]' => '1',
             'book[keyWords]' => ['1'],
-            'book[formats][0][ISBN]' => '9999999999999',
+            'book[formats][0][ISBN]' => '9782384872619',
             'book[formats][0][priceHT]' => '9.99',
             'book[formats][0][priceTTC]' => '10.04',
             'book[formats][0][tvaRate]' => '1',
@@ -72,8 +89,8 @@ final class AdminBookControllerTest extends FunctionalTestCase
             'book[formats][0][wordsCount]' => '9999',
             'book[formats][0][pagesCount]' => '240',
             'book[formats][0][fileSize]' => '2.5',
-            'book[formats][0][filePath]' => 'test.fr/test.epub',
-            'book[formats][0][bookExtract]' => 'test.fr/extract.epub',
+            'book[formats][0][filePath]' => $uploadedFile,
+            'book[formats][0][bookExtract]' => $uploadedExtract,
             'book[formats][0][type]' => '1'
             ]
         );
@@ -85,13 +102,30 @@ final class AdminBookControllerTest extends FunctionalTestCase
     {
         $this->loginAdmin();
         $photoPath = realpath(dirname(__DIR__, 2) . '/assets/img/livres/une-fleur-pour-l-eternite.jpg');
-        $uploadedFile = new UploadedFile(
+        $uploadedPhoto = new UploadedFile(
             $photoPath,
             'une-fleur-pour-l-eternite.jpg',
             'image/jpeg',
             null,
             true // true pour "test mode" : fichier réel déjà présent, pas déplacé
         );
+        $filePath = realpath(dirname(__DIR__, 2) . '/assets/files/formats/9782384872619.epub');
+        $uploadedFile = new UploadedFile(
+            $filePath,
+            '9782384872619.epub',
+            'archive/epub',
+            null,
+            true // true pour "test mode" : fichier réel déjà présent, pas déplacé
+        );
+        $extractsPath = realpath(dirname(__DIR__, 2) . '/assets/files/extracts/9782384872619extract.epub');
+        $uploadedExtract = new UploadedFile(
+            $extractsPath,
+            '9782384872619extract.epub',
+            'archive/epub',
+            null,
+            true // true pour "test mode" : fichier réel déjà présent, pas déplacé
+        );
+
 
         $crawler = $this->get('/admin/book');
         $bookId = $this->getLastBookId();
@@ -108,13 +142,13 @@ final class AdminBookControllerTest extends FunctionalTestCase
             'book[editor]' => '1',
             'book[categories]' => ['1'],
             'book[title]' => 'Titre du livre modifié',
-            'book[cover]' => $uploadedFile,
+            'book[cover]' => $uploadedPhoto,
             'book[summary]' => 'Description du nouveau livre qui a pour auteur Lyonel Shearer',
             'book[genre]' => 'genre-du-nouveau-livre',
             'book[parutionDate]' => '2026-01-01',
             'book[status]' => '1',
             'book[keyWords]' => ['1'],
-            'book[formats][0][ISBN]' => '9999999999999',
+            'book[formats][0][ISBN]' => '9782384872619',
             'book[formats][0][priceHT]' => '9.99',
             'book[formats][0][priceTTC]' => '10.04',
             'book[formats][0][tvaRate]' => '1',
@@ -122,8 +156,8 @@ final class AdminBookControllerTest extends FunctionalTestCase
             'book[formats][0][wordsCount]' => '9999',
             'book[formats][0][pagesCount]' => '240',
             'book[formats][0][fileSize]' => '2.5',
-            'book[formats][0][filePath]' => 'test.fr/test.epub',
-            'book[formats][0][bookExtract]' => 'test.fr/extract.epub',
+            'book[formats][0][filePath]' => $uploadedFile,
+            'book[formats][0][bookExtract]' => $uploadedExtract,
             'book[formats][0][type]' => '1'
             ]
         );
