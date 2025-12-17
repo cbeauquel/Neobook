@@ -63,7 +63,6 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
-    
     /**
      * @return Order
      */
