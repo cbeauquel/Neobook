@@ -380,19 +380,19 @@ img.cover{
 
 ul.book-prices{
     display:flex;
-    flex-direction: row;
+    flex-direction:row;
     justify-content:flex-start;
-    align-items: center;
+    align-items: top;
     padding:0px;
     margin-top:20px;
-    width:100%
+    width:100%;
 }
 
 ul.book-prices li{
     list-style-type:none;
-    width:25%;
     font-weight: 600;
     text-align:center;
+    width:50%;
 }
 
 ul.book-prices li.book-price{
@@ -400,13 +400,23 @@ ul.book-prices li.book-price{
     padding:0px;
 }
 
-ul.book-prices li.book-type{
-    font-weight:normal;
-    padding-right: 10px;
+del.original-price{
+    font-size:1em;
+    padding:0px;
+    color:var(--fontLight);
 }
 
-ul.book-prices li.book-type span{
+span.sale-price{
+    font-size:1.1em;
+    padding:0px;
+    font-weight: 900;
+    color:var(--linkColor);
+}
+
+ul.book-prices li.book-price span.book-type{
     font-size:2.75em;
+    font-weight:normal;
+    padding-right: 10px;
 }
 
 /**
@@ -488,16 +498,17 @@ H1.search-results{
 }
 
 .extract {
-    display:block;
+    display:flex;
     margin:0px 20px;
     color:var(--fontDark);
     text-decoration: none;
     background-color: var(--backgroundDark);
-    padding:10px;
+    padding:20px;
     border-radius:10px;
-    width: 200px;
+    width: 230px;
     text-align: center;
     height:fit-content;
+    font-weight:700;
 }
 
 .extract:hover {
@@ -512,6 +523,10 @@ a.pal {
     color:var(--linkColor);
 }
 
+.to-be-read{
+    display: flex;
+    margin-bottom: 10px;
+}
 
 .to-be-read form{
     width:100%;
@@ -534,6 +549,23 @@ a.pal {
 
 .prices {
     width:25%;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: left;
+    background: var(--background);
+}
+
+.prices h2 {
+    background: var(--backgroundDark);
+    text-align:center;
+    color:var(--fontDark);
+    font-weight: normal;
+    width:100%;
+}
+
+.prices p {
+    padding:10px;
 }
 
 .prices button {
@@ -554,18 +586,16 @@ a.pal {
 }
 
 .price-format {
-    display:flex;
-    flex-direction:column;
-    justify-content: flex-start;    
-    padding:10px;
     width:100%;
-}
-
-.price-format span{
     font-size:3em;
     color:var(--fontLight);
     height:60px;
     width:60px;
+}
+
+.add-to-cart {
+    display: flex;
+    flex-direction: column;
 }
 
 .brick-img {

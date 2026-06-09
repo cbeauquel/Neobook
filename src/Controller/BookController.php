@@ -10,6 +10,7 @@ use App\Repository\BoSkCoRepository;
 use App\Repository\FeedbackRepository;
 use App\Repository\ToBeReadRepository;
 use App\Service\BreadcrumbService;
+use App\Service\PriceCalculatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class BookController extends AbstractController
         EntityManagerInterface $entityManager,
         ToBeReadRepository $toBeReadRepository,
         FeedbackRepository $feedbackRepository,
+        PriceCalculatorService $priceCalculator,
         string $id,
     ): Response {
         $book = $bookRepository->findOneByid($id);
@@ -75,6 +77,7 @@ class BookController extends AbstractController
             'slug' => $slug,
             'form' => $form,
             'averageMark' => $averageMark,
+            'final_price' => $priceCalculator,
         ]);
     }
 }

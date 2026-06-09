@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Dto\BookWithAverageStars;
 use App\Repository\BookRepository;
 use App\Repository\CategoryRepository;
 use App\Service\BreadcrumbService;
+use App\Service\PriceCalculatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,8 +13,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(BookRepository $bookRepository, CategoryRepository $categoryRepository, BreadcrumbService $breadcrumbService): Response
-    {
+    public function index(
+        BookRepository $bookRepository,
+        CategoryRepository $categoryRepository,
+        BreadcrumbService $breadcrumbService,
+        PriceCalculatorService $priceCalculator,
+    ): Response {
         $newBooks = $bookRepository->findNew(12);
         $upcomingBooks = $bookRepository->findByDate(6);
         $categories = $categoryRepository->findall();
@@ -23,6 +27,7 @@ class MainController extends AbstractController
             'upcoming_books' => $upcomingBooks,
             'new_books' => $newBooks,
             'categories' => $categories,
+            'final_price' => $priceCalculator,
         ]);
     }
 }

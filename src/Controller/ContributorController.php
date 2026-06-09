@@ -7,6 +7,7 @@ use App\Entity\Contributor;
 use App\Repository\BookRepository;
 use App\Repository\ContributorRepository;
 use App\Service\BreadcrumbService;
+use App\Service\PriceCalculatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,7 @@ class ContributorController extends AbstractController
         BookRepository $bookRepository,
         Request $request,
         BreadcrumbService $breadcrumbService,
+        PriceCalculatorService $priceCalculator,
         int $id,
     ): Response {
         $slug = $contributor->getSlug();
@@ -38,6 +40,7 @@ class ContributorController extends AbstractController
             'books_by_author' => $booksByAuthors,
             'breadcrumbs' => $breadcrumbService->get(),
             'slug' => $slug,
+            'final_price' => $priceCalculator,
         ]);
     }
 }

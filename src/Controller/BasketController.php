@@ -44,6 +44,7 @@ class BasketController extends AbstractController
             if ($bddBasketFormats->isEmpty()) {
                 $manager->remove($bddBasket);
                 $manager->flush();
+                $bddBasket = null; // ← on neutralise la variable
             } else {
                 // on injecte la nouvelle liste de formats dans le panier en session
                 foreach ($bddBasketFormats as $bddBasketFormat) {
@@ -105,7 +106,7 @@ class BasketController extends AbstractController
     }
 
     #[Route('/remove-from-basket/{formatId}', name: 'remove', methods: ['POST'])]
-    public function removeFromBasket(int $formatId, BasketService $basketService, FormatRepository $formatRepository, ?User $user): response
+    public function removeFromBasket(int $formatId, BasketService $basketService, FormatRepository $formatRepository, ?User $user): Response
     {
         $customer = $this->getUser();
         $formatToRemove = $formatRepository->find($formatId);

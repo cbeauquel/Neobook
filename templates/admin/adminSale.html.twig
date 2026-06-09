@@ -1,0 +1,47 @@
+{% extends 'admin/adminBase.html.twig' %}
+
+{% block title %}Gestion des remises{% endblock %}
+
+{% block body %}
+    <h1>Liste des Remises</h1>
+    <div>
+        <a class="add" href={{path('admin_sale_add')}} title="ajouter une remise">
+            <p>Ajouter une remise</p> <span class="material-symbols-outlined">add_box</span>
+        </a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ISBN</th>
+                <th>Date de début</th>
+                <th>Date de Fin</th>
+                <th>Prix réduit HT</th>
+                <th>Prix réduit TTC</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in all_sales %}
+                <tr>
+                    <td>{{ sale.id }}</td>
+                    <td>{{ sale.format.isbn }}</td>
+                    <td>{{ sale.salesStartDate | date("d/m/Y")}}</td>
+                    <td>{{ sale.salesEndDate | date("d/m/Y")}}</td>
+                    <td>{{ sale.reducedPriceHt}} €</td>
+                    <td>{{ sale.reducedPriceTTC}} €</td>
+                    <td>
+                        <a href="{{ path('admin_sale_edit', { id: sale.id }) }}" class="btn btn-warning btn-sm upd-{{sale.id}}">Modifier</a>
+                        <form method="post" action="{{ path('admin_sale_remove', { id: sale.id }) }}" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sale.id) }}">
+                            <button id="{{sale.id}}" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucune catégorie trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

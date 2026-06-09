@@ -45,7 +45,7 @@
                 {{book.summary | raw }}
                 </p>
             </div>
-            <div class="card prices">
+            <div class="prices">
                 <h2>Ajouter à ma PAL</h2>
                     {% if form %}
                         {{ form_start(form) }}
@@ -58,14 +58,32 @@
                 {% if date(book.parutionDate) > date("now") %}
                     <p class="aparaitre">Disponibe à partir du {{book.parutionDate | date("d/m/Y")}}</p>
                 {% else %}
-                    <form method="post" action="{{path('basket_add', {id: book.id})}}" class="price-format">
+                    <form class="add-to-cart" method="post" action="{{path('basket_add', {id: book.id})}}">
                             {% for format in book.formats %}
                             <p>ISBN : {{format.isbn}}</p>
                             <label>
                                 <input type="checkbox" id="{{format.id}}" name="format[]" value="{{format.id}}">
-                                <span class="material-symbols-outlined">{{format.type.typeImg}}</span>
-                                <p>{{format.type.Name}}</p>
-                                <p>{{format.priceTTC}}€</p>
+                                <span class="price-format material-symbols-outlined">{{format.type.typeImg}}</span>
+                                {# Vérification si une promo est active #}
+                                {% if final_price.hasActiveSale(format) %}
+                                    <p>{{format.type.Name}}
+                                {# Badge de réduction (optionnel) #}
+                                        &nbsp;&nbsp;<span class="discount-badge">
+                                            -{{ final_price.getDiscountPercentage(format)|number_format(0) }}%
+                                        </span>
+                                    </p>
+                                    {# Prix barré (prix original) #}
+                                    <p>
+                                        <del class="original-price">{{ format.priceTTC |number_format('2', ',', ' ') }} €</del>
+                                        <br>
+                                        {# Prix remisé en rouge #}
+                                        <span class="sale-price">{{ final_price.getCurrentPriceTTC(format)|number_format('2', ',', ' ') }} €</span>
+                                    </p>
+                                {% else %}
+                                    <p>{{format.type.Name}}</p>
+                                    {# Prix normal #}
+                                    <p class="book-price">{{ format.priceTTC }} €</p>
+                                {% endif %}                
                             </label>
                             {% endfor %}
                             <button type="submit">Ajouter au panier</button>
@@ -176,8 +194,26 @@
             </div>              
             <ul class="book-prices">
             {% for format in book.formats %}
-                <li class="book-price">{{format.priceHT}}€</li>
-                <li class="book-type"><span class="material-symbols-outlined">{{format.type.typeImg}}</span> {{format.type.name}}</li>
+                {# Vérification si une promo est active #}
+                {% if final_price.hasActiveSale(format) %}
+                    {# Prix barré (prix original) #}
+                    <li class="book-price">
+                        <del class="original-price">{{ format.priceTTC |number_format('2', ',', ' ') }} €</del>
+                        {# Badge de réduction (optionnel) #}
+                        <span class="discount-badge">
+                            -{{ final_price.getDiscountPercentage(format)|number_format(0) }}%
+                        </span>
+                        {# Prix remisé en rouge #}
+                        <span class="sale-price">{{ final_price.getCurrentPriceTTC(format)|number_format('2', ',', ' ') }} €</span>
+                    </li>
+                {% else %}
+                    {# Prix normal #}
+                    <li class="book-price">{{ format.priceTTC }} €</li>
+                {% endif %}                
+                {# <li class="book-price">{{final_price.getCurrentPriceTTC(format)}}€</li> #}
+                <li class="book-type">
+                {# Badge de réduction (optionnel) #}
+                <span class="material-symbols-outlined">{{format.type.typeImg}}</span> {{format.type.name}}</li>
             {% endfor %}
             </ul>
         </article>

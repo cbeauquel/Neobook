@@ -96,11 +96,18 @@ class Format
     #[ORM\OneToMany(targetEntity: DownloadLink::class, mappedBy: 'format')]
     private Collection $downloadLinks;
 
+    /**
+     * @var Collection<int, Sale>
+     */
+    #[ORM\OneToMany(targetEntity: Sale::class, mappedBy: 'format')]
+    private Collection $sales;
+
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
         $this->downloadLinks = new ArrayCollection();
+        $this->sales = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -340,6 +347,36 @@ class Format
                 $downloadLink->setFormat(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sale>
+     */
+    public function getSales(): Collection
+    {
+        return $this->sales;
+    }
+
+    public function addSale(Sale $sale): static
+    {
+        if (!$this->sales->contains($sale)) {
+            $this->sales->add($sale);
+            $sale->setFormat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSale(Sale $sale): static
+    {
+        if ($this->sales->removeElement($sale)) {
+            // set the owning side to null (unless already changed)
+            if ($sale->getFormat() === $this) {
+                $sale->setFormat(null);
+            }
+        }
+
         return $this;
     }
 }

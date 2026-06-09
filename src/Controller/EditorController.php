@@ -6,6 +6,7 @@ use App\Dto\BookWithAverageStars;
 use App\Entity\Editor;
 use App\Repository\BookRepository;
 use App\Service\BreadcrumbService;
+use App\Service\PriceCalculatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,14 @@ use Symfony\Component\Routing\Attribute\Route;
 class EditorController extends AbstractController
 {
     #[Route('/editor/{id}', name: 'editor', requirements: ['id' => '\d+'])]
-    public function showEditor(Editor $editor, BookRepository $bookRepository, BreadcrumbService $breadcrumbService, Request $request, int $id): Response
-    {
+    public function showEditor(
+        Editor $editor,
+        BookRepository $bookRepository,
+        BreadcrumbService $breadcrumbService,
+        Request $request,
+        PriceCalculatorService $priceCalculator,
+        int $id
+    ): Response {
         $slug = $editor->getName();
         $breadcrumbService->add('Accueil', $this->generateUrl('home'));
         $breadcrumbService->add('Éditeur', $this->generateUrl('editor', ['id' => $id]));
@@ -30,7 +37,7 @@ class EditorController extends AbstractController
             'books_by_editor' => $booksByEditor,
             'breadcrumbs' => $breadcrumbService->get(),
             'slug' => $slug,
-
+            'final_price' => $priceCalculator,
         ]);
     }
 }

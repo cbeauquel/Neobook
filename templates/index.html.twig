@@ -35,7 +35,7 @@
             <ul class="book-prices">
             {% for format in book.formats %}
                 <li class="book-price">{{format.priceHT}}€</li>
-                <li class="book-type"><span class="material-symbols-outlined">{{format.type.typeImg}}</span> {{format.type.name}}</li>
+                <li class="book-type"><li class="material-symbols-outlined">{{format.type.typeImg}}</li> {{format.type.name}}</li>
             {% endfor %}
             </ul>
         </article>
@@ -79,8 +79,30 @@
             </div>              
             <ul class="book-prices">
             {% for format in book.formats %}
-                <li class="book-price">{{format.priceHT}}€</li>
-                <li class="book-type"><span class="material-symbols-outlined">{{format.type.typeImg}}</span> {{format.type.name}}</li>
+                    {# Vérification si une promo est active #}
+                    {% if final_price.hasActiveSale(format) %}
+                        {# Prix barré (prix original) #}
+                        <li class="book-price">
+                            <span class="material-symbols-outlined book-type">{{format.type.typeImg}}</span><br>
+                            {{format.type.name}}<br>                      
+                            <del class="original-price">{{ format.priceTTC |number_format('2', '.', ' ') }} €</del><br>
+                            {# Prix remisé en rouge #}
+                            <span class="sale-price">{{ final_price.getCurrentPriceTTC(format)|number_format('2', '.', ' ') }} €</span><br>
+                            {# Badge de réduction (optionnel) #}
+                            <span class="discount-badge">
+                                -{{ final_price.getDiscountPercentage(format)|number_format(0) }}%
+                            </span><br>
+                        </li>
+
+                    {% else %}
+                        {# Prix normal #}
+                        <li class="book-price">
+                            <span class="material-symbols-outlined book-type">{{format.type.typeImg}}</span><br>
+                            {{format.type.name}}<br>                    
+                            {{ format.priceTTC }} €
+                        </li>
+                    {% endif %}                
+                    {# <li class="book-price">{{final_price.getCurrentPriceTTC(format)}}€</li> #}
             {% endfor %}
             </ul>
         </article>
