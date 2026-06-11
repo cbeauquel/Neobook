@@ -59,7 +59,7 @@ class AdminBookController extends AbstractController
     ): Response {
         $isWebTestCase = $request->headers->get('X-TEST-TYPE') === 'webTestCase';
         $book ??= new Book();
-        if ($isWebTestCase && !$book->getId()) {
+        if (!$book->getId()) {
             $book->addBoSkCo(new BoSkCo());
             $book->addFormat(new Format());
         }

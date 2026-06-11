@@ -2,15 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Book;
 use App\Entity\BoSkCo;
 use App\Entity\Contributor;
 use App\Entity\Skill;
-use App\Form\BookType;
-use App\Form\ContributorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

@@ -14,6 +14,8 @@
             <tr>
                 <th>ID</th>
                 <th>ISBN</th>
+                <th>Titre du livre</th>
+                <th>Type</th>
                 <th>Date de début</th>
                 <th>Date de Fin</th>
                 <th>Prix réduit HT</th>
@@ -25,6 +27,8 @@
                 <tr>
                     <td>{{ sale.id }}</td>
                     <td>{{ sale.format.isbn }}</td>
+                    <td>{{ sale.format.book.title }}</td>
+                    <td>{{ sale.format.type.name}}</td>
                     <td>{{ sale.salesStartDate | date("d/m/Y")}}</td>
                     <td>{{ sale.salesEndDate | date("d/m/Y")}}</td>
                     <td>{{ sale.reducedPriceHt}} €</td>
