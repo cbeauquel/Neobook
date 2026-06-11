@@ -27,7 +27,7 @@
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
-            {% block importmap %}{{ importmap('app', { defer: true })|raw }}{% endblock %}
+            {# {% block importmap %}{{ importmap('app', { defer: true })|raw }}{% endblock %} #}
         {% endblock %}
 
         {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
